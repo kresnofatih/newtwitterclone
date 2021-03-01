@@ -14,6 +14,7 @@ export default NavbarTweeet
 
 const NavbarTweetContainer = styled.label`
     margin: 20px 0;
+    margin-right: 20px;
     display: flex;
     justify-content: center;
     padding: 15px 10px;

@@ -39,6 +39,7 @@ const NavbarProfileRight = styled.div`
 const NavbarProfileContainer = styled.div`
     margin: 0;
     margin-bottom: 10px;
+    margin-right: 20px;
     padding: 15px 10px;
     display: flex;
     flex-direction: row;
