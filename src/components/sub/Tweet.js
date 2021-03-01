@@ -6,7 +6,7 @@ import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import Avatar from '@material-ui/core/Avatar'
 
-function Tweet({photoURL, displayName, message, timestamp, image, retweet}) {
+function Tweet({photoURL, displayName, message, timestamp, image}) {
     return (
         <TweetContainer>
             <TweetLeft>
@@ -27,7 +27,7 @@ function Tweet({photoURL, displayName, message, timestamp, image, retweet}) {
                         <p>20</p>
                     </TweetCount>
                     <TweetCount>
-                        <RepeatIcon/>
+                        <RepeatIcon onClick={()=>console.log("print")}/>
                         &nbsp;
                         &nbsp;
                         <p>20</p>
