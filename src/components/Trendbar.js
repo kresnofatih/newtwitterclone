@@ -12,5 +12,5 @@ function Trendbar() {
 export default Trendbar
 
 const TrendbarContainer = styled.div`
-    flex: 0.3;
+    flex: 0.25;
 `;

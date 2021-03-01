@@ -12,5 +12,5 @@ function Feedbar() {
 export default Feedbar
 
 const FeedbarContainer = styled.div`
-    flex: 0.4;
+    flex: 0.5;
 `;
