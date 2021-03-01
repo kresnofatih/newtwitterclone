@@ -1,13 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 import FeedbarHome from './feedbarsub/FeedbarHome'
+import FeedbarProfilepage from './feedbarsub/FeedbarProfilepage'
 import FeedbarTweetpage from './feedbarsub/FeedbarTweetpage'
 
 function Feedbar() {
     return (
         <FeedbarContainer>
             {/* <FeedbarHome/> */}
-            <FeedbarTweetpage/>
+            {/* <FeedbarTweetpage/> */}
+            <FeedbarProfilepage/>
         </FeedbarContainer>
     )
 }

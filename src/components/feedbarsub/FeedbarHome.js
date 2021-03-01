@@ -29,4 +29,6 @@ const FeedbarHomeContainer = styled.div`
 const FeedbarHomeBody = styled.div`
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    scrollbar-width: none;
 `
