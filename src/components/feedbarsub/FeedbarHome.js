@@ -3,13 +3,38 @@ import styled from 'styled-components'
 import Tweet from '../sub/Tweet'
 import FeedbarHead from './FeedbarHead'
 import FeedbarTweetbox from './FeedbarTweetbox'
+import {useCollection} from 'react-firebase-hooks/firestore'
+import { db } from '../../Fire';
+import {useSelector} from 'react-redux'
+import {getCurrentUser} from '../../features/userSlice'
 
 function FeedbarHome() {
+    const currentUser = useSelector(getCurrentUser);
+    const [homeTweets, loading] = useCollection(
+        currentUser && db
+                    .collection('tweets')
+                    .orderBy('timestamp', 'desc')
+    );
     return (
         <FeedbarHomeContainer>
             <FeedbarHead pagename={'Home'}/>
             <FeedbarHomeBody>
                 <FeedbarTweetbox/>
+                {homeTweets?.docs.map(doc=>{
+                    const {tweetId, photoURL, displayName, message, timestamp, imageURL, numOfReplies} = doc.data();
+                    return (
+                        <Tweet
+                            key={tweetId+'.'+displayName}
+                            tweetId={tweetId}
+                            photoURL={photoURL}
+                            displayName={displayName}
+                            message={message}
+                            timestamp={timestamp}
+                            imageURL={imageURL}
+                            numOfReplies={numOfReplies}
+                        />
+                    )
+                })}
             </FeedbarHomeBody>
         </FeedbarHomeContainer>
     )

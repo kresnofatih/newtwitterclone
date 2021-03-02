@@ -50,7 +50,7 @@ const TweetContainer = styled.label`
     display: flex;
     flex-direction: row;
     padding: 10px 20px;
-    border-bottom: 1px solid var(--twitter-dgray);
+    border-top: 1px solid var(--twitter-dgray);
 
     :hover {
         cursor: pointer;
@@ -60,6 +60,7 @@ const TweetContainer = styled.label`
 const TweetLeft = styled.div``;
 
 const TweetRight = styled.div`
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
