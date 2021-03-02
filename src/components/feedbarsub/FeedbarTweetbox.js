@@ -1,33 +1,36 @@
-import React from 'react'
+import React, {useState} from 'react'
 import styled from 'styled-components'
 import ImageIcon from '@material-ui/icons/Image';
 import GifIcon from '@material-ui/icons/Gif';
 import PollIcon from '@material-ui/icons/Poll';
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import Avatar from '@material-ui/core/Avatar';
+import {useSelector} from 'react-redux'
+import {getCurrentUser} from '../../features/userSlice'
 
 function FeedbarTweetbox() {
+    const currentUser = useSelector(getCurrentUser);
+    const [tweetMessage, setTweetMessage] = useState('');
     return (
         <FeedbarTweetboxContainer>
             <FeedbarTweetboxLeft>
                 <TweetboxAvatar
-                    alt=""
-                    src="https://3.bp.blogspot.com/-NbuCiSzSexA/WafsJZMb9fI/AAAAAAAAhiM/DnhbVyUGSi47tIUZTyh4CWMa7rw_iGnLgCLcBGAs/s1600/1408830065792.jpg"
+                    alt={currentUser?.displayName}
+                    src={currentUser?.photoURL}
                 />
             </FeedbarTweetboxLeft>
             <FeedbarTweetboxRight>
-                <input type="text" placeholder="What's Happening?"/>
+                <input 
+                    type="text" 
+                    placeholder="What's Happening?" 
+                    value={tweetMessage}
+                    onChange={e=>setTweetMessage(e.target.value)}
+                />
                 <FeedbarTweetboxOptions>
                     <FeedbarTweetboxOptionsLeft>
-                        <ImageIcon/>
-                        &nbsp;
-                        &nbsp;
-                        <GifIcon/>
-                        &nbsp;
-                        &nbsp;
-                        <PollIcon/>
-                        &nbsp;
-                        &nbsp;
+                        <ImageIcon/>&nbsp;&nbsp;
+                        <GifIcon/>&nbsp;&nbsp;
+                        <PollIcon/>&nbsp;&nbsp;
                         <EmojiEmotionsIcon/>
                     </FeedbarTweetboxOptionsLeft>
                     <TweetButton>

@@ -1,26 +1,30 @@
 import React from 'react'
 import styled from 'styled-components'
 import Avatar from '@material-ui/core/Avatar';
+import {useSelector} from 'react-redux'
+import {getCurrentProfile} from '../../features/profileSlice'
 
 function FeedbarProfilebox() {
+    const currentProfile = useSelector(getCurrentProfile);
     return (
         <FeedbarProfileboxContainer>
             <FeedbarProfileBg>
-                <img src="https://images.unsplash.com/photo-1542319150-fb62a2e8c476?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1000&q=80" alt=""/>  
+                <img src={currentProfile?.bgPhotoURL} alt={currentProfile?.displayName}/>  
             </FeedbarProfileBg>
             <FeedbarProfileDetails>
                 <FeedbarProfileDetailsUpper>
                     <FeedbarProfileAvatar 
-                        src="https://i.pinimg.com/originals/9b/89/53/9b8953e917e3a44e0b03b60b603bd469.jpg"
-                        alt=""    
+                        src={currentProfile?.photoURL}
+                        alt={currentProfile?.displayName}    
                     />
                     <label>follow</label>
                 </FeedbarProfileDetailsUpper>
-                <h2>Kresno Fatih</h2>
-                <h3>@KresnoFatih</h3>
+                <h2>{currentProfile?.displayName}</h2>
+                <h3>@{currentProfile?.displayName}</h3>
                 <FeedbarProfileFollowCount>
-                    <h3>12<p>Following</p></h3>
-                    <h3>12<p>Followers</p></h3>
+                    <h3>{currentProfile?.numOfFollowing}<p>Following</p></h3>
+                    <h3>{currentProfile?.numOfFollowers}<p>Followers</p></h3>
+                    <h3>{currentProfile?.numOfTweets}<p>Tweets</p></h3>
                 </FeedbarProfileFollowCount>
             </FeedbarProfileDetails>
         </FeedbarProfileboxContainer>

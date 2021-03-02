@@ -2,18 +2,21 @@ import React from 'react'
 import styled from 'styled-components'
 import Avatar from '@material-ui/core/Avatar';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import {useSelector} from 'react-redux'
+import {getCurrentUser} from '../../features/userSlice'
 
 function NavbarProfile() {
+    const currentUser = useSelector(getCurrentUser);
     return (
         <NavbarProfileContainer>
             <NavbarProfileLeft>
                 <NavbarProfileAvatar
-                    alt="userdisplayname"
-                    src="https://i.imgur.com/hlMIFj7.jpg"
+                    alt={currentUser?.displayName}
+                    src={currentUser?.photoURL}
                 />
                 <NavbarProfileInfo>
-                    <h4>Kresno Fatih</h4>
-                    <p>@KresnoFatih</p>
+                    <h4>{currentUser?.displayName}</h4>
+                    <p>@{currentUser?.displayName}</p>
                 </NavbarProfileInfo>
             </NavbarProfileLeft>
             <NavbarProfileRight>

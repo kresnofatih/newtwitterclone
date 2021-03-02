@@ -20,6 +20,7 @@ function Tweetpost() {
                 </TweetpostName>
             </TweetpostHeader>
             <h6>Minderan amat jadi orang. Hahaha. Sama</h6>
+            <img alt="" src="https://c.files.bbci.co.uk/12A9B/production/_111434467_gettyimages-1143489763.jpg"/>
             <p>7:47 PM . Feb 14, 2020</p>
             <TweetpostMetrics>
                 <TweetpostMetric>
@@ -63,6 +64,11 @@ const TweetpostContainer = styled.div`
         font-size: 14px;
         font-weight: 200;
         color: var(--twitter-lgray);
+    }
+    > img {
+        width: 100%;
+        margin: 10px 0;
+        border-radius: 20px;
     }
 `;
 

@@ -14,13 +14,20 @@ import NavbarProfile from './navbarsub/NavbarProfile';
 import NavbarTweeet from './navbarsub/NavbarTweeet';
 import {useDispatch} from 'react-redux'
 import {openScreen} from '../features/appSlice'
+import {useSelector} from 'react-redux'
+import {getCurrentUser} from '../features/userSlice'
+import { setProfile } from '../features/profileSlice';
 
 function Navbar() {
+    const currentUser = useSelector(getCurrentUser);
     const dispatch = useDispatch();
     const redirectScreen = (pagename) => {
         dispatch(openScreen({
             screen: pagename
         }))
+    }
+    const setUserToProfile = () => {
+        dispatch(setProfile(currentUser))
     }
     return (
         <NavbarContainer>
@@ -32,11 +39,21 @@ function Navbar() {
                 <NavbarOption Icon={EmailIcon} text={'Messages'}/>
                 <NavbarOption Icon={BookmarkIcon} text={'Bookmarks'}/>
                 <NavbarOption Icon={ListAltIcon} text={'Lists'}/>
-                <NavbarOption Icon={PersonIcon} text={'Profile'} onClick={()=>redirectScreen('Profile')}/>
+                <NavbarOption 
+                    Icon={PersonIcon} 
+                    text={'Profile'} 
+                    onClick={()=>{
+                        setUserToProfile();
+                        redirectScreen('Profile');
+                    }}
+                />
                 <NavbarOption Icon={MoreHorizIcon} text={'More'}/>
                 <NavbarTweeet/>
             </NavbarContainerUpper>
-            <NavbarContainerLower>
+            <NavbarContainerLower onClick={()=>{
+                setUserToProfile();
+                redirectScreen('Profile');
+            }}>
                 <NavbarProfile/>
             </NavbarContainerLower>
         </NavbarContainer>
@@ -52,4 +69,4 @@ const NavbarContainer = styled.div`
     justify-content: space-between;
 `;
 const NavbarContainerUpper = styled.div``;
-const NavbarContainerLower = styled.div``;
+const NavbarContainerLower = styled.label``;

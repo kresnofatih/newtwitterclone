@@ -10,18 +10,6 @@ function FeedbarProfilepage() {
             <FeedbarHead pagename={'Profile'}/>
             <FeedbarProfileBody>
                 <FeedbarProfilebox/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
             </FeedbarProfileBody>
         </FeedbarProfilepageContainer>
     )

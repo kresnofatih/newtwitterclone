@@ -8,19 +8,19 @@ import {getCurrentScreen} from '../features/appSlice'
 import FeedbarNotif from './feedbarsub/FeedbarNotif'
 
 function Feedbar() {
-    const currentPage = useSelector(getCurrentScreen)
+    const currentScreen = useSelector(getCurrentScreen)
     return (
         <FeedbarContainer>
-            {currentPage==='Home' &&
+            {currentScreen==='Home' &&
                 <FeedbarHome/>
             }
-            {currentPage==='Profile' &&
+            {currentScreen==='Profile' &&
                 <FeedbarProfilepage/>
             }
-            {currentPage==='Tweet' &&
+            {currentScreen==='Tweet' &&
                 <FeedbarTweetpage/>
             }
-            {currentPage==='Notifications' &&
+            {currentScreen==='Notifications' &&
                 <FeedbarNotif/>
             }
         </FeedbarContainer>

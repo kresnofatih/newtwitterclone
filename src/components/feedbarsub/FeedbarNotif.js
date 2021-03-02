@@ -8,13 +8,6 @@ function FeedbarNotif() {
         <FeedbarNotifContainer>
             <FeedbarHead pagename={'Notifications'}/>
             <FeedbarNotifBody>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
             </FeedbarNotifBody>
         </FeedbarNotifContainer>
     )

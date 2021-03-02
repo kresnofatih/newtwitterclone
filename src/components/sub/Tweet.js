@@ -5,38 +5,37 @@ import RepeatIcon from '@material-ui/icons/Repeat';
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import Avatar from '@material-ui/core/Avatar'
+import {useDispatch} from 'react-redux'
+import {openScreen} from '../../features/appSlice'
 
-function Tweet({photoURL, displayName, message, timestamp, image}) {
+function Tweet({tweetId, photoURL, displayName, message, timestamp, imageURL, numOfReplies}) {
+    const dispatch = useDispatch();
+    const redirectScreen = (pagename) => {
+        dispatch(openScreen({
+            screen: pagename
+        }))
+    }
     return (
-        <TweetContainer>
+        <TweetContainer onClick={()=>redirectScreen('Tweet')}>
             <TweetLeft>
                 <TweetAvatar
-                    alt="displayname"
-                    src="https://i.pinimg.com/originals/9b/89/53/9b8953e917e3a44e0b03b60b603bd469.jpg"
+                    alt={displayName}
+                    src={photoURL}
                 />
             </TweetLeft>
             <TweetRight>
-                <label>KresnoFatih&nbsp;<p>@KresnoFatih . 12 Feb</p></label>
-                <h5>Minderan amat jd org. Haha. Sama</h5>
-                <img alt="" src="https://c.files.bbci.co.uk/12A9B/production/_111434467_gettyimages-1143489763.jpg"/>
+                <label>{displayName}&nbsp;<p>@{displayName}{' . '}{new Date(timestamp?.toDate()).toUTCString()}</p></label>
+                <h5>{message}</h5>
+                <img alt="" src={imageURL}/>
                 <TweetCountContainer>
                     <TweetCount>
-                        <ChatBubbleOutlineIcon/>
-                        &nbsp;
-                        &nbsp;
-                        <p>20</p>
+                        <ChatBubbleOutlineIcon/>&nbsp;&nbsp;<p>{numOfReplies}</p>
                     </TweetCount>
                     <TweetCount>
-                        <RepeatIcon onClick={()=>console.log("print")}/>
-                        &nbsp;
-                        &nbsp;
-                        <p>20</p>
+                        <RepeatIcon/>&nbsp;&nbsp;<p>0</p>
                     </TweetCount>
                     <TweetCount>
-                        <FavoriteBorderIcon/>
-                        &nbsp;
-                        &nbsp;
-                        <p>20</p>
+                        <FavoriteBorderIcon/>&nbsp;&nbsp;<p>0</p>
                     </TweetCount>
                     <SaveAltIcon/>
                 </TweetCountContainer>

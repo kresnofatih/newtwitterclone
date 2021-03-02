@@ -10,17 +10,6 @@ function FeedbarHome() {
             <FeedbarHead pagename={'Home'}/>
             <FeedbarHomeBody>
                 <FeedbarTweetbox/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
             </FeedbarHomeBody>
         </FeedbarHomeContainer>
     )
