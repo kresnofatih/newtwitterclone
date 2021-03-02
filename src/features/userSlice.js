@@ -1,4 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
+import {db} from '../Fire'
+import firebase from 'firebase'
 
 export const userSlice = createSlice({
   name: 'user',
@@ -16,10 +18,21 @@ export const userSlice = createSlice({
     changeDisplayName: (state, action)=> {
       state.displayName = action.payload.displayName;
     },
+    postTweet: (state, action)=>{
+      db.collection('tweets').add({
+        displayName: state.displayName,
+        photoURL: state.photoURL,
+        imageURL: action.payload.imageURL,
+        numOfReplies: 0,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        message: action.payload.message,
+        tweetId: state.nextTweetId
+      });
+    }
   },
 });
 
-export const { changeDisplayName } = userSlice.actions;
+export const { changeDisplayName, postTweet } = userSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

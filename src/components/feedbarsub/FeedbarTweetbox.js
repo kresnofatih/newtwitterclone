@@ -1,17 +1,35 @@
 import React, {useState} from 'react'
 import styled from 'styled-components'
 import ImageIcon from '@material-ui/icons/Image';
-import GifIcon from '@material-ui/icons/Gif';
+import CloseIcon from '@material-ui/icons/Close';
 import PollIcon from '@material-ui/icons/Poll';
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import Avatar from '@material-ui/core/Avatar';
 import {useSelector} from 'react-redux'
 import {getCurrentUser} from '../../features/userSlice'
 import GifButton from '../sub/GifButton';
+import {useDispatch} from 'react-redux'
+import { postTweet } from '../../features/userSlice';
 
 function FeedbarTweetbox() {
+    // redux
     const currentUser = useSelector(getCurrentUser);
+    const dispatch = useDispatch();
+
+    // tweet message
     const [tweetMessage, setTweetMessage] = useState('');
+    const removeTweetMessage = ()=>setTweetMessage('');
+    
+    // tweet image
+    const [tweetImageURL, setTweetImageURL] = useState('');
+    const submitTweetImage = (imageURL) => setTweetImageURL(imageURL);
+    const removeTweetImage = () => setTweetImageURL('');
+
+    const postTheTweet = () => {
+        dispatch(postTweet({imageURL: tweetImageURL, message: tweetMessage}));
+        removeTweetImage();
+        removeTweetMessage();
+    }
     return (
         <FeedbarTweetboxContainer>
             <FeedbarTweetboxLeft>
@@ -27,15 +45,21 @@ function FeedbarTweetbox() {
                     value={tweetMessage}
                     onChange={e=>setTweetMessage(e.target.value)}
                 />
+                {tweetImageURL &&
+                    <>
+                        <CloseIcon onClick={removeTweetImage}/>
+                        <img src={tweetImageURL} alt=""/>
+                    </>
+                }
                 <FeedbarTweetboxOptions>
                     <FeedbarTweetboxOptionsLeft>
                         <ImageIcon/>&nbsp;&nbsp;
                         {/* <GifIcon/>&nbsp;&nbsp; */}
-                        <GifButton/>&nbsp;&nbsp;
+                        <GifButton submitGif={submitTweetImage}/>&nbsp;&nbsp;
                         <PollIcon/>&nbsp;&nbsp;
                         <EmojiEmotionsIcon/>
                     </FeedbarTweetboxOptionsLeft>
-                    <TweetButton>
+                    <TweetButton onClick={postTheTweet}>
                         Tweet
                     </TweetButton>
                 </FeedbarTweetboxOptions>
@@ -72,9 +96,25 @@ const FeedbarTweetboxRight = styled.div`
         border: none;
         color: white;
     }
+
+    > img {
+        max-height: 400px;
+        max-width: 100%;
+        border-radius: 20px;
+    }
+
+    > .MuiSvgIcon-root {
+        margin-bottom: -25px;
+        z-index: 20;
+        color: var(--twitter-blue);
+        :hover {
+            cursor:pointer;
+        }
+    }
 `;
 
 const FeedbarTweetboxOptions = styled.div`
+    margin-top: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;

@@ -4,7 +4,6 @@ import {GiphyFetch} from '@giphy/js-fetch-api'
 import styled from 'styled-components'
 import GifIcon from '@material-ui/icons/Gif';
 import Popover from '@material-ui/core/Popover';
-import MenuItem from '@material-ui/core/MenuItem';
 
 const giphyFetch = new GiphyFetch('k4ArhIzAiRh7mRABtmd2ydnWVpAexvHK');
 
@@ -22,7 +21,7 @@ function GridGiphy({onGifClick, gifKeyword}){
 }
 
 
-function GifButton() {
+function GifButton({submitGif}) {
     // GifBrowser Open/Close
     const [anchorEl, setAnchorEl] = useState(null);
     const openGifPopover = (event)=> {
@@ -83,7 +82,7 @@ function GifButton() {
                         <GridGiphy
                             onGifClick={(gif, e)=>{
                                 e.preventDefault();
-                                console.log(gif.images.downsized_medium.url);
+                                submitGif(gif.images.downsized_medium.url);
                                 closeGifPopover();
                             }}
                             gifKeyword={gifKeyword}
