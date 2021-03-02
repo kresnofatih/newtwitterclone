@@ -7,6 +7,7 @@ import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import Avatar from '@material-ui/core/Avatar';
 import {useSelector} from 'react-redux'
 import {getCurrentUser} from '../../features/userSlice'
+import GifButton from '../sub/GifButton';
 
 function FeedbarTweetbox() {
     const currentUser = useSelector(getCurrentUser);
@@ -29,7 +30,8 @@ function FeedbarTweetbox() {
                 <FeedbarTweetboxOptions>
                     <FeedbarTweetboxOptionsLeft>
                         <ImageIcon/>&nbsp;&nbsp;
-                        <GifIcon/>&nbsp;&nbsp;
+                        {/* <GifIcon/>&nbsp;&nbsp; */}
+                        <GifButton/>&nbsp;&nbsp;
                         <PollIcon/>&nbsp;&nbsp;
                         <EmojiEmotionsIcon/>
                     </FeedbarTweetboxOptionsLeft>
