@@ -12,19 +12,27 @@ import PersonIcon from '@material-ui/icons/Person';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import NavbarProfile from './navbarsub/NavbarProfile';
 import NavbarTweeet from './navbarsub/NavbarTweeet';
+import {useDispatch} from 'react-redux'
+import {openScreen} from '../features/appSlice'
 
 function Navbar() {
+    const dispatch = useDispatch();
+    const redirectScreen = (pagename) => {
+        dispatch(openScreen({
+            screen: pagename
+        }))
+    }
     return (
         <NavbarContainer>
             <NavbarContainerUpper>
-                <NavbarOption Icon={TwitterIcon} onClick={()=>console.log('twitter logo')}/>
-                <NavbarOption Icon={HomeIcon} text={'Home'}/>
+                <NavbarOption Icon={TwitterIcon} onClick={()=>redirectScreen('Home')}/>
+                <NavbarOption Icon={HomeIcon} text={'Home'} onClick={()=>redirectScreen('Home')}/>
                 <NavbarOption Icon={ExploreIcon} text={'Explore'}/>
-                <NavbarOption Icon={NotificationsIcon} text={'Notifications'}/>
+                <NavbarOption Icon={NotificationsIcon} text={'Notifications'} onClick={()=>redirectScreen('Notifications')}/>
                 <NavbarOption Icon={EmailIcon} text={'Messages'}/>
                 <NavbarOption Icon={BookmarkIcon} text={'Bookmarks'}/>
                 <NavbarOption Icon={ListAltIcon} text={'Lists'}/>
-                <NavbarOption Icon={PersonIcon} text={'Profile'}/>
+                <NavbarOption Icon={PersonIcon} text={'Profile'} onClick={()=>redirectScreen('Profile')}/>
                 <NavbarOption Icon={MoreHorizIcon} text={'More'}/>
                 <NavbarTweeet/>
             </NavbarContainerUpper>

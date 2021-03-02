@@ -1,11 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
+import {useSelector} from 'react-redux'
+import {getCurrentScreen} from '../../features/appSlice'
 
 function NavbarOption({Icon, text, onClick}) {
-    const activeStatus = false;
+    const currentPage = useSelector(getCurrentScreen);
     return (
         <NavbarOptionContainer>
-            {activeStatus ? (
+            {currentPage===text ? (
                 <NavbarOptionActive>
                     {Icon && <Icon/>}
                     {text &&

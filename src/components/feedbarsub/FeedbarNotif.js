@@ -2,14 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import Tweet from '../sub/Tweet'
 import FeedbarHead from './FeedbarHead'
-import FeedbarProfilebox from './FeedbarProfilebox'
 
-function FeedbarProfilepage() {
+function FeedbarNotif() {
     return (
-        <FeedbarProfilepageContainer>
-            <FeedbarHead pagename={'Profile'}/>
-            <FeedbarProfileBody>
-                <FeedbarProfilebox/>
+        <FeedbarNotifContainer>
+            <FeedbarHead pagename={'Notifications'}/>
+            <FeedbarNotifBody>
                 <Tweet/>
                 <Tweet/>
                 <Tweet/>
@@ -17,19 +15,14 @@ function FeedbarProfilepage() {
                 <Tweet/>
                 <Tweet/>
                 <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-            </FeedbarProfileBody>
-        </FeedbarProfilepageContainer>
+            </FeedbarNotifBody>
+        </FeedbarNotifContainer>
     )
 }
 
-export default FeedbarProfilepage
+export default FeedbarNotif
 
-const FeedbarProfilepageContainer = styled.div`
+const FeedbarNotifContainer = styled.div`
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -37,7 +30,7 @@ const FeedbarProfilepageContainer = styled.div`
     border-right: 1px solid var(--twitter-dgray);
 `;
 
-const FeedbarProfileBody = styled.div`
+const FeedbarNotifBody = styled.div`
     display: flex;
     flex-direction: column;
     overflow-y: auto;

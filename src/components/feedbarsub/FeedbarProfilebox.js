@@ -32,6 +32,7 @@ export default FeedbarProfilebox
 const FeedbarProfileboxContainer = styled.div`
     display: flex;
     flex-direction: column;
+    border-bottom: 1px solid var(--twitter-dgray);
 `;
 
 const FeedbarProfileBg = styled.div`

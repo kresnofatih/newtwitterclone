@@ -11,6 +11,16 @@ function FeedbarHome() {
             <FeedbarHomeBody>
                 <FeedbarTweetbox/>
                 <Tweet/>
+                <Tweet/>
+                <Tweet/>
+                <Tweet/>
+                <Tweet/>
+                <Tweet/>
+                <Tweet/>
+                <Tweet/>
+                <Tweet/>
+                <Tweet/>
+                <Tweet/>
             </FeedbarHomeBody>
         </FeedbarHomeContainer>
     )
