@@ -13,9 +13,9 @@ export const listenUserDataFromDb = (account, callback) =>{
 export const setUserDataFromDb = createAsyncThunk(
   'users/setUserDataFromDb',
   async(accountEmail)=>{
-    const userSnapshot = await db.collection('users').where('email', '==', accountEmail).get();
-    if(userSnapshot.empty){
-      await db.collection('users').add({
+    const userSnapshot = await db.collection('users').doc(accountEmail).get();
+    if(!userSnapshot.exists){
+      await db.collection('users').doc(accountEmail).set({
         email: accountEmail,
         displayName: accountEmail.split('@')[0],
         photoURL: 'https://i.pinimg.com/originals/9b/89/53/9b8953e917e3a44e0b03b60b603bd469.jpg',
@@ -28,9 +28,9 @@ export const setUserDataFromDb = createAsyncThunk(
     };
     const userSnapshot2 = await db
       .collection('users')
-      .where('email', '==', accountEmail)
+      .doc(accountEmail)
       .get();
-    return userSnapshot2.docs[0].data()
+    return userSnapshot2.data()
   }
 )
 
