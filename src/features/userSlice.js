@@ -2,6 +2,14 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {db} from '../Fire'
 import firebase from 'firebase'
 
+export const listenUserDataFromDb = (account, callback) =>{
+  if(account!==null){
+    db.collection('users').where('email', '==', account.email).onSnapshot(snapshot=>{
+      callback();
+    });
+  }
+}
+
 export const setUserDataFromDb = createAsyncThunk(
   'users/setUserDataFromDb',
   async(accountEmail)=>{

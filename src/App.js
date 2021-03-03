@@ -8,18 +8,13 @@ import {useAuthState} from 'react-firebase-hooks/auth'
 import {auth} from './Fire'
 import Login from './Login';
 import {useDispatch} from 'react-redux'
-import { setUserDataFromDb } from './features/userSlice';
-import {db} from './Fire'
+import { listenUserDataFromDb, setUserDataFromDb } from './features/userSlice';
 
 function App() {
   const [account, loading] = useAuthState(auth);
   const dispatch = useDispatch();
   useEffect(()=>{
-    if(account!==null){
-      db.collection('users').where('email', '==', account.email).onSnapshot(snapshot=>(
-        dispatch(setUserDataFromDb(account.email))
-      ));
-    }
+    listenUserDataFromDb(account, ()=>{dispatch(setUserDataFromDb(account.email))})
   }, [account])
   return (
     <AppContainer>
