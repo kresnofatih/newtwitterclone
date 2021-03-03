@@ -6,6 +6,7 @@ import FeedbarTweetpage from './feedbarsub/FeedbarTweetpage'
 import {useSelector} from 'react-redux'
 import {getCurrentScreen} from '../features/appSlice'
 import FeedbarNotif from './feedbarsub/FeedbarNotif'
+import FeedbarExplore from './feedbarsub/FeedbarExplore'
 
 function Feedbar() {
     const currentScreen = useSelector(getCurrentScreen)
@@ -22,6 +23,9 @@ function Feedbar() {
             }
             {currentScreen==='Notifications' &&
                 <FeedbarNotif/>
+            }
+            {currentScreen==='Explore' &&
+                <FeedbarExplore/>
             }
         </FeedbarContainer>
     )

@@ -27,9 +27,6 @@ function Navbar() {
             screen: pagename
         }))
     }
-    const setUserToProfile = () => {
-        dispatch(setProfile(currentUser))
-    }
     return (
         <NavbarContainer>
             <NavbarContainerUpper>
@@ -38,7 +35,7 @@ function Navbar() {
                     window.location.reload();
                 }}/>
                 <NavbarOption Icon={HomeIcon} text={'Home'} onClick={()=>redirectScreen('Home')}/>
-                <NavbarOption Icon={ExploreIcon} text={'Explore'}/>
+                <NavbarOption Icon={ExploreIcon} text={'Explore'} onClick={()=>redirectScreen('Explore')}/>
                 <NavbarOption Icon={NotificationsIcon} text={'Notifications'} onClick={()=>redirectScreen('Notifications')}/>
                 <NavbarOption Icon={EmailIcon} text={'Messages'}/>
                 <NavbarOption Icon={BookmarkIcon} text={'Bookmarks'}/>
@@ -47,7 +44,7 @@ function Navbar() {
                     Icon={PersonIcon} 
                     text={'Profile'} 
                     onClick={()=>{
-                        setUserToProfile();
+                        dispatch(setProfile(currentUser));
                         redirectScreen('Profile');
                     }}
                 />
@@ -55,7 +52,7 @@ function Navbar() {
                 <NavbarTweeet/>
             </NavbarContainerUpper>
             <NavbarContainerLower onClick={()=>{
-                setUserToProfile();
+                dispatch(setProfile(currentUser));
                 redirectScreen('Profile');
             }}>
                 <NavbarProfile/>
