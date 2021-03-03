@@ -7,13 +7,14 @@ import {useCollection} from 'react-firebase-hooks/firestore'
 import { db } from '../../Fire';
 import {useSelector} from 'react-redux'
 import {getCurrentUser} from '../../features/userSlice'
+import { getCurrentProfile } from '../../features/profileSlice'
 
 function FeedbarProfilepage() {
-    const currentUser = useSelector(getCurrentUser);
+    const currentProfile = useSelector(getCurrentProfile);
     const [profileTweets, loading] = useCollection(
         db
         .collection('users')
-        .doc(currentUser.email)
+        .doc(currentProfile.email)
         .collection('tweets')
         .orderBy('timestamp', 'desc')
     );
