@@ -14,7 +14,7 @@ export const profileSlice = createSlice({
   },
   reducers: {
     setProfile: (state, action) =>{
-        Object.assign(state, action.payload);   // assign the entire state to profile
+      Object.assign(state, action.payload);
     },
   },
 });

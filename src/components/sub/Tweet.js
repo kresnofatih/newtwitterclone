@@ -91,7 +91,9 @@ const TweetRight = styled.div`
         font-size: 14px;
     }
     > img {
-        width: 100%;
+        width: auto;
+        max-width: 100%;
+        max-height: 400px;
         margin: 10px 0;
         border-radius: 20px;
     }

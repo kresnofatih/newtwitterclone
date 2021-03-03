@@ -10,13 +10,6 @@ function FeedbarTweetpage() {
             <FeedbarHead pagename={'Tweet'}/>
             <FeedbarTweetpageBody>
                 <Tweetpost/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
-                <Tweet/>
             </FeedbarTweetpageBody>
         </FeedbarTweetpageContainer>
     )

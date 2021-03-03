@@ -99,6 +99,7 @@ const FeedbarTweetboxRight = styled.div`
 
     > img {
         max-height: 400px;
+        width: auto;
         max-width: 100%;
         border-radius: 20px;
     }

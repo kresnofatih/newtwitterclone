@@ -1,6 +1,30 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {db} from '../Fire'
 import firebase from 'firebase'
+
+export const setUserDataFromDb = createAsyncThunk(
+  'users/setUserDataFromDb',
+  async(accountEmail)=>{
+    const userSnapshot = await db.collection('users').where('email', '==', accountEmail).get();
+    if(userSnapshot.empty){
+      await db.collection('users').add({
+        email: accountEmail,
+        displayName: accountEmail.split('@')[0],
+        photoURL: 'https://i.pinimg.com/originals/9b/89/53/9b8953e917e3a44e0b03b60b603bd469.jpg',
+        numOfFollowers: 0,
+        numOfFollowing: 0,
+        numOfTweets: 0,
+        nextTweetId: 1,
+        bgPhotoURL: 'https://images.unsplash.com/photo-1542319150-fb62a2e8c476?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1000&q=80'
+      })
+    };
+    const userSnapshot2 = await db
+      .collection('users')
+      .where('email', '==', accountEmail)
+      .get();
+    return userSnapshot2.docs[0].data()
+  }
+)
 
 export const userSlice = createSlice({
   name: 'user',
@@ -28,11 +52,17 @@ export const userSlice = createSlice({
         message: action.payload.message,
         tweetId: state.nextTweetId
       });
-    }
+    },
+  },
+  extraReducers: {
+    [setUserDataFromDb.fulfilled]: (state, action) => {
+      console.log(action.payload);
+      Object.assign(state, action.payload);
+    },
   },
 });
 
-export const { changeDisplayName, postTweet } = userSlice.actions;
+export const { changeDisplayName, postTweet, getUserFromDb } = userSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

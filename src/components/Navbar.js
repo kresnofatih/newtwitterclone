@@ -17,6 +17,7 @@ import {openScreen} from '../features/appSlice'
 import {useSelector} from 'react-redux'
 import {getCurrentUser} from '../features/userSlice'
 import { setProfile } from '../features/profileSlice';
+import { auth } from '../Fire';
 
 function Navbar() {
     const currentUser = useSelector(getCurrentUser);
@@ -32,7 +33,10 @@ function Navbar() {
     return (
         <NavbarContainer>
             <NavbarContainerUpper>
-                <NavbarOption Icon={TwitterIcon} onClick={()=>redirectScreen('Home')}/>
+                <NavbarOption Icon={TwitterIcon} onClick={()=>{
+                    auth.signOut();
+                    window.location.reload();
+                }}/>
                 <NavbarOption Icon={HomeIcon} text={'Home'} onClick={()=>redirectScreen('Home')}/>
                 <NavbarOption Icon={ExploreIcon} text={'Explore'}/>
                 <NavbarOption Icon={NotificationsIcon} text={'Notifications'} onClick={()=>redirectScreen('Notifications')}/>

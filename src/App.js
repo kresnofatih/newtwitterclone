@@ -1,18 +1,32 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import styled from 'styled-components'
 import Navbar from './components/Navbar';
 import Feedbar from './components/Feedbar';
 import Trendbar from './components/Trendbar';
+import {useAuthState} from 'react-firebase-hooks/auth'
+import {auth} from './Fire'
+import Login from './Login';
+import {useDispatch} from 'react-redux'
+import { setUserDataFromDb } from './features/userSlice';
 
 function App() {
+  const [account, loading] = useAuthState(auth);
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    if(account!==null){dispatch(setUserDataFromDb(account.email))}
+  }, [account])
   return (
     <AppContainer>
-      <AppContents>
-        <Navbar/>
-        <Feedbar/>
-        <Trendbar/>
-      </AppContents>
+      {!account ? (
+        <Login/>
+      ):(
+        <AppContents>
+          <Navbar/>
+          <Feedbar/>
+          <Trendbar/>
+        </AppContents>
+      )}
     </AppContainer>
   );
 }
