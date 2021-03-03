@@ -9,7 +9,10 @@ import {useSelector} from 'react-redux'
 import {getCurrentUser} from '../../features/userSlice'
 import GifButton from '../sub/GifButton';
 import {useDispatch} from 'react-redux'
-import { postTweet } from '../../features/userSlice';
+import { postTweetToUserHome, 
+    postTweetToUserTweets, 
+    incrementNextTweetId 
+} from '../../features/userSlice';
 
 function FeedbarTweetbox() {
     // redux
@@ -26,7 +29,10 @@ function FeedbarTweetbox() {
     const removeTweetImage = () => setTweetImageURL('');
 
     const postTheTweet = () => {
-        dispatch(postTweet({imageURL: tweetImageURL, message: tweetMessage}));
+        const postTweetData = {imageURL: tweetImageURL, message: tweetMessage};
+        dispatch(postTweetToUserTweets(postTweetData));
+        dispatch(postTweetToUserHome(postTweetData));
+        dispatch(incrementNextTweetId());
         removeTweetImage();
         removeTweetMessage();
     }

@@ -2,10 +2,10 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {db} from '../Fire'
 import firebase from 'firebase'
 
-export const listenUserDataFromDb = (account, callback) =>{
+export const listenUserDataFromDb = (account, setUserDataFromDb) =>{
   if(account!==null){
     db.collection('users').where('email', '==', account.email).onSnapshot(snapshot=>{
-      callback();
+      setUserDataFromDb();
     });
   }
 }
@@ -47,11 +47,8 @@ export const userSlice = createSlice({
     bgPhotoURL: 'https://images.unsplash.com/photo-1542319150-fb62a2e8c476?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1000&q=80'
   },
   reducers: {
-    changeDisplayName: (state, action)=> {
-      state.displayName = action.payload.displayName;
-    },
-    postTweet: (state, action)=>{
-      db.collection('tweets').add({
+    postTweetToUserTweets: (state, action)=>{
+      db.collection('users').doc(state.email).collection('tweets').add({
         displayName: state.displayName,
         photoURL: state.photoURL,
         imageURL: action.payload.imageURL,
@@ -61,6 +58,22 @@ export const userSlice = createSlice({
         tweetId: state.nextTweetId
       });
     },
+    postTweetToUserHome: (state, action)=>{
+      db.collection('users').doc(state.email).collection('home').add({
+        displayName: state.displayName,
+        photoURL: state.photoURL,
+        imageURL: action.payload.imageURL,
+        numOfReplies: 0,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        message: action.payload.message,
+        tweetId: state.nextTweetId
+      });
+    },
+    incrementNextTweetId: (state, action)=>{
+      db.collection('users').doc(state.email).update({
+        nextTweetId: state.nextTweetId+1
+      })
+    }
   },
   extraReducers: {
     [setUserDataFromDb.fulfilled]: (state, action) => {
@@ -70,7 +83,11 @@ export const userSlice = createSlice({
   },
 });
 
-export const { changeDisplayName, postTweet, getUserFromDb } = userSlice.actions;
+export const {changeDisplayName, 
+              postTweetToUserTweets, 
+              postTweetToUserHome,
+              incrementNextTweetId
+            } = userSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

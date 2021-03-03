@@ -11,9 +11,11 @@ import {getCurrentUser} from '../../features/userSlice'
 function FeedbarProfilepage() {
     const currentUser = useSelector(getCurrentUser);
     const [profileTweets, loading] = useCollection(
-        currentUser && db
-                    .collection('tweets')
-                    .orderBy('timestamp', 'desc')
+        db
+        .collection('users')
+        .doc(currentUser.email)
+        .collection('tweets')
+        .orderBy('timestamp', 'desc')
     );
     return (
         <FeedbarProfilepageContainer>

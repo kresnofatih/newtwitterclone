@@ -6,14 +6,16 @@ import FeedbarTweetbox from './FeedbarTweetbox'
 import {useCollection} from 'react-firebase-hooks/firestore'
 import { db } from '../../Fire';
 import {useSelector} from 'react-redux'
-import {getCurrentUser} from '../../features/userSlice'
+import {getCurrentUser, userHomeRef} from '../../features/userSlice'
 
 function FeedbarHome() {
     const currentUser = useSelector(getCurrentUser);
     const [homeTweets, loading] = useCollection(
-        currentUser && db
-                    .collection('tweets')
-                    .orderBy('timestamp', 'desc')
+        db
+            .collection('users')
+            .doc(currentUser.email)
+            .collection('home')
+            .orderBy('timestamp', 'desc')
     );
     return (
         <FeedbarHomeContainer>
