@@ -65,7 +65,7 @@ const NavbarProfileAvatar = styled(Avatar)`
 `;
 
 const NavbarProfileInfo = styled.div`
-    margin-left: 20px;
+    margin-left: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
