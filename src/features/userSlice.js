@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {db} from '../Fire'
 import firebase from 'firebase'
 
+
 export const foundInUserFollowing = (currentUser, friendEmail)=> {
   if(currentUser.following.includes(friendEmail)){
     return true;
@@ -17,6 +18,29 @@ export const listenUserDataFromDb = (account, setUserDataFromDb) =>{
     });
   }
 }
+
+export const postToTaggedFriendsNotif = createAsyncThunk(
+  'users/postToTaggedFriendsNotif',
+  async(postTweetData)=>{
+    const displayNames = postTweetData.message.replace(/,/g, "").split(" ").filter(stg=>stg.startsWith("@")).map(stg=>stg.replace(/@/g, ""))
+    const uniqueDisplayNameArray = [...new Set(displayNames)];
+    const taggedFriends = await db
+      .collection('users')
+      .where('displayName', 'in', uniqueDisplayNameArray)
+      .get();
+    const taggedFriendsEmail = [];
+    if(!taggedFriends.empty){
+      taggedFriends.docs.forEach(doc=>{
+        taggedFriendsEmail.push(doc.data().email);
+      });
+    };
+    return {
+      tweetImageURL: postTweetData.imageURL,
+      tweetMessage: postTweetData.message,
+      taggedFriendsEmail: taggedFriendsEmail
+    } 
+  }
+)
 
 export const setUserDataFromDb = createAsyncThunk(
   'users/setUserDataFromDb',
@@ -131,8 +155,23 @@ export const userSlice = createSlice({
   },
   extraReducers: {
     [setUserDataFromDb.fulfilled]: (state, action) => {
-      // console.log(action.payload);
       Object.assign(state, action.payload);
+    },
+    [postToTaggedFriendsNotif.fulfilled]: (state, action)=>{
+      console.log(action.payload);
+      if(action.payload.taggedFriendsEmail.length>0){
+        action.payload.taggedFriendsEmail.forEach(email=>{
+          db.collection('users').doc(email).collection('notifications').add({
+            displayName: state.displayName,
+            photoURL: state.photoURL,
+            imageURL: action.payload.tweetImageURL,
+            numOfReplies: 0,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            message: action.payload.tweetMessage,
+            tweetId: state.nextTweetId
+          });
+        })
+      }
     },
   },
 });
