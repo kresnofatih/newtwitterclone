@@ -1,10 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components'
+import { followFriend, unfollowFriend } from '../../features/userSlice';
 
-function FriendFollowup() {
+function FriendFollowup({followingStatus, friendEmail}) {
+    const dispatch = useDispatch();
+    const [followUpAction, setFollowUpAction] = useState('');
+    const doFollowUpAction = () => {
+        if(followUpAction==='follow'){
+            dispatch(followFriend({friendEmail: friendEmail}));
+        } else if (followUpAction==='following'){
+            dispatch(unfollowFriend({friendEmail: friendEmail}));
+        }
+    }
+    useEffect(()=>{
+        if(followingStatus===true){
+            setFollowUpAction('following');
+        } else if(followingStatus===false){
+            setFollowUpAction('follow');
+        }
+    }, [followingStatus])
     return (
-        <FriendFollowupContainer>
-            follow
+        <FriendFollowupContainer onClick={doFollowUpAction}>
+            {followUpAction}
         </FriendFollowupContainer>
     )
 }

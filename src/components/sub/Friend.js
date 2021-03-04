@@ -2,11 +2,13 @@ import React from 'react'
 import styled from 'styled-components'
 import Avatar from '@material-ui/core/Avatar';
 import FriendFollowup from './FriendFollowup';
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {openScreen} from '../../features/appSlice'
 import { setProfile } from '../../features/profileSlice';
+import { foundInUserFollowing, getCurrentUser } from '../../features/userSlice';
 
 function Friend({friendData}) {
+    const currentUser = useSelector(getCurrentUser);
     const dispatch = useDispatch();
     const openFriendProfile = () => {
         dispatch(setProfile(friendData));
@@ -14,8 +16,9 @@ function Friend({friendData}) {
             screen: 'Profile'
         }));
     }
+    const foundInFollowing = foundInUserFollowing(currentUser, friendData.email);
     return (
-        <FriendContainer onClick={openFriendProfile}>
+        <FriendContainer>
             <FriendLeft>
                 <FriendAvatar 
                     src={friendData.photoURL} 
@@ -27,7 +30,12 @@ function Friend({friendData}) {
                     <p>@{friendData.displayName}</p>
                 </FriendLeftInfo>
             </FriendLeft>
-            <FriendFollowup/>
+            {currentUser.email!==friendData.email &&
+                <FriendFollowup 
+                    followingStatus={foundInFollowing}
+                    friendEmail={friendData.email}
+                />
+            }
         </FriendContainer>
     )
 }

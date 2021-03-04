@@ -11,7 +11,8 @@ import GifButton from '../sub/GifButton';
 import {useDispatch} from 'react-redux'
 import { postTweetToUserHome, 
     postTweetToUserTweets, 
-    incrementNextTweetId 
+    incrementNextTweetId,
+    incrementNumOfTweets, 
 } from '../../features/userSlice';
 
 function FeedbarTweetbox() {
@@ -33,6 +34,7 @@ function FeedbarTweetbox() {
         dispatch(postTweetToUserTweets(postTweetData));
         dispatch(postTweetToUserHome(postTweetData));
         dispatch(incrementNextTweetId());
+        dispatch(incrementNumOfTweets());
         removeTweetImage();
         removeTweetMessage();
     }

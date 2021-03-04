@@ -8,14 +8,13 @@ import {db} from '../../Fire'
 function FeedbarExplore() {
     const [formKeyword, setFormKeyword] = useState('');
     const [formResults, setFormResults] = useState('')
-    const submitFormKeyword = async(e)=>{
+    const submitFormKeyword = (e)=>{
         e.preventDefault();
-        const doc = await db.collection('users').doc(formKeyword).get()
-        if(doc.exists){
-            setFormResults(doc.data());
-        };
+        setFormResults('');
+        db.collection('users').doc(formKeyword).onSnapshot(docSnapshot=>{
+            setFormResults(docSnapshot.data());
+        })
         setFormKeyword('');
-        console.log(formResults);
     }
     return (
         <FeedbarExploreContainer>
