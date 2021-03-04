@@ -85,6 +85,19 @@ export const userSlice = createSlice({
         tweetId: state.nextTweetId
       });
     },
+    postTweetToFollowersHome: (state, action)=>{
+      state.followers.forEach((email)=>{
+        db.collection('users').doc(email).collection('home').add({
+          displayName: state.displayName,
+          photoURL: state.photoURL,
+          imageURL: action.payload.imageURL,
+          numOfReplies: 0,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          message: action.payload.message,
+          tweetId: state.nextTweetId
+        });
+      })
+    },
     incrementNextTweetId: (state, action)=>{
       db.collection('users').doc(state.email).update({
         nextTweetId: firebase.firestore.FieldValue.increment(1)
@@ -129,7 +142,8 @@ export const {postTweetToUserTweets,
               incrementNextTweetId,
               incrementNumOfTweets,
               followFriend,
-              unfollowFriend
+              unfollowFriend,
+              postTweetToFollowersHome
             } = userSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
