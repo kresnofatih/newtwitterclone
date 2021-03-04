@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {db} from '../Fire'
 import firebase from 'firebase'
 
-
 export const foundInUserFollowing = (currentUser, friendEmail)=> {
   if(currentUser.following.includes(friendEmail)){
     return true;
@@ -10,6 +9,23 @@ export const foundInUserFollowing = (currentUser, friendEmail)=> {
     return false;
   };
 }
+
+export const postTweetToTrends = createAsyncThunk(
+  'users/postTweetToTrends',
+  async(postTweetData)=>{
+    const hashtags = postTweetData.message
+        .split(" ")
+        .filter(stg=>stg.startsWith("#"))
+        .map(stg=>stg.replace(/#/g, ""));
+    const hashtagsDocs = await db.collection('trends').where('trendname', 'in', hashtags).get();
+    return {
+      tweetImageURL: postTweetData.imageURL,
+      tweetMessage: postTweetData.message,
+      hashtagsDocs: hashtagsDocs,
+      hashtags: hashtags
+    }
+  }
+)
 
 export const listenUserDataFromDb = (account, setUserDataFromDb) =>{
   if(account!==null){
@@ -158,7 +174,6 @@ export const userSlice = createSlice({
       Object.assign(state, action.payload);
     },
     [postToTaggedFriendsNotif.fulfilled]: (state, action)=>{
-      console.log(action.payload);
       if(action.payload.taggedFriendsEmail.length>0){
         action.payload.taggedFriendsEmail.forEach(email=>{
           db.collection('users').doc(email).collection('notifications').add({
@@ -172,6 +187,46 @@ export const userSlice = createSlice({
           });
         })
       }
+    },
+    [postTweetToTrends.fulfilled]: (state, action)=>{
+      action.payload.hashtags.forEach(ht=>{
+        let num = 0;
+        action.payload.hashtagsDocs.forEach(doc=>{
+          if(ht===doc.data().trendname){
+            db.collection('trends').doc(ht).collection('tweets').add({
+              displayName: state.displayName,
+              photoURL: state.photoURL,
+              imageURL: action.payload.tweetImageURL,
+              numOfReplies: 0,
+              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+              message: action.payload.tweetMessage,
+              tweetId: state.nextTweetId
+            });
+            db.collection('trends').doc(ht).update({
+              numOfTweets: firebase.firestore.FieldValue.increment(1)
+            });
+            num+=1;
+          }
+        });
+        if(num===0){
+          db.collection('trends').doc(ht).set({
+            numOfTweets: 0,
+            trendname: ht
+          });
+          db.collection('trends').doc(ht).collection('tweets').add({
+            displayName: state.displayName,
+            photoURL: state.photoURL,
+            imageURL: action.payload.tweetImageURL,
+            numOfReplies: 0,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            message: action.payload.tweetMessage,
+            tweetId: state.nextTweetId
+          });
+          db.collection('trends').doc(ht).update({
+            numOfTweets: firebase.firestore.FieldValue.increment(1)
+          });
+        };
+      })
     },
   },
 });

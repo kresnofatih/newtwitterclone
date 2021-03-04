@@ -6,7 +6,7 @@ import PollIcon from '@material-ui/icons/Poll';
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import Avatar from '@material-ui/core/Avatar';
 import {useSelector} from 'react-redux'
-import {getCurrentUser, postToTaggedFriendsNotif, postTweetToFollowersHome} from '../../features/userSlice'
+import {getCurrentUser, postToTaggedFriendsNotif, postTweetToFollowersHome, postTweetToTrends} from '../../features/userSlice'
 import GifButton from '../sub/GifButton';
 import {useDispatch} from 'react-redux'
 import { postTweetToUserHome, 
@@ -35,6 +35,7 @@ function FeedbarTweetbox() {
         dispatch(postTweetToUserHome(postTweetData));
         dispatch(postTweetToFollowersHome(postTweetData));
         dispatch(postToTaggedFriendsNotif(postTweetData));
+        dispatch(postTweetToTrends(postTweetData));
         dispatch(incrementNextTweetId());
         dispatch(incrementNumOfTweets());
         removeTweetImage();
