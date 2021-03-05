@@ -1,12 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import RepeatIcon from '@material-ui/icons/Repeat';
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import Avatar from '@material-ui/core/Avatar';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentTweet, listenTweetDataFromDb, setTweetDataFromDb } from '../../features/tweetSlice';
 
 function Tweetpost() {
+    const currentTweet = useSelector(getCurrentTweet);
+    const dispatch = useDispatch();
+    useEffect(()=>{
+        listenTweetDataFromDb(currentTweet.email, currentTweet.tweetId, ()=>{
+            dispatch(setTweetDataFromDb({email: currentTweet.email, tweetId: currentTweet.tweetId}))
+        });
+    }, [])
     return (
         <TweetpostContainer>
             <TweetpostHeader>
@@ -15,24 +24,24 @@ function Tweetpost() {
                     src="https://i.pinimg.com/originals/9b/89/53/9b8953e917e3a44e0b03b60b603bd469.jpg"
                 />
                 <TweetpostName>
-                    <h4>Kresno Fatih</h4>
-                    <h5>@KresnoFatih</h5>
+                    <h4>{currentTweet.displayName}</h4>
+                    <h5>@{currentTweet.displayName}</h5>
                 </TweetpostName>
             </TweetpostHeader>
-            <h6>Minderan amat jadi orang. Hahaha. Sama</h6>
-            <img alt="" src="https://c.files.bbci.co.uk/12A9B/production/_111434467_gettyimages-1143489763.jpg"/>
-            <p>7:47 PM . Feb 14, 2020</p>
+            <h6>{currentTweet.message}</h6>
+            <img alt={currentTweet.displayName} src={currentTweet.imageURL}/>
+            <p>{new Date(currentTweet?.timestamp?.toDate()).toUTCString()}</p>
             <TweetpostMetrics>
                 <TweetpostMetric>
-                    <h6>8763</h6>
+                    <h6>0</h6>
                     <p>Retweets</p>
                 </TweetpostMetric>
                 <TweetpostMetric>
-                    <h6>276</h6>
+                    <h6>{currentTweet.numOfReplies}</h6>
                     <p>Replies</p>
                 </TweetpostMetric>
                 <TweetpostMetric>
-                    <h6>331</h6>
+                    <h6>0</h6>
                     <p>Likes</p>
                 </TweetpostMetric>
             </TweetpostMetrics>

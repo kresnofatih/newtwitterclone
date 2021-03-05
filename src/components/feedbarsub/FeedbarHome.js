@@ -6,7 +6,7 @@ import FeedbarTweetbox from './FeedbarTweetbox'
 import {useCollection} from 'react-firebase-hooks/firestore'
 import { db } from '../../Fire';
 import {useSelector} from 'react-redux'
-import {getCurrentUser, userHomeRef} from '../../features/userSlice'
+import {getCurrentUser} from '../../features/userSlice'
 
 function FeedbarHome() {
     const currentUser = useSelector(getCurrentUser);

@@ -1,8 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { db } from '../Fire';
 
-export const setProfileFromTweetLink = createAsyncThunk(
-  'profile/setProfileFromTweetLink',
+export const listenProfileDataFromDb = (profileEmail, setProfileDataFromDb)=>{
+  db.collection('users').where('email', '==', profileEmail).onSnapshot(snapshot=>{
+    setProfileDataFromDb();
+  })
+}
+
+export const setProfileDataFromDb = createAsyncThunk(
+  'profile/setProfileDataFromDb',
   async(email)=>{
     const profileDoc = await db.collection('users').doc(email).get();
     return profileDoc.data()
@@ -31,7 +37,7 @@ export const profileSlice = createSlice({
     },
   },
   extraReducers: {
-    [setProfileFromTweetLink.fulfilled]: (state, action)=>{
+    [setProfileDataFromDb.fulfilled]: (state, action)=>{
       Object.assign(state, action.payload);
     },
   },

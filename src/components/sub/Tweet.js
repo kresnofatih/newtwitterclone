@@ -7,7 +7,8 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import Avatar from '@material-ui/core/Avatar'
 import {useDispatch} from 'react-redux'
 import {openScreen} from '../../features/appSlice'
-import { setProfileFromTweetLink } from '../../features/profileSlice';
+import { setProfileDataFromDb } from '../../features/profileSlice';
+import { setTweetDataFromDb } from '../../features/tweetSlice';
 
 function Tweet({tweetId, email, photoURL, displayName, message, timestamp, imageURL, numOfReplies}) {
     const dispatch = useDispatch();
@@ -15,7 +16,7 @@ function Tweet({tweetId, email, photoURL, displayName, message, timestamp, image
         dispatch(openScreen({screen: pagename}))
     }
     const openProfileFromTweet = ()=>{
-        dispatch(setProfileFromTweetLink(email));
+        dispatch(setProfileDataFromDb(email));
         redirectScreen('Profile');
     }
     return (
@@ -27,7 +28,10 @@ function Tweet({tweetId, email, photoURL, displayName, message, timestamp, image
                     onClick={openProfileFromTweet}
                 />
             </TweetLeft>
-            <TweetRight onClick={()=>redirectScreen('Tweet')}>
+            <TweetRight onClick={()=>{
+                redirectScreen('Tweet');
+                dispatch(setTweetDataFromDb({email: email, tweetId: tweetId}));
+            }}>
                 <label>{displayName}&nbsp;<p>@{displayName}{' . '}{new Date(timestamp?.toDate()).toUTCString()}</p></label>
                 <h5>{message}</h5>
                 <img alt="" src={imageURL}/>
@@ -50,7 +54,7 @@ function Tweet({tweetId, email, photoURL, displayName, message, timestamp, image
 
 export default Tweet
 
-const TweetContainer = styled.div`
+const TweetContainer = styled.label`
     display: flex;
     flex-direction: row;
     padding: 10px 20px;
@@ -71,6 +75,10 @@ const TweetRight = styled.label`
     margin: 0;
     padding-left: 10px;
 
+    :hover {
+        cursor: pointer;
+    }
+
     > label {
         margin: 0;
         padding: 0;
@@ -83,9 +91,9 @@ const TweetRight = styled.label`
             cursor:pointer;
         }
     }
-    > label > p{
+    > label > p {
         font-weight: 100;
-        color: var(--twitter-lgray);
+        color: var(--twitter-dgray);
         font-size: 12px;
     }
     > h5 {

@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Avatar from '@material-ui/core/Avatar';
-import {useSelector} from 'react-redux'
-import {getCurrentProfile} from '../../features/profileSlice'
+import {useDispatch, useSelector} from 'react-redux'
+import {getCurrentProfile, listenProfileDataFromDb, setProfileDataFromDb} from '../../features/profileSlice'
 
 function FeedbarProfilebox() {
     const currentProfile = useSelector(getCurrentProfile);
+    const dispatch = useDispatch();
+    useEffect(()=>{
+        listenProfileDataFromDb(currentProfile.email, ()=>{dispatch(setProfileDataFromDb(currentProfile.email))})
+    }, [])
     return (
         <FeedbarProfileboxContainer>
             <FeedbarProfileBg>
