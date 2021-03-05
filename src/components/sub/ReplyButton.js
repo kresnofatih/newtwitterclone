@@ -44,7 +44,14 @@ function ReplyButton({friendEmail, friendTweetId, friendDisplayName}) {
 
 export default ReplyButton
 
-const ReplyButtonContainer = styled.div``;
+const ReplyButtonContainer = styled.div`
+    > .MuiSvgIcon-root {
+        :hover {
+            color: var(--twitter-blue);
+            cursor: pointer;
+        }
+    }
+`;
 
 const ReplyboxContainer = styled.div`
     width: 500px;

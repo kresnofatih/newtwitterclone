@@ -1,6 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { db } from '../Fire';
 
+export const getTweetFriendDataFromDb = async(email, callback)=>{
+    const TweetFriendDoc = await db.collection('users').doc(email).get();
+    if(TweetFriendDoc.exists){
+        // console.log(email, TweetFriendDoc.data());
+        callback(TweetFriendDoc.data());
+    }
+}
+
 export const listenTweetDataFromDb = (email, tweetId, setTweetDataFromDb)=>{
     db
     .collection('users')

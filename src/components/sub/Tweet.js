@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import RepeatIcon from '@material-ui/icons/Repeat';
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
@@ -6,19 +6,23 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import Avatar from '@material-ui/core/Avatar'
 import {useDispatch} from 'react-redux'
 import {openScreen} from '../../features/appSlice'
-import { setProfileDataFromDb } from '../../features/profileSlice';
-import { setTweetDataFromDb } from '../../features/tweetSlice';
+import { setProfile} from '../../features/profileSlice';
+import { getTweetFriendDataFromDb, setTweetDataFromDb } from '../../features/tweetSlice';
 import ReplyButton from './ReplyButton';
 
 function Tweet({tweetId, email, photoURL, displayName, message, timestamp, imageURL, numOfReplies}) {
+    const [tweetFriendData, setTweetFriendData] = useState('')
     const dispatch = useDispatch();
     const redirectScreen = (pagename) => {
         dispatch(openScreen({screen: pagename}))
     }
     const openProfileFromTweet = ()=>{
-        dispatch(setProfileDataFromDb(email));
+        dispatch(setProfile(tweetFriendData));
         redirectScreen('Profile');
     }
+    useEffect(()=>{
+        getTweetFriendDataFromDb(email, (data)=>setTweetFriendData(data));
+    }, [])
     return (
         <TweetContainer>
             <TweetLeft>
