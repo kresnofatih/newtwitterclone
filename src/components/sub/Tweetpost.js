@@ -21,7 +21,7 @@ function Tweetpost() {
             <TweetpostHeader>
                 <TweetpostAvatar
                     alt=""
-                    src="https://i.pinimg.com/originals/9b/89/53/9b8953e917e3a44e0b03b60b603bd469.jpg"
+                    src={currentTweet.photoURL}
                 />
                 <TweetpostName>
                     <h4>{currentTweet.displayName}</h4>

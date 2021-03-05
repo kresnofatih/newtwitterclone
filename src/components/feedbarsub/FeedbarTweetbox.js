@@ -81,7 +81,9 @@ function FeedbarTweetbox({additionalCallbacks, replyTweetData}) {
                     </FeedbarTweetboxOptionsLeft>
                     <TweetButton onClick={()=>{
                         postTheTweet();
-                        additionalCallbacks();
+                        if(additionalCallbacks){
+                            additionalCallbacks();
+                        }
                     }}>
                         Tweet
                     </TweetButton>

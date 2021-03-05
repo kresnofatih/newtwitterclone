@@ -240,6 +240,11 @@ export const userSlice = createSlice({
           tweetId: state.nextTweetId,
           email: state.email
         });
+      db.collection('users').doc(action.payload.friendEmail)
+        .collection('tweets').doc(action.payload.friendTweetDocId)
+        .update({
+          numOfReplies: firebase.firestore.FieldValue.increment(1)
+        });
     },
     [postTweetToTrends.fulfilled]: (state, action)=>{
       action.payload.hashtags.forEach(ht=>{
