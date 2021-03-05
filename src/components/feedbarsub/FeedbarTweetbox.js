@@ -16,7 +16,7 @@ import { postTweetToUserHome,
 } from '../../features/userSlice';
 import ImgButton from '../sub/ImgButton';
 
-function FeedbarTweetbox() {
+function FeedbarTweetbox({additionalCallbacks}) {
     // redux
     const currentUser = useSelector(getCurrentUser);
     const dispatch = useDispatch();
@@ -70,7 +70,10 @@ function FeedbarTweetbox() {
                         <PollIcon/>&nbsp;&nbsp;
                         <EmojiEmotionsIcon/>
                     </FeedbarTweetboxOptionsLeft>
-                    <TweetButton onClick={postTheTweet}>
+                    <TweetButton onClick={()=>{
+                        postTheTweet();
+                        additionalCallbacks();
+                    }}>
                         Tweet
                     </TweetButton>
                 </FeedbarTweetboxOptions>
@@ -87,7 +90,8 @@ const FeedbarTweetboxContainer = styled.div`
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    border-bottom: 1px solid var(--twitter-dgray);
+    /* border-bottom: 1px solid var(--twitter-dgray); */
+    background-color: black;
 `;
 
 const FeedbarTweetboxLeft = styled.div`
