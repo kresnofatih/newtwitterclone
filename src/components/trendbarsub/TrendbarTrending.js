@@ -38,7 +38,7 @@ const TrendbarTrendingFooter = styled.div`
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    padding: 10px 10px;
+    padding: 10px 20px;
 
     > p {
         font-size: 14px;
@@ -56,7 +56,7 @@ const TrendbarTrendingHeader = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 10px;
+    padding: 10px 20px;
     border-bottom: 1px solid var(--twitter-dgray);
     
 

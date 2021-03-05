@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {db} from '../Fire'
+import {db, stg} from '../Fire'
 import firebase from 'firebase'
 
 export const foundInUserFollowing = (currentUser, friendEmail)=> {
@@ -138,6 +138,24 @@ export const userSlice = createSlice({
         });
       })
     },
+    storeImageToFireStorage: (state, action)=>{
+      // action.payload.file
+      const stgRef = stg.ref();
+      const fileRef = stgRef.child('chatrooms/'+state.email+'/images/'+action.payload.file.name+Date.now());
+      fileRef
+        .put(action.payload.file)
+        .then(()=>{
+          fileRef.getDownloadURL().then(url=>{
+            action.payload.callback(url);
+          });
+        });
+    },
+    postImageURLToUserGallery:(state, action)=>{
+      db.collection('users').doc(state.email).collection('gallery').add({
+        imageURL: action.payload.imageURL,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    },
     incrementNextTweetId: (state, action)=>{
       db.collection('users').doc(state.email).update({
         nextTweetId: firebase.firestore.FieldValue.increment(1)
@@ -237,7 +255,9 @@ export const {postTweetToUserTweets,
               incrementNumOfTweets,
               followFriend,
               unfollowFriend,
-              postTweetToFollowersHome
+              postTweetToFollowersHome,
+              storeImageToFireStorage,
+              postImageURLToUserGallery
             } = userSlice.actions;
 
 // The function below is called a selector and allows us to select a value from

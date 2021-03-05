@@ -14,6 +14,7 @@ import { postTweetToUserHome,
     incrementNextTweetId,
     incrementNumOfTweets, 
 } from '../../features/userSlice';
+import ImgButton from '../sub/ImgButton';
 
 function FeedbarTweetbox() {
     // redux
@@ -64,8 +65,7 @@ function FeedbarTweetbox() {
                 }
                 <FeedbarTweetboxOptions>
                     <FeedbarTweetboxOptionsLeft>
-                        <ImageIcon/>&nbsp;&nbsp;
-                        {/* <GifIcon/>&nbsp;&nbsp; */}
+                        <ImgButton submitImage={submitTweetImage}/>&nbsp;&nbsp;
                         <GifButton submitGif={submitTweetImage}/>&nbsp;&nbsp;
                         <PollIcon/>&nbsp;&nbsp;
                         <EmojiEmotionsIcon/>

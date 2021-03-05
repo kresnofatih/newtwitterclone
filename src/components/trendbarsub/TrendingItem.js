@@ -17,7 +17,7 @@ function TrendingItem() {
 export default TrendingItem
 
 const TrendingItemContainer = styled.label`
-    padding: 10px;
+    padding: 10px 20px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -26,6 +26,7 @@ const TrendingItemContainer = styled.label`
 
     :hover {
         cursor: pointer;
+        background-color: black;
     }
 `;
 
