@@ -111,7 +111,8 @@ export const userSlice = createSlice({
         numOfReplies: 0,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         message: action.payload.message,
-        tweetId: state.nextTweetId
+        tweetId: state.nextTweetId,
+        email: state.email
       });
     },
     postTweetToUserHome: (state, action)=>{
@@ -122,7 +123,8 @@ export const userSlice = createSlice({
         numOfReplies: 0,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         message: action.payload.message,
-        tweetId: state.nextTweetId
+        tweetId: state.nextTweetId,
+        email: state.email
       });
     },
     postTweetToFollowersHome: (state, action)=>{
@@ -134,14 +136,15 @@ export const userSlice = createSlice({
           numOfReplies: 0,
           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           message: action.payload.message,
-          tweetId: state.nextTweetId
+          tweetId: state.nextTweetId,
+          email: state.email
         });
       })
     },
     storeImageToFireStorage: (state, action)=>{
       // action.payload.file
       const stgRef = stg.ref();
-      const fileRef = stgRef.child('chatrooms/'+state.email+'/images/'+action.payload.file.name+Date.now());
+      const fileRef = stgRef.child('users/'+state.email+'/images/'+action.payload.file.name+Date.now());
       fileRef
         .put(action.payload.file)
         .then(()=>{
@@ -201,7 +204,8 @@ export const userSlice = createSlice({
             numOfReplies: 0,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             message: action.payload.tweetMessage,
-            tweetId: state.nextTweetId
+            tweetId: state.nextTweetId,
+            email: state.email
           });
         })
       }
@@ -218,7 +222,8 @@ export const userSlice = createSlice({
               numOfReplies: 0,
               timestamp: firebase.firestore.FieldValue.serverTimestamp(),
               message: action.payload.tweetMessage,
-              tweetId: state.nextTweetId
+              tweetId: state.nextTweetId,
+              email: state.email
             });
             db.collection('trends').doc(ht).update({
               numOfTweets: firebase.firestore.FieldValue.increment(1)
@@ -238,7 +243,8 @@ export const userSlice = createSlice({
             numOfReplies: 0,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             message: action.payload.tweetMessage,
-            tweetId: state.nextTweetId
+            tweetId: state.nextTweetId,
+            email: state.email
           });
           db.collection('trends').doc(ht).update({
             numOfTweets: firebase.firestore.FieldValue.increment(1)

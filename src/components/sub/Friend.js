@@ -19,7 +19,7 @@ function Friend({friendData}) {
     const foundInFollowing = foundInUserFollowing(currentUser, friendData.email);
     return (
         <FriendContainer>
-            <FriendLeft>
+            <FriendLeft onClick={openFriendProfile}>
                 <FriendAvatar 
                     src={friendData.photoURL} 
                     alt={friendData.displayName}
@@ -55,9 +55,13 @@ const FriendContainer = styled.label`
     }
 `;
 
-const FriendLeft = styled.div`
+const FriendLeft = styled.label`
     display: flex;
     align-items: center;
+
+    :hover {
+        cursor: pointer;
+    }
 `;
 
 const FriendLeftInfo = styled.div`

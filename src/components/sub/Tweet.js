@@ -7,23 +7,27 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import Avatar from '@material-ui/core/Avatar'
 import {useDispatch} from 'react-redux'
 import {openScreen} from '../../features/appSlice'
+import { setProfileFromTweetLink } from '../../features/profileSlice';
 
-function Tweet({tweetId, photoURL, displayName, message, timestamp, imageURL, numOfReplies}) {
+function Tweet({tweetId, email, photoURL, displayName, message, timestamp, imageURL, numOfReplies}) {
     const dispatch = useDispatch();
     const redirectScreen = (pagename) => {
-        dispatch(openScreen({
-            screen: pagename
-        }))
+        dispatch(openScreen({screen: pagename}))
+    }
+    const openProfileFromTweet = ()=>{
+        dispatch(setProfileFromTweetLink(email));
+        redirectScreen('Profile');
     }
     return (
-        <TweetContainer onClick={()=>redirectScreen('Tweet')}>
+        <TweetContainer>
             <TweetLeft>
                 <TweetAvatar
                     alt={displayName}
                     src={photoURL}
+                    onClick={openProfileFromTweet}
                 />
             </TweetLeft>
-            <TweetRight>
+            <TweetRight onClick={()=>redirectScreen('Tweet')}>
                 <label>{displayName}&nbsp;<p>@{displayName}{' . '}{new Date(timestamp?.toDate()).toUTCString()}</p></label>
                 <h5>{message}</h5>
                 <img alt="" src={imageURL}/>
@@ -46,7 +50,7 @@ function Tweet({tweetId, photoURL, displayName, message, timestamp, imageURL, nu
 
 export default Tweet
 
-const TweetContainer = styled.label`
+const TweetContainer = styled.div`
     display: flex;
     flex-direction: row;
     padding: 10px 20px;
@@ -59,7 +63,7 @@ const TweetContainer = styled.label`
 
 const TweetLeft = styled.div``;
 
-const TweetRight = styled.div`
+const TweetRight = styled.label`
     width: 100%;
     display: flex;
     flex-direction: column;

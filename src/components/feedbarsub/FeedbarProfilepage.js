@@ -24,7 +24,7 @@ function FeedbarProfilepage() {
             <FeedbarProfileBody>
                 <FeedbarProfilebox/>
                 {profileTweets?.docs.map(doc=>{
-                    const {tweetId, photoURL, displayName, message, timestamp, imageURL, numOfReplies} = doc.data();
+                    const {tweetId, photoURL, displayName, email, message, timestamp, imageURL, numOfReplies} = doc.data();
                     return (
                         <Tweet
                             key={tweetId+'.'+displayName}
@@ -35,6 +35,7 @@ function FeedbarProfilepage() {
                             timestamp={timestamp}
                             imageURL={imageURL}
                             numOfReplies={numOfReplies}
+                            email={email}
                         />
                     )
                 })}

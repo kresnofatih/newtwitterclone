@@ -21,7 +21,7 @@ function FeedbarNotif() {
             <FeedbarHead pagename={'Notifications'}/>
             <FeedbarNotifBody>
             {userNotifs?.docs.map(doc=>{
-                const {tweetId, photoURL, displayName, message, timestamp, imageURL, numOfReplies} = doc.data();
+                const {tweetId, photoURL, displayName, email, message, timestamp, imageURL, numOfReplies} = doc.data();
                 return (
                     <Tweet
                         key={tweetId+'.'+displayName}
@@ -32,6 +32,7 @@ function FeedbarNotif() {
                         timestamp={timestamp}
                         imageURL={imageURL}
                         numOfReplies={numOfReplies}
+                        email={email}
                     />
                 )
             })}

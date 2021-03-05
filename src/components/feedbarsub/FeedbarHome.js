@@ -23,7 +23,7 @@ function FeedbarHome() {
             <FeedbarHomeBody>
                 <FeedbarTweetbox/>
                 {homeTweets?.docs.map(doc=>{
-                    const {tweetId, photoURL, displayName, message, timestamp, imageURL, numOfReplies} = doc.data();
+                    const {tweetId, photoURL, displayName, email, message, timestamp, imageURL, numOfReplies} = doc.data();
                     return (
                         <Tweet
                             key={tweetId+'.'+displayName}
@@ -34,6 +34,7 @@ function FeedbarHome() {
                             timestamp={timestamp}
                             imageURL={imageURL}
                             numOfReplies={numOfReplies}
+                            email={email}
                         />
                     )
                 })}

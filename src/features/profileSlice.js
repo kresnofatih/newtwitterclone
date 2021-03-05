@@ -1,4 +1,13 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { db } from '../Fire';
+
+export const setProfileFromTweetLink = createAsyncThunk(
+  'profile/setProfileFromTweetLink',
+  async(email)=>{
+    const profileDoc = await db.collection('users').doc(email).get();
+    return profileDoc.data()
+  }
+)
 
 export const profileSlice = createSlice({
   name: 'profile',
@@ -18,6 +27,11 @@ export const profileSlice = createSlice({
   },
   reducers: {
     setProfile: (state, action) =>{
+      Object.assign(state, action.payload);
+    },
+  },
+  extraReducers: {
+    [setProfileFromTweetLink.fulfilled]: (state, action)=>{
       Object.assign(state, action.payload);
     },
   },
