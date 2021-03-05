@@ -6,7 +6,7 @@ import PollIcon from '@material-ui/icons/Poll';
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import Avatar from '@material-ui/core/Avatar';
 import {useSelector} from 'react-redux'
-import {getCurrentUser, postToTaggedFriendsNotif, postTweetToFollowersHome, postTweetToTrends} from '../../features/userSlice'
+import {getCurrentUser, postToTaggedFriendsNotif, postTweetToFollowersHome, postTweetToFriendTweetReply, postTweetToTrends} from '../../features/userSlice'
 import GifButton from '../sub/GifButton';
 import {useDispatch} from 'react-redux'
 import { postTweetToUserHome, 
@@ -16,13 +16,13 @@ import { postTweetToUserHome,
 } from '../../features/userSlice';
 import ImgButton from '../sub/ImgButton';
 
-function FeedbarTweetbox({additionalCallbacks}) {
+function FeedbarTweetbox({additionalCallbacks, replyTweetData}) {
     // redux
     const currentUser = useSelector(getCurrentUser);
     const dispatch = useDispatch();
 
     // tweet message
-    const [tweetMessage, setTweetMessage] = useState('');
+    const [tweetMessage, setTweetMessage] = useState(replyTweetData ? '@'+replyTweetData?.friendDisplayName+' ' : '');
     const removeTweetMessage = ()=>setTweetMessage('');
     
     // tweet image
@@ -37,6 +37,14 @@ function FeedbarTweetbox({additionalCallbacks}) {
         dispatch(postTweetToFollowersHome(postTweetData));
         dispatch(postToTaggedFriendsNotif(postTweetData));
         dispatch(postTweetToTrends(postTweetData));
+        if(replyTweetData){
+            dispatch(postTweetToFriendTweetReply({
+                friendEmail: replyTweetData.friendEmail,
+                friendTweetId: replyTweetData.friendTweetId,
+                imageURL: tweetImageURL,
+                message: tweetMessage
+            }))
+        }
         dispatch(incrementNextTweetId());
         dispatch(incrementNumOfTweets());
         removeTweetImage();
@@ -56,6 +64,7 @@ function FeedbarTweetbox({additionalCallbacks}) {
                     placeholder="What's Happening?" 
                     value={tweetMessage}
                     onChange={e=>setTweetMessage(e.target.value)}
+                    autoFocus
                 />
                 {tweetImageURL &&
                     <>

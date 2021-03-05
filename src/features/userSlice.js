@@ -10,6 +10,23 @@ export const foundInUserFollowing = (currentUser, friendEmail)=> {
   };
 }
 
+export const postTweetToFriendTweetReply = createAsyncThunk(
+  'users/postTweetToFriendTweetReply',
+  async(replyPostTweetData)=>{
+    const tweetDocs = await db.collection('users')
+      .doc(replyPostTweetData.friendEmail)
+      .collection('tweets')
+      .where('tweetId', '==', replyPostTweetData.friendTweetId)
+      .get();
+    return {
+      friendTweetDocId: tweetDocs.docs[0].id,
+      friendEmail: replyPostTweetData.friendEmail, 
+      imageURL: replyPostTweetData.imageURL, 
+      message: replyPostTweetData.message
+    }
+  }
+)
+
 export const postTweetToTrends = createAsyncThunk(
   'users/postTweetToTrends',
   async(postTweetData)=>{
@@ -209,6 +226,20 @@ export const userSlice = createSlice({
           });
         })
       }
+    },
+    [postTweetToFriendTweetReply.fulfilled]: (state, action)=>{
+      db.collection('users').doc(action.payload.friendEmail)
+        .collection('tweets').doc(action.payload.friendTweetDocId)
+        .collection('replies').add({
+          displayName: state.displayName,
+          photoURL: state.photoURL,
+          imageURL: action.payload.imageURL,
+          numOfReplies: 0,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          message: action.payload.message,
+          tweetId: state.nextTweetId,
+          email: state.email
+        });
     },
     [postTweetToTrends.fulfilled]: (state, action)=>{
       action.payload.hashtags.forEach(ht=>{

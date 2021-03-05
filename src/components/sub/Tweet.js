@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import RepeatIcon from '@material-ui/icons/Repeat';
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
@@ -9,6 +8,7 @@ import {useDispatch} from 'react-redux'
 import {openScreen} from '../../features/appSlice'
 import { setProfileDataFromDb } from '../../features/profileSlice';
 import { setTweetDataFromDb } from '../../features/tweetSlice';
+import ReplyButton from './ReplyButton';
 
 function Tweet({tweetId, email, photoURL, displayName, message, timestamp, imageURL, numOfReplies}) {
     const dispatch = useDispatch();
@@ -28,16 +28,18 @@ function Tweet({tweetId, email, photoURL, displayName, message, timestamp, image
                     onClick={openProfileFromTweet}
                 />
             </TweetLeft>
-            <TweetRight onClick={()=>{
-                redirectScreen('Tweet');
-                dispatch(setTweetDataFromDb({email: email, tweetId: tweetId}));
-            }}>
+            <TweetRight>
                 <label>{displayName}&nbsp;<p>@{displayName}{' . '}{new Date(timestamp?.toDate()).toUTCString()}</p></label>
-                <h5>{message}</h5>
-                <img alt="" src={imageURL}/>
+                <TweetContent onClick={()=>{
+                    redirectScreen('Tweet');
+                    dispatch(setTweetDataFromDb({email: email, tweetId: tweetId}));
+                }}>
+                    <h5>{message}</h5>
+                    <img alt="" src={imageURL}/>
+                </TweetContent>
                 <TweetCountContainer>
                     <TweetCount>
-                        <ChatBubbleOutlineIcon/>&nbsp;&nbsp;<p>{numOfReplies}</p>
+                        <ReplyButton friendEmail={email} friendTweetId={tweetId} friendDisplayName={displayName}/>&nbsp;&nbsp;<p>{numOfReplies}</p>
                     </TweetCount>
                     <TweetCount>
                         <RepeatIcon/>&nbsp;&nbsp;<p>0</p>
@@ -62,6 +64,32 @@ const TweetContainer = styled.label`
 
     :hover {
         cursor: pointer;
+    }
+`;
+
+const TweetContent = styled.label`
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    margin: 0 !important;
+
+    :hover {
+        cursor: pointer !important;
+    }
+    
+    > h5 {
+        margin: 2px 0 !important;
+        font-weight: 100 !important;
+        color: white !important;
+        font-size: 14px !important;
+    }
+    > img {
+        width: auto !important;
+        max-width: 100% !important;
+        max-height: 400px !important;
+        margin: 10px 0 !important;
+        border-radius: 20px !important;
     }
 `;
 
@@ -95,19 +123,6 @@ const TweetRight = styled.label`
         font-weight: 100;
         color: var(--twitter-dgray);
         font-size: 12px;
-    }
-    > h5 {
-        margin: 2px 0;
-        font-weight: 100;
-        color: white;
-        font-size: 14px;
-    }
-    > img {
-        width: auto;
-        max-width: 100%;
-        max-height: 400px;
-        margin: 10px 0;
-        border-radius: 20px;
     }
 `;
 
