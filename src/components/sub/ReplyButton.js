@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function ReplyButton({friendEmail, friendTweetId, friendDisplayName}) {
+function ReplyButton({friendData, friendTweetData}) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const handleClose = () => {
@@ -31,9 +31,11 @@ function ReplyButton({friendEmail, friendTweetId, friendDisplayName}) {
                     <FeedbarTweetbox 
                         additionalCallbacks={handleClose} 
                         replyTweetData={{
-                            friendEmail: friendEmail,
-                            friendTweetId: friendTweetId,
-                            friendDisplayName: friendDisplayName
+                            friendEmail: friendData.email,
+                            friendTweetId: friendTweetData.friendTweetId,
+                            friendRepliedMessage: friendTweetData.friendRepliedMessage,
+                            friendDisplayName: friendData.displayName,
+                            friendFollowers: friendData.followers
                         }}
                     />
                 </ReplyboxContainer>

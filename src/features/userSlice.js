@@ -10,23 +10,6 @@ export const foundInUserFollowing = (currentUser, friendEmail)=> {
   };
 }
 
-export const postTweetToFriendTweetReply = createAsyncThunk(
-  'users/postTweetToFriendTweetReply',
-  async(replyPostTweetData)=>{
-    const tweetDocs = await db.collection('users')
-      .doc(replyPostTweetData.friendEmail)
-      .collection('tweets')
-      .where('tweetId', '==', replyPostTweetData.friendTweetId)
-      .get();
-    return {
-      friendTweetDocId: tweetDocs.docs[0].id,
-      friendEmail: replyPostTweetData.friendEmail, 
-      imageURL: replyPostTweetData.imageURL, 
-      message: replyPostTweetData.message
-    }
-  }
-)
-
 export const postTweetToTrends = createAsyncThunk(
   'users/postTweetToTrends',
   async(postTweetData)=>{
@@ -121,7 +104,7 @@ export const userSlice = createSlice({
   },
   reducers: {
     postTweetToUserTweets: (state, action)=>{
-      db.collection('users').doc(state.email).collection('tweets').add({
+      db.collection('users').doc(state.email).collection('tweets').doc(state.email+state.nextTweetId).set({
         displayName: state.displayName,
         photoURL: state.photoURL,
         imageURL: action.payload.imageURL,
@@ -133,7 +116,7 @@ export const userSlice = createSlice({
       });
     },
     postTweetToUserHome: (state, action)=>{
-      db.collection('users').doc(state.email).collection('home').add({
+      db.collection('users').doc(state.email).collection('home').doc(state.email+state.nextTweetId).set({
         displayName: state.displayName,
         photoURL: state.photoURL,
         imageURL: action.payload.imageURL,
@@ -146,7 +129,7 @@ export const userSlice = createSlice({
     },
     postTweetToFollowersHome: (state, action)=>{
       state.followers.forEach((email)=>{
-        db.collection('users').doc(email).collection('home').add({
+        db.collection('users').doc(email).collection('home').doc(state.email+state.nextTweetId).set({
           displayName: state.displayName,
           photoURL: state.photoURL,
           imageURL: action.payload.imageURL,
@@ -156,6 +139,68 @@ export const userSlice = createSlice({
           tweetId: state.nextTweetId,
           email: state.email
         });
+      })
+    },
+    postTweetToFriendTweetReply: (state, action)=>{
+      db.collection('users').doc(action.payload.friendEmail)
+        .collection('tweets').doc(action.payload.friendEmail+action.payload.friendTweetId)
+        .collection('replies').doc(state.email+state.nextTweetId).set({
+          displayName: state.displayName,
+          photoURL: state.photoURL,
+          imageURL: action.payload.imageURL,
+          numOfReplies: 0,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          message: action.payload.message,
+          tweetId: state.nextTweetId,
+          email: state.email
+        });
+    },
+    incrementNumOfRepliesFriendTweet: (state, action)=>{
+      db
+        .collection('users')
+        .doc(action.payload.friendEmail)
+        .collection('tweets')
+        .doc(action.payload.friendEmail+action.payload.friendTweetId)
+        .update({
+          numOfReplies: firebase.firestore.FieldValue.increment(1)
+        });
+    },
+    incrementNumOfRepliesFriendHome: (state, action)=>{
+      db
+        .collection('users')
+        .doc(action.payload.friendEmail)
+        .collection('home')
+        .doc(action.payload.friendEmail+action.payload.friendTweetId)
+        .update({
+          numOfReplies: firebase.firestore.FieldValue.increment(1)
+        });
+    },
+    incrementNumOfTweetsFriendFollowersHome: (state, action)=>{
+      action.payload.friendFollowers.forEach(followerEmail=>{
+        db
+        .collection('users')
+        .doc(followerEmail)
+        .collection('home')
+        .doc(action.payload.friendEmail+action.payload.friendTweetId)
+        .update({
+          numOfReplies: firebase.firestore.FieldValue.increment(1)
+        });
+      })
+    },
+    incrementNumOfTweetsTrends: (state, action)=>{
+      const hashtags = action.payload.friendRepliedMessage
+        .split(" ")
+        .filter(stg=>stg.startsWith("#"))
+        .map(stg=>stg.replace(/#/g, ""));
+      hashtags.forEach(hashtag=>{
+        db
+        .collection('trends')
+        .doc(hashtag)
+        .collection('tweets')
+        .doc(action.payload.friendEmail+action.payload.friendTweetId)
+        .update({
+          numOfReplies: firebase.firestore.FieldValue.increment(1)
+        })
       })
     },
     storeImageToFireStorage: (state, action)=>{
@@ -171,7 +216,7 @@ export const userSlice = createSlice({
         });
     },
     postImageURLToUserGallery:(state, action)=>{
-      db.collection('users').doc(state.email).collection('gallery').add({
+      db.collection('users').doc(state.email).collection('gallery').doc(state.email+state.nextTweetId).set({
         imageURL: action.payload.imageURL,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
       });
@@ -214,7 +259,7 @@ export const userSlice = createSlice({
     [postToTaggedFriendsNotif.fulfilled]: (state, action)=>{
       if(action.payload.taggedFriendsEmail.length>0){
         action.payload.taggedFriendsEmail.forEach(email=>{
-          db.collection('users').doc(email).collection('notifications').add({
+          db.collection('users').doc(email).collection('notifications').doc(state.email+state.nextTweetId).set({
             displayName: state.displayName,
             photoURL: state.photoURL,
             imageURL: action.payload.tweetImageURL,
@@ -227,31 +272,12 @@ export const userSlice = createSlice({
         })
       }
     },
-    [postTweetToFriendTweetReply.fulfilled]: (state, action)=>{
-      db.collection('users').doc(action.payload.friendEmail)
-        .collection('tweets').doc(action.payload.friendTweetDocId)
-        .collection('replies').add({
-          displayName: state.displayName,
-          photoURL: state.photoURL,
-          imageURL: action.payload.imageURL,
-          numOfReplies: 0,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-          message: action.payload.message,
-          tweetId: state.nextTweetId,
-          email: state.email
-        });
-      db.collection('users').doc(action.payload.friendEmail)
-        .collection('tweets').doc(action.payload.friendTweetDocId)
-        .update({
-          numOfReplies: firebase.firestore.FieldValue.increment(1)
-        });
-    },
     [postTweetToTrends.fulfilled]: (state, action)=>{
       action.payload.hashtags.forEach(ht=>{
         let num = 0;
         action.payload.hashtagsDocs.forEach(doc=>{
           if(ht===doc.data().trendname){
-            db.collection('trends').doc(ht).collection('tweets').add({
+            db.collection('trends').doc(ht).collection('tweets').doc(state.email+state.nextTweetId).set({
               displayName: state.displayName,
               photoURL: state.photoURL,
               imageURL: action.payload.tweetImageURL,
@@ -272,7 +298,7 @@ export const userSlice = createSlice({
             numOfTweets: 0,
             trendname: ht
           });
-          db.collection('trends').doc(ht).collection('tweets').add({
+          db.collection('trends').doc(ht).collection('tweets').doc(state.email+state.nextTweetId).set({
             displayName: state.displayName,
             photoURL: state.photoURL,
             imageURL: action.payload.tweetImageURL,
@@ -299,7 +325,12 @@ export const {postTweetToUserTweets,
               unfollowFriend,
               postTweetToFollowersHome,
               storeImageToFireStorage,
-              postImageURLToUserGallery
+              postImageURLToUserGallery,
+              postTweetToFriendTweetReply,
+              incrementNumOfTweetsFriendFollowersHome,
+              incrementNumOfRepliesFriendHome,
+              incrementNumOfRepliesFriendTweet,
+              incrementNumOfTweetsTrends
             } = userSlice.actions;
 
 // The function below is called a selector and allows us to select a value from

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import styled from 'styled-components'
 import ImageIcon from '@material-ui/icons/Image';
 import CloseIcon from '@material-ui/icons/Close';
@@ -6,7 +6,16 @@ import PollIcon from '@material-ui/icons/Poll';
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import Avatar from '@material-ui/core/Avatar';
 import {useSelector} from 'react-redux'
-import {getCurrentUser, postToTaggedFriendsNotif, postTweetToFollowersHome, postTweetToFriendTweetReply, postTweetToTrends} from '../../features/userSlice'
+import {getCurrentUser,
+    incrementNumOfRepliesFriendHome,
+    incrementNumOfRepliesFriendTweet,
+    incrementNumOfTweetsFriendFollowersHome,
+    incrementNumOfTweetsTrends,
+    postToTaggedFriendsNotif,
+    postTweetToFollowersHome,
+    postTweetToFriendTweetReply,
+    postTweetToTrends
+} from '../../features/userSlice'
 import GifButton from '../sub/GifButton';
 import {useDispatch} from 'react-redux'
 import { postTweetToUserHome, 
@@ -22,7 +31,7 @@ function FeedbarTweetbox({additionalCallbacks, replyTweetData}) {
     const dispatch = useDispatch();
 
     // tweet message
-    const [tweetMessage, setTweetMessage] = useState(replyTweetData ? '@'+replyTweetData?.friendDisplayName+' ' : '');
+    const [tweetMessage, setTweetMessage] = useState('');
     const removeTweetMessage = ()=>setTweetMessage('');
     
     // tweet image
@@ -43,13 +52,37 @@ function FeedbarTweetbox({additionalCallbacks, replyTweetData}) {
                 friendTweetId: replyTweetData.friendTweetId,
                 imageURL: tweetImageURL,
                 message: tweetMessage
-            }))
+            }));
+            dispatch(incrementNumOfRepliesFriendTweet({
+                friendEmail: replyTweetData.friendEmail,
+                friendTweetId: replyTweetData.friendTweetId,
+            }));
+            dispatch(incrementNumOfRepliesFriendHome({
+                friendEmail: replyTweetData.friendEmail,
+                friendTweetId: replyTweetData.friendTweetId,
+            }));
+            dispatch(incrementNumOfTweetsFriendFollowersHome({
+                friendEmail: replyTweetData.friendEmail,
+                friendTweetId: replyTweetData.friendTweetId,
+                friendFollowers: replyTweetData.friendFollowers
+            }));
+            dispatch(incrementNumOfTweetsTrends({
+                friendEmail: replyTweetData.friendEmail,
+                friendTweetId: replyTweetData.friendTweetId,
+                friendRepliedMessage: replyTweetData.friendRepliedMessage
+            }));
         }
         dispatch(incrementNextTweetId());
         dispatch(incrementNumOfTweets());
         removeTweetImage();
         removeTweetMessage();
     }
+
+    useEffect(()=>{
+        if(replyTweetData){
+            setTweetMessage('@'+replyTweetData?.friendDisplayName+' ')
+        }
+    }, [replyTweetData])
     return (
         <FeedbarTweetboxContainer>
             <FeedbarTweetboxLeft>

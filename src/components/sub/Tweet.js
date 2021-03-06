@@ -43,7 +43,7 @@ function Tweet({tweetId, email, photoURL, displayName, message, timestamp, image
                 </TweetContent>
                 <TweetCountContainer>
                     <TweetCount>
-                        <ReplyButton friendEmail={email} friendTweetId={tweetId} friendDisplayName={displayName}/>&nbsp;&nbsp;<p>{numOfReplies}</p>
+                        <ReplyButton friendData={tweetFriendData} friendTweetData={{friendTweetId: tweetId, friendRepliedMessage: message}}/>&nbsp;&nbsp;<p>{numOfReplies}</p>
                     </TweetCount>
                     <TweetCount>
                         <RepeatIcon/>&nbsp;&nbsp;<p>0</p>

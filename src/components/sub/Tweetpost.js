@@ -29,7 +29,7 @@ function Tweetpost() {
                 </TweetpostName>
             </TweetpostHeader>
             <h6>{currentTweet.message}</h6>
-            <img alt={currentTweet.displayName} src={currentTweet.imageURL}/>
+            <img alt="" src={currentTweet.imageURL}/>
             <p>{new Date(currentTweet?.timestamp?.toDate()).toUTCString()}</p>
             <TweetpostMetrics>
                 <TweetpostMetric>
