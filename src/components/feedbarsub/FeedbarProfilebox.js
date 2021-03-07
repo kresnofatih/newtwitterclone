@@ -4,9 +4,14 @@ import {useDispatch, useSelector} from 'react-redux'
 import {getCurrentProfile, listenProfileDataFromDb, setProfileDataFromDb} from '../../features/profileSlice'
 import ProfileAvatar from '../sub/ProfileAvatar';
 import ProfileBg from '../sub/ProfileBg';
+import { foundInUserFollowing, getCurrentUser } from '../../features/userSlice';
+import FriendFollowup from '../sub/FriendFollowup';
 
 function FeedbarProfilebox() {
     const currentProfile = useSelector(getCurrentProfile);
+    const currentUser = useSelector(getCurrentUser);
+    const profileIsUser = (currentProfile.email===currentUser.email);
+    const foundInFollowing = foundInUserFollowing(currentUser, currentProfile.email);
     const dispatch = useDispatch();
     useEffect(()=>{
         listenProfileDataFromDb(currentProfile.email, ()=>{dispatch(setProfileDataFromDb(currentProfile.email))})
@@ -20,7 +25,14 @@ function FeedbarProfilebox() {
                         source={currentProfile?.photoURL}
                         alternative={currentProfile?.displayName}
                     />
-                    <label>follow</label>
+                    {profileIsUser ? (
+                        <label>edit profile</label>
+                    ) :(
+                        <FriendFollowup
+                            followingStatus={foundInFollowing}
+                            friendEmail={currentProfile.email}
+                        />
+                    )}
                 </FeedbarProfileDetailsUpper>
                 <h2>{currentProfile?.displayName}</h2>
                 <h3>@{currentProfile?.displayName}</h3>
