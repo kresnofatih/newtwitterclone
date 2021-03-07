@@ -226,9 +226,25 @@ export const userSlice = createSlice({
           });
         });
     },
+    storeProfileBgToFireStorage: (state, action)=>{
+      const stgRef = stg.ref();
+      const fileRef = stgRef.child('users/'+state.email+'/backgrounds/'+Date.now());
+      fileRef
+        .put(action.payload.file)
+        .then(()=>{
+          fileRef.getDownloadURL().then(url=>{
+            action.payload.callback(url);
+          });
+        });
+    },
     updateUserPhotoUrl: (state, action)=>{
       db.collection('users').doc(state.email).update({
         photoURL: action.payload.photoURL
+      });
+    },
+    updateUserBgPhotoUrl: (state, action)=>{
+      db.collection('users').doc(state.email).update({
+        bgPhotoURL: action.payload.bgPhotoURL
       });
     },
     postImageURLToUserGallery:(state, action)=>{
@@ -342,7 +358,9 @@ export const {postTweetToUserTweets,
               postTweetToFollowersHome,
               storeImageToFireStorage,
               storeProfileAvatarToFireStorage,
+              storeProfileBgToFireStorage,
               updateUserPhotoUrl,
+              updateUserBgPhotoUrl,
               postImageURLToUserGallery,
               postTweetToFriendTweetReply,
               incrementNumOfTweetsFriendFollowersHome,

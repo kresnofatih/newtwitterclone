@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import {useDispatch, useSelector} from 'react-redux'
 import {getCurrentProfile, listenProfileDataFromDb, setProfileDataFromDb} from '../../features/profileSlice'
 import ProfileAvatar from '../sub/ProfileAvatar';
+import ProfileBg from '../sub/ProfileBg';
 
 function FeedbarProfilebox() {
     const currentProfile = useSelector(getCurrentProfile);
@@ -12,9 +13,7 @@ function FeedbarProfilebox() {
     }, [])
     return (
         <FeedbarProfileboxContainer>
-            <FeedbarProfileBg>
-                <img src={currentProfile?.bgPhotoURL} alt={currentProfile?.displayName}/>  
-            </FeedbarProfileBg>
+            <ProfileBg source={currentProfile?.bgPhotoURL} alternative={currentProfile?.displayName}/>
             <FeedbarProfileDetails>
                 <FeedbarProfileDetailsUpper>
                     <ProfileAvatar
