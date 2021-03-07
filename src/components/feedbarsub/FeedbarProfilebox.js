@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import Avatar from '@material-ui/core/Avatar';
 import {useDispatch, useSelector} from 'react-redux'
 import {getCurrentProfile, listenProfileDataFromDb, setProfileDataFromDb} from '../../features/profileSlice'
+import ProfileAvatar from '../sub/ProfileAvatar';
 
 function FeedbarProfilebox() {
     const currentProfile = useSelector(getCurrentProfile);
@@ -17,9 +17,9 @@ function FeedbarProfilebox() {
             </FeedbarProfileBg>
             <FeedbarProfileDetails>
                 <FeedbarProfileDetailsUpper>
-                    <FeedbarProfileAvatar 
-                        src={currentProfile?.photoURL}
-                        alt={currentProfile?.displayName}    
+                    <ProfileAvatar
+                        source={currentProfile?.photoURL}
+                        alternative={currentProfile?.displayName}
                     />
                     <label>follow</label>
                 </FeedbarProfileDetailsUpper>
@@ -87,15 +87,6 @@ const FeedbarProfileDetailsUpper = styled.div`
     }
 
     
-`;
-const FeedbarProfileAvatar = styled(Avatar)`
-    margin-top: -60px;
-    height: 100px !important;
-    width: 100px !important;
-
-    :hover {
-        cursor: pointer;
-    }
 `;
 
 const FeedbarProfileFollowCount = styled.div`

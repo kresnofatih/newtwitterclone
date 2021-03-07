@@ -50,4 +50,6 @@ export const { setProfile } = profileSlice.actions;
 // in the slice file. For example: `useSelector((state) => state.counter.value)`
 export const getCurrentProfile = state => state.profile;
 
+export const getCurrentProfileEmail = state => state.profile.email;
+
 export default profileSlice.reducer;

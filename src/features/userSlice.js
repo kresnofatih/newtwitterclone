@@ -206,7 +206,18 @@ export const userSlice = createSlice({
     storeImageToFireStorage: (state, action)=>{
       // action.payload.file
       const stgRef = stg.ref();
-      const fileRef = stgRef.child('users/'+state.email+'/images/'+action.payload.file.name+Date.now());
+      const fileRef = stgRef.child('users/'+state.email+'/images/'+Date.now());
+      fileRef
+        .put(action.payload.file)
+        .then(()=>{
+          fileRef.getDownloadURL().then(url=>{
+            action.payload.callback(url);
+          });
+        });
+    },
+    storeProfileAvatarToFireStorage: (state, action)=>{
+      const stgRef = stg.ref();
+      const fileRef = stgRef.child('users/'+state.email+'/avatars/'+Date.now());
       fileRef
         .put(action.payload.file)
         .then(()=>{
@@ -325,6 +336,7 @@ export const {postTweetToUserTweets,
               unfollowFriend,
               postTweetToFollowersHome,
               storeImageToFireStorage,
+              storeProfileAvatarToFireStorage,
               postImageURLToUserGallery,
               postTweetToFriendTweetReply,
               incrementNumOfTweetsFriendFollowersHome,
@@ -337,5 +349,7 @@ export const {postTweetToUserTweets,
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state) => state.counter.value)`
 export const getCurrentUser = state => state.user;
+
+export const getCurrentUserEmail = state => state.user.email;
 
 export default userSlice.reducer;
