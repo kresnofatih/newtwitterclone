@@ -4,7 +4,8 @@ import Avatar from '@material-ui/core/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
 import { postImageURLToUserGallery,
     storeProfileAvatarToFireStorage,
-    getCurrentUserEmail
+    getCurrentUserEmail,
+    updateUserPhotoUrl
 } from '../../features/userSlice';
 import {getCurrentProfileEmail} from '../../features/profileSlice';
 
@@ -16,6 +17,7 @@ function ProfileAvatar({source, alternative}) {
         const file = e.target.files[0];
         dispatch(storeProfileAvatarToFireStorage({file: file, callback: (url)=>{
             dispatch(postImageURLToUserGallery({imageURL: url}));
+            dispatch(updateUserPhotoUrl({photoURL: url}));
         }}))
     };
     const changeableProfileAvatar = (currentUserEmail===currentProfileEmail) ? "profileAvatarUploader" : '';

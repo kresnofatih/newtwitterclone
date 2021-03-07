@@ -226,6 +226,11 @@ export const userSlice = createSlice({
           });
         });
     },
+    updateUserPhotoUrl: (state, action)=>{
+      db.collection('users').doc(state.email).update({
+        photoURL: action.payload.photoURL
+      });
+    },
     postImageURLToUserGallery:(state, action)=>{
       db.collection('users').doc(state.email).collection('gallery').doc(state.email+state.nextTweetId).set({
         imageURL: action.payload.imageURL,
@@ -337,6 +342,7 @@ export const {postTweetToUserTweets,
               postTweetToFollowersHome,
               storeImageToFireStorage,
               storeProfileAvatarToFireStorage,
+              updateUserPhotoUrl,
               postImageURLToUserGallery,
               postTweetToFriendTweetReply,
               incrementNumOfTweetsFriendFollowersHome,
