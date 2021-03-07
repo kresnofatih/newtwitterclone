@@ -6,6 +6,7 @@ import ProfileAvatar from '../sub/ProfileAvatar';
 import ProfileBg from '../sub/ProfileBg';
 import { foundInUserFollowing, getCurrentUser } from '../../features/userSlice';
 import FriendFollowup from '../sub/FriendFollowup';
+import EditProfileButton from '../sub/EditProfileButton';
 
 function FeedbarProfilebox() {
     const currentProfile = useSelector(getCurrentProfile);
@@ -26,7 +27,7 @@ function FeedbarProfilebox() {
                         alternative={currentProfile?.displayName}
                     />
                     {profileIsUser ? (
-                        <label>edit profile</label>
+                        <EditProfileButton/>
                     ) :(
                         <FriendFollowup
                             followingStatus={foundInFollowing}
@@ -52,16 +53,6 @@ const FeedbarProfileboxContainer = styled.div`
     display: flex;
     flex-direction: column;
     border-bottom: 1px solid var(--twitter-dgray);
-`;
-
-const FeedbarProfileBg = styled.div`
-    height: 200px;
-    overflow-y: hidden;
-    overflow-x: hidden;
-    
-    > img {
-        width: 100%;
-    }
 `;
 
 const FeedbarProfileDetails = styled.div`

@@ -14,5 +14,5 @@ export default Trendbar
 
 const TrendbarContainer = styled.div`
     flex: 0.25;
-    padding: 10px 20px;
+    /* padding: 10px 20px; */
 `;

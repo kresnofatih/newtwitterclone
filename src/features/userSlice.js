@@ -2,6 +2,17 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {db, stg} from '../Fire'
 import firebase from 'firebase'
 
+export const checkDisplayNameUsed = async(tempDisplayName, callback)=>{
+  const snap = await db.collection('users').where('displayName', '==', tempDisplayName).get();
+  if(snap.empty){
+    const state = false;
+    callback(state);
+  } else if (!snap.empty){
+    const state = true;
+    callback(state);
+  }
+}
+
 export const foundInUserFollowing = (currentUser, friendEmail)=> {
   if(currentUser.following.includes(friendEmail)){
     return true;
@@ -247,6 +258,11 @@ export const userSlice = createSlice({
         bgPhotoURL: action.payload.bgPhotoURL
       });
     },
+    updateUserDisplayName: (state, action)=>{
+      db.collection('users').doc(state.email).update({
+        displayName: action.payload.displayName
+      });
+    },
     postImageURLToUserGallery:(state, action)=>{
       db.collection('users').doc(state.email).collection('gallery').doc(state.email+state.nextTweetId).set({
         imageURL: action.payload.imageURL,
@@ -361,6 +377,7 @@ export const {postTweetToUserTweets,
               storeProfileBgToFireStorage,
               updateUserPhotoUrl,
               updateUserBgPhotoUrl,
+              updateUserDisplayName,
               postImageURLToUserGallery,
               postTweetToFriendTweetReply,
               incrementNumOfTweetsFriendFollowersHome,

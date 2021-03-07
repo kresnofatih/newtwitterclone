@@ -24,6 +24,7 @@ function TrendbarTrending() {
 export default TrendbarTrending
 
 const TrendbarTrendingContainer = styled.div`
+    margin: 10px 20px;
     display: flex;
     flex-direction: column;
     background-color: var(--twitter-dblue);
