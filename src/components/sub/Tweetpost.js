@@ -10,6 +10,8 @@ import { getCurrentTweet, getTweetFriendDataFromDb, listenTweetDataFromDb, setTw
 import { openScreen } from '../../features/appSlice';
 import { setProfile } from '../../features/profileSlice';
 import ReplyButton from './ReplyButton';
+import LikeButton from './LikeButton';
+import { current } from 'immer';
 
 function Tweetpost() {
     const dispatch = useDispatch();
@@ -46,7 +48,7 @@ function Tweetpost() {
             <p>{new Date(currentTweet?.timestamp?.toDate()).toUTCString()}</p>
             <TweetpostMetrics>
                 <TweetpostMetric>
-                    <h6>0</h6>
+                    <h6>{currentTweet.numOfRetweets}</h6>
                     <p>Retweets</p>
                 </TweetpostMetric>
                 <TweetpostMetric>
@@ -54,7 +56,7 @@ function Tweetpost() {
                     <p>Replies</p>
                 </TweetpostMetric>
                 <TweetpostMetric>
-                    <h6>0</h6>
+                    <h6>{currentTweet.numOfLikes}</h6>
                     <p>Likes</p>
                 </TweetpostMetric>
             </TweetpostMetrics>
@@ -67,7 +69,21 @@ function Tweetpost() {
                     }}
                 />
                 <RepeatIcon/>
-                <FavoriteBorderIcon/>
+                <LikeButton 
+                    friendData={tweetFriendData}
+                    friendTweetData={{
+                        displayName: currentTweet.displayName,
+                        photoURL: currentTweet.photoURL,
+                        imageURL: currentTweet.imageURL,
+                        numOfReplies: currentTweet.numOfReplies,
+                        numOfLikes: currentTweet.numOfLikes,
+                        numOfRetweets: currentTweet.numOfRetweets,
+                        timestamp: currentTweet.timestamp,
+                        message: currentTweet.message,
+                        tweetId: currentTweet.tweetId,
+                        email: currentTweet.email
+                    }}
+                />
                 <SaveAltIcon/>
             </Tweetpostbuttons>
         </TweetpostContainer>

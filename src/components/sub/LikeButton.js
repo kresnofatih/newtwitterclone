@@ -1,5 +1,6 @@
 import React from 'react'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import styled from 'styled-components'
 import { useDispatch } from 'react-redux';
 import { postTweetToUserLiked, incrementNumOfLikesFriendTweet, incrementNumOfLikesFriendHome, incrementNumOfLikesFriendFollowersHome, checkTweetLiked } from '../../features/userSlice';
@@ -56,7 +57,7 @@ const LikeButtonContainer = styled.div`
     }
 `;
 
-const Liked = styled(FavoriteBorderIcon)`
+const Liked = styled(FavoriteIcon)`
     color: palevioletred;
 `;
 const NotLikedYet = styled(FavoriteBorderIcon)``;
