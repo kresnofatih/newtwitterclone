@@ -38,7 +38,7 @@ function Navbar() {
                 <NavbarOption Icon={ExploreIcon} text={'Explore'} onClick={()=>redirectScreen('Explore')}/>
                 <NavbarOption Icon={NotificationsIcon} text={'Notifications'} onClick={()=>redirectScreen('Notifications')}/>
                 <NavbarOption Icon={EmailIcon} text={'Messages'}/>
-                <NavbarOption Icon={BookmarkIcon} text={'Bookmarks'}/>
+                <NavbarOption Icon={BookmarkIcon} text={'Bookmarks'} onClick={()=>redirectScreen('Bookmarks')}/>
                 <NavbarOption Icon={ListAltIcon} text={'Lists'}/>
                 <NavbarOption 
                     Icon={PersonIcon} 
