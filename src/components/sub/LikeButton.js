@@ -2,13 +2,14 @@ import React from 'react'
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import styled from 'styled-components'
-import { useDispatch } from 'react-redux';
-import { postTweetToUserLiked, incrementNumOfLikesFriendTweet, incrementNumOfLikesFriendHome, incrementNumOfLikesFriendFollowersHome, checkTweetLiked } from '../../features/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { postTweetToUserLiked, incrementNumOfLikesFriendTweet, incrementNumOfLikesFriendHome, incrementNumOfLikesFriendFollowersHome, checkTweetLiked, getCurrentUserEmail } from '../../features/userSlice';
 
 function LikeButton({friendTweetData, friendData}) {
+    const currentUserEmail = useSelector(getCurrentUserEmail);
     const dispatch = useDispatch();
     const [tweetLiked, setTweetLiked] = React.useState(false);
-    checkTweetLiked(friendTweetData.email, friendTweetData.tweetId, (state)=>setTweetLiked(state));
+    checkTweetLiked(currentUserEmail, friendTweetData.email, friendTweetData.tweetId, (state)=>setTweetLiked(state));
     return (
         <LikeButtonContainer>
             {tweetLiked ? (
@@ -51,7 +52,6 @@ export default LikeButton
 const LikeButtonContainer = styled.div`
     > .MuiSvgIcon-root {
         :hover {
-            color: var(--twitter-blue);
             cursor: pointer;
         }
     }
@@ -60,4 +60,8 @@ const LikeButtonContainer = styled.div`
 const Liked = styled(FavoriteIcon)`
     color: palevioletred;
 `;
-const NotLikedYet = styled(FavoriteBorderIcon)``;
+const NotLikedYet = styled(FavoriteBorderIcon)`
+    :hover {
+        color: var(--twitter-blue);
+    }
+`;

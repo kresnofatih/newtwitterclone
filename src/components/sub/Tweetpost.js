@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import RepeatIcon from '@material-ui/icons/Repeat';
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import Avatar from '@material-ui/core/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentTweet, getTweetFriendDataFromDb, listenTweetDataFromDb, setTweetDataFromDb } from '../../features/tweetSlice';
@@ -11,7 +9,6 @@ import { openScreen } from '../../features/appSlice';
 import { setProfile } from '../../features/profileSlice';
 import ReplyButton from './ReplyButton';
 import LikeButton from './LikeButton';
-import { current } from 'immer';
 
 function Tweetpost() {
     const dispatch = useDispatch();

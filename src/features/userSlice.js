@@ -2,8 +2,20 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {db, stg} from '../Fire'
 import firebase from 'firebase'
 
-export const checkTweetLiked = async(email, tweetId, callback)=>{
-  const snap = await db.collection('users').doc(email).collection('liked').doc(email+tweetId).get();
+export const checkTweetBookmarked = async(userEmail, email, tweetId, callback)=>{
+  const snap = await db.collection('users')
+    .doc(userEmail).collection('bookmarks').doc(email+tweetId).get();
+  if(snap.exists){
+    const state = true;
+    callback(state);
+  } else if(!snap.exists){
+    const state = false;
+    callback(state);
+  }
+}
+
+export const checkTweetLiked = async(userEmail, email, tweetId, callback)=>{
+  const snap = await db.collection('users').doc(userEmail).collection('liked').doc(email+tweetId).get();
   if(snap.exists){
     const state = true;
     callback(state);
@@ -190,6 +202,25 @@ export const userSlice = createSlice({
       .collection('users')
       .doc(state.email)
       .collection('liked')
+      .doc(action.payload.email+action.payload.tweetId)
+      .set({
+        displayName: action.payload.displayName,
+        photoURL: action.payload.photoURL,
+        imageURL: action.payload.imageURL,
+        numOfReplies: action.payload.numOfReplies,
+        numOfLikes: action.payload.numOfLikes,
+        numOfRetweets: action.payload.numOfRetweets,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        message: action.payload.message,
+        tweetId: action.payload.tweetId,
+        email: action.payload.email
+      });
+    },
+    postTweetToUserBookmarks: (state, action)=>{
+      db
+      .collection('users')
+      .doc(state.email)
+      .collection('bookmarks')
       .doc(action.payload.email+action.payload.tweetId)
       .set({
         displayName: action.payload.displayName,
@@ -449,6 +480,7 @@ export const {postTweetToUserTweets,
               unfollowFriend,
               postTweetToFollowersHome,
               postTweetToUserLiked,
+              postTweetToUserBookmarks,
               storeImageToFireStorage,
               storeProfileAvatarToFireStorage,
               storeProfileBgToFireStorage,

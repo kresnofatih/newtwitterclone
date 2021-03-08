@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import styled from 'styled-components'
-import ImageIcon from '@material-ui/icons/Image';
 import CloseIcon from '@material-ui/icons/Close';
 import PollIcon from '@material-ui/icons/Poll';
 import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';

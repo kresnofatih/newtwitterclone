@@ -9,6 +9,7 @@ import { setProfile} from '../../features/profileSlice';
 import { getTweetFriendDataFromDb, setTweetDataFromDb } from '../../features/tweetSlice';
 import ReplyButton from './ReplyButton';
 import LikeButton from './LikeButton';
+import BookmarkButton from './BookmarkButton';
 
 function Tweet({
     tweetId, 
@@ -84,9 +85,22 @@ function Tweet({
                                     email: email
                                 }}
                             />&nbsp;&nbsp;<p>{numOfLikes}</p>
-                            {/* <FavoriteBorderIcon/>&nbsp;&nbsp;<p>0</p> */}
                         </TweetCount>
-                        <SaveAltIcon/>
+                        <BookmarkButton
+                            friendData={tweetFriendData}
+                            friendTweetData={{
+                                displayName: displayName,
+                                photoURL: photoURL,
+                                imageURL: imageURL,
+                                numOfReplies: numOfReplies,
+                                numOfLikes: numOfLikes,
+                                numOfRetweets: numOfRetweets,
+                                timestamp: timestamp,
+                                message: message,
+                                tweetId: tweetId,
+                                email: email
+                            }}
+                        />
                     </TweetCountContainer>
                 }
             </TweetRight>
