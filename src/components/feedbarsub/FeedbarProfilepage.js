@@ -6,7 +6,6 @@ import FeedbarProfilebox from './FeedbarProfilebox'
 import {useCollection} from 'react-firebase-hooks/firestore'
 import { db } from '../../Fire';
 import {useSelector} from 'react-redux'
-import {getCurrentUser} from '../../features/userSlice'
 import { getCurrentProfile } from '../../features/profileSlice'
 
 function FeedbarProfilepage() {
