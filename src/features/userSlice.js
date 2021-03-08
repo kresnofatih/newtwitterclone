@@ -138,6 +138,26 @@ export const userSlice = createSlice({
         email: state.email
       });
     },
+    postRetweetToFollowersHome: (state, action)=>{
+      state.followers.forEach(email=>{
+        db.collection('users')
+        .doc(email)
+        .collection('home')
+        .doc(state.email+state.nextTweetId)
+        .set({
+          displayName: action.payload.friendDisplayName,
+          photoURL: action.payload.friendPhotoURL,
+          imageURL: action.payload.friendImageURL,
+          numOfReplies: action.payload.friendNumOfReplies,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          message: action.payload.friendMessage,
+          tweetId: action.payload.friendTweetId,
+          email: action.payload.friendEmail,
+          retweet: true,
+          retweeter: state.displayName
+        });
+      })
+    },
     postTweetToFollowersHome: (state, action)=>{
       state.followers.forEach((email)=>{
         db.collection('users').doc(email).collection('home').doc(state.email+state.nextTweetId).set({

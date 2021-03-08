@@ -10,7 +10,7 @@ import { setProfile} from '../../features/profileSlice';
 import { getTweetFriendDataFromDb, setTweetDataFromDb } from '../../features/tweetSlice';
 import ReplyButton from './ReplyButton';
 
-function Tweet({tweetId, email, photoURL, displayName, message, timestamp, imageURL, numOfReplies}) {
+function Tweet({tweetId, email, photoURL, displayName, message, timestamp, imageURL, numOfReplies, hideTweetCount}) {
     const [tweetFriendData, setTweetFriendData] = useState('')
     const dispatch = useDispatch();
     const redirectScreen = (pagename) => {
@@ -35,24 +35,27 @@ function Tweet({tweetId, email, photoURL, displayName, message, timestamp, image
             <TweetRight>
                 <label>{displayName}&nbsp;<p>@{displayName}{' . '}{new Date(timestamp?.toDate()).toUTCString()}</p></label>
                 <TweetContent onClick={()=>{
-                    redirectScreen('Tweet');
-                    dispatch(setTweetDataFromDb({email: email, tweetId: tweetId}));
+                    dispatch(setTweetDataFromDb({email: email, tweetId: tweetId})).then(()=>{
+                        redirectScreen('Tweet');
+                    });
                 }}>
                     <h5>{message}</h5>
                     <img alt="" src={imageURL}/>
                 </TweetContent>
-                <TweetCountContainer>
-                    <TweetCount>
-                        <ReplyButton friendData={tweetFriendData} friendTweetData={{friendTweetId: tweetId, friendRepliedMessage: message}}/>&nbsp;&nbsp;<p>{numOfReplies}</p>
-                    </TweetCount>
-                    <TweetCount>
-                        <RepeatIcon/>&nbsp;&nbsp;<p>0</p>
-                    </TweetCount>
-                    <TweetCount>
-                        <FavoriteBorderIcon/>&nbsp;&nbsp;<p>0</p>
-                    </TweetCount>
-                    <SaveAltIcon/>
-                </TweetCountContainer>
+                {!hideTweetCount &&
+                    <TweetCountContainer>
+                        <TweetCount>
+                            <ReplyButton friendData={tweetFriendData} friendTweetData={{friendTweetId: tweetId, friendRepliedMessage: message}}/>&nbsp;&nbsp;<p>{numOfReplies}</p>
+                        </TweetCount>
+                        <TweetCount>
+                            <RepeatIcon/>&nbsp;&nbsp;<p>0</p>
+                        </TweetCount>
+                        <TweetCount>
+                            <FavoriteBorderIcon/>&nbsp;&nbsp;<p>0</p>
+                        </TweetCount>
+                        <SaveAltIcon/>
+                    </TweetCountContainer>
+                }
             </TweetRight>
         </TweetContainer>
     )

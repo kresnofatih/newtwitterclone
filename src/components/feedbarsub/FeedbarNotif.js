@@ -33,6 +33,7 @@ function FeedbarNotif() {
                         imageURL={imageURL}
                         numOfReplies={numOfReplies}
                         email={email}
+                        hideTweetCount={true}
                     />
                 )
             })}

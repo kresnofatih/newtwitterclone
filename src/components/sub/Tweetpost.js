@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import RepeatIcon from '@material-ui/icons/Repeat';
@@ -6,12 +6,24 @@ import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import Avatar from '@material-ui/core/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCurrentTweet, listenTweetDataFromDb, setTweetDataFromDb } from '../../features/tweetSlice';
+import { getCurrentTweet, getTweetFriendDataFromDb, listenTweetDataFromDb, setTweetDataFromDb } from '../../features/tweetSlice';
+import { openScreen } from '../../features/appSlice';
+import { setProfile } from '../../features/profileSlice';
+import ReplyButton from './ReplyButton';
 
 function Tweetpost() {
-    const currentTweet = useSelector(getCurrentTweet);
     const dispatch = useDispatch();
+    const currentTweet = useSelector(getCurrentTweet);
+    const [tweetFriendData, setTweetFriendData] = useState('');
+    const redirectScreen = (pagename) => {
+        dispatch(openScreen({screen: pagename}))
+    }
+    const openProfileFromTweet = ()=>{
+        dispatch(setProfile(tweetFriendData));
+        redirectScreen('Profile');
+    }
     useEffect(()=>{
+        getTweetFriendDataFromDb(currentTweet.email, (data)=>setTweetFriendData(data));
         listenTweetDataFromDb(currentTweet.email, currentTweet.tweetId, ()=>{
             dispatch(setTweetDataFromDb({email: currentTweet.email, tweetId: currentTweet.tweetId}))
         });
@@ -22,6 +34,7 @@ function Tweetpost() {
                 <TweetpostAvatar
                     alt=""
                     src={currentTweet.photoURL}
+                    onClick={openProfileFromTweet}
                 />
                 <TweetpostName>
                     <h4>{currentTweet.displayName}</h4>
@@ -46,7 +59,13 @@ function Tweetpost() {
                 </TweetpostMetric>
             </TweetpostMetrics>
             <Tweetpostbuttons>
-                <ChatBubbleOutlineIcon/>
+                <ReplyButton 
+                    friendData={tweetFriendData} 
+                    friendTweetData={{
+                        friendTweetId: currentTweet.tweetId,
+                        friendRepliedMessage: currentTweet.message
+                    }}
+                />
                 <RepeatIcon/>
                 <FavoriteBorderIcon/>
                 <SaveAltIcon/>
