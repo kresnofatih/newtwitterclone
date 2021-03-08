@@ -39,6 +39,8 @@ export const tweetSlice = createSlice({
         photoURL: 'https://i.pinimg.com/originals/9b/89/53/9b8953e917e3a44e0b03b60b603bd469.jpg',
         imageURL: 'https://media3.giphy.com/media/vXyIMuWbGTMtO/giphy.gif?cid=9af6c5eash8wyxh80bd8qbubg70wfe5fj56uuzb1aklym18u&rid=giphy.gif',
         numOfReplies: 999,
+        numOfLikes: 999,
+        numOfRetweets: 999,
         message: 'testTweet',
         tweetId: 999,
         email: 'displayname@twitterclone.qa'

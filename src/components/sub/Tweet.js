@@ -2,15 +2,27 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import RepeatIcon from '@material-ui/icons/Repeat';
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import Avatar from '@material-ui/core/Avatar'
 import {useDispatch} from 'react-redux'
 import {openScreen} from '../../features/appSlice'
 import { setProfile} from '../../features/profileSlice';
 import { getTweetFriendDataFromDb, setTweetDataFromDb } from '../../features/tweetSlice';
 import ReplyButton from './ReplyButton';
+import LikeButton from './LikeButton';
 
-function Tweet({tweetId, email, photoURL, displayName, message, timestamp, imageURL, numOfReplies, hideTweetCount}) {
+function Tweet({
+    tweetId, 
+    email, 
+    photoURL, 
+    displayName, 
+    message, 
+    timestamp, 
+    imageURL, 
+    numOfReplies,
+    numOfLikes,
+    numOfRetweets,
+    hideTweetCount
+}) {
     const [tweetFriendData, setTweetFriendData] = useState('')
     const dispatch = useDispatch();
     const redirectScreen = (pagename) => {
@@ -45,13 +57,33 @@ function Tweet({tweetId, email, photoURL, displayName, message, timestamp, image
                 {!hideTweetCount &&
                     <TweetCountContainer>
                         <TweetCount>
-                            <ReplyButton friendData={tweetFriendData} friendTweetData={{friendTweetId: tweetId, friendRepliedMessage: message}}/>&nbsp;&nbsp;<p>{numOfReplies}</p>
+                            <ReplyButton 
+                                friendData={tweetFriendData} 
+                                friendTweetData={{
+                                    friendTweetId: tweetId,
+                                    friendRepliedMessage: message
+                                }}
+                            />&nbsp;&nbsp;<p>{numOfReplies}</p>
                         </TweetCount>
                         <TweetCount>
                             <RepeatIcon/>&nbsp;&nbsp;<p>0</p>
                         </TweetCount>
                         <TweetCount>
-                            <FavoriteBorderIcon/>&nbsp;&nbsp;<p>0</p>
+                            <LikeButton 
+                                friendTweetData={{
+                                    displayName: displayName,
+                                    photoURL: photoURL,
+                                    imageURL: imageURL,
+                                    numOfReplies: numOfReplies,
+                                    numOfLikes: numOfLikes,
+                                    numOfRetweets: numOfRetweets,
+                                    timestamp: timestamp,
+                                    message: message,
+                                    tweetId: tweetId,
+                                    email: email
+                                }}
+                            />&nbsp;&nbsp;<p>{numOfLikes}</p>
+                            {/* <FavoriteBorderIcon/>&nbsp;&nbsp;<p>0</p> */}
                         </TweetCount>
                         <SaveAltIcon/>
                     </TweetCountContainer>

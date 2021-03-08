@@ -120,6 +120,8 @@ export const userSlice = createSlice({
         photoURL: state.photoURL,
         imageURL: action.payload.imageURL,
         numOfReplies: 0,
+        numOfLikes: 0,
+        numOfRetweets: 0,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         message: action.payload.message,
         tweetId: state.nextTweetId,
@@ -132,31 +134,13 @@ export const userSlice = createSlice({
         photoURL: state.photoURL,
         imageURL: action.payload.imageURL,
         numOfReplies: 0,
+        numOfLikes: 0,
+        numOfRetweets: 0,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         message: action.payload.message,
         tweetId: state.nextTweetId,
         email: state.email
       });
-    },
-    postRetweetToFollowersHome: (state, action)=>{
-      state.followers.forEach(email=>{
-        db.collection('users')
-        .doc(email)
-        .collection('home')
-        .doc(state.email+state.nextTweetId)
-        .set({
-          displayName: action.payload.friendDisplayName,
-          photoURL: action.payload.friendPhotoURL,
-          imageURL: action.payload.friendImageURL,
-          numOfReplies: action.payload.friendNumOfReplies,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-          message: action.payload.friendMessage,
-          tweetId: action.payload.friendTweetId,
-          email: action.payload.friendEmail,
-          retweet: true,
-          retweeter: state.displayName
-        });
-      })
     },
     postTweetToFollowersHome: (state, action)=>{
       state.followers.forEach((email)=>{
@@ -165,6 +149,8 @@ export const userSlice = createSlice({
           photoURL: state.photoURL,
           imageURL: action.payload.imageURL,
           numOfReplies: 0,
+          numOfLikes: 0,
+          numOfRetweets: 0,
           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           message: action.payload.message,
           tweetId: state.nextTweetId,
@@ -180,11 +166,42 @@ export const userSlice = createSlice({
           photoURL: state.photoURL,
           imageURL: action.payload.imageURL,
           numOfReplies: 0,
+          numOfLikes: 0,
+          numOfRetweets: 0,
           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           message: action.payload.message,
           tweetId: state.nextTweetId,
           email: state.email
         });
+    },
+    postTweetToUserLiked: (state, action)=>{
+      db
+      .collection('users')
+      .doc(state.email)
+      .collection('liked')
+      .doc(action.payload.email+action.payload.tweetId)
+      .set({
+        displayName: action.payload.displayName,
+        photoURL: action.payload.photoURL,
+        imageURL: action.payload.imageURL,
+        numOfReplies: action.payload.numOfReplies,
+        numOfLikes: action.payload.numOfLikes,
+        numOfRetweets: action.payload.numOfRetweets,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        message: action.payload.message,
+        tweetId: action.payload.tweetId,
+        email: action.payload.email
+      });
+    },
+    incrementNumOfLikesFriendTweet: (state, action)=>{
+      db
+      .collection('users')
+      .doc(action.payload.friendEmail)
+      .collection('tweets')
+      .doc(action.payload.friendEmail+action.payload.friendTweetId)
+      .update({
+        numOfLikes: firebase.firestore.FieldValue.increment(1)
+      });
     },
     incrementNumOfRepliesFriendTweet: (state, action)=>{
       db
@@ -332,6 +349,8 @@ export const userSlice = createSlice({
             photoURL: state.photoURL,
             imageURL: action.payload.tweetImageURL,
             numOfReplies: 0,
+            numOfRetweets: 0,
+            numOfLikes: 0,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             message: action.payload.tweetMessage,
             tweetId: state.nextTweetId,
@@ -350,6 +369,8 @@ export const userSlice = createSlice({
               photoURL: state.photoURL,
               imageURL: action.payload.tweetImageURL,
               numOfReplies: 0,
+              numOfLikes: 0,
+              numOfRetweets: 0,
               timestamp: firebase.firestore.FieldValue.serverTimestamp(),
               message: action.payload.tweetMessage,
               tweetId: state.nextTweetId,
@@ -371,6 +392,8 @@ export const userSlice = createSlice({
             photoURL: state.photoURL,
             imageURL: action.payload.tweetImageURL,
             numOfReplies: 0,
+            numOfRetweets: 0,
+            numOfLikes: 0,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             message: action.payload.tweetMessage,
             tweetId: state.nextTweetId,
@@ -392,6 +415,7 @@ export const {postTweetToUserTweets,
               followFriend,
               unfollowFriend,
               postTweetToFollowersHome,
+              postTweetToUserLiked,
               storeImageToFireStorage,
               storeProfileAvatarToFireStorage,
               storeProfileBgToFireStorage,
@@ -400,6 +424,7 @@ export const {postTweetToUserTweets,
               updateUserDisplayName,
               postImageURLToUserGallery,
               postTweetToFriendTweetReply,
+              incrementNumOfLikesFriendTweet,
               incrementNumOfTweetsFriendFollowersHome,
               incrementNumOfRepliesFriendHome,
               incrementNumOfRepliesFriendTweet,
