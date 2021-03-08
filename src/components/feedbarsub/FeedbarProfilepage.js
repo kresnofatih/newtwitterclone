@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Tweet from '../sub/Tweet'
 import FeedbarHead from './FeedbarHead'
@@ -17,12 +17,41 @@ function FeedbarProfilepage() {
         .collection('tweets')
         .orderBy('timestamp', 'desc')
     );
+    const [likedTweets, loading2] = useCollection(
+        db
+        .collection('users')
+        .doc(currentProfile.email)
+        .collection('liked')
+        .orderBy('timestamp', 'desc')
+    );
+    const [viewTweets, setViewTweets] = useState(true);
+    const twts = viewTweets ? profileTweets : likedTweets;
     return (
         <FeedbarProfilepageContainer>
             <FeedbarHead pagename={'Profile'}/>
             <FeedbarProfileBody>
                 <FeedbarProfilebox/>
-                {profileTweets?.docs.map(doc=>{
+                {viewTweets ? (
+                    <ProfileTabGroup>
+                        <ProfileTabsSelected>
+                            Tweets
+                        </ProfileTabsSelected>
+                        <ProfileTabsUnselected onClick={()=>setViewTweets(prev=>!prev)}>
+                            Liked
+                        </ProfileTabsUnselected>
+                    </ProfileTabGroup>
+
+                ):(
+                    <ProfileTabGroup>
+                        <ProfileTabsUnselected onClick={()=>setViewTweets(prev=>!prev)}>
+                            Tweets
+                        </ProfileTabsUnselected>
+                        <ProfileTabsSelected>
+                            Liked
+                        </ProfileTabsSelected>
+                    </ProfileTabGroup>
+                )}
+                {twts?.docs.map(doc=>{
                     const {tweetId,
                         photoURL,
                         displayName,
@@ -47,6 +76,7 @@ function FeedbarProfilepage() {
                             numOfLikes={numOfLikes}
                             numOfRetweets={numOfRetweets}
                             email={email}
+                            hideTweetCount={!viewTweets}
                         />
                     )
                 })}
@@ -70,4 +100,32 @@ const FeedbarProfileBody = styled.div`
     flex-direction: column;
     overflow-y: auto;
     scrollbar-width: none;
+`;
+
+const ProfileTabGroup = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+const ProfileTabsSelected = styled.label`
+    padding: 10px 0;
+    flex: 0.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 2px solid var(--twitter-blue);
+`;
+
+const ProfileTabsUnselected = styled.label`
+    padding: 10px 0;
+    flex: 0.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 2px solid transparent;
+
+    :hover {
+        cursor: pointer;
+        color: var(--twitter-blue);
+    }
 `;
