@@ -7,9 +7,9 @@ import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import Avatar from '@material-ui/core/Avatar';
 import {useSelector} from 'react-redux'
 import {getCurrentUser,
+    incrementNumOfRepliesFriendFollowersHome,
     incrementNumOfRepliesFriendHome,
     incrementNumOfRepliesFriendTweet,
-    incrementNumOfTweetsFriendFollowersHome,
     incrementNumOfTweetsTrends,
     postToTaggedFriendsNotif,
     postTweetToFollowersHome,
@@ -61,7 +61,7 @@ function FeedbarTweetbox({additionalCallbacks, replyTweetData}) {
                 friendEmail: replyTweetData.friendEmail,
                 friendTweetId: replyTweetData.friendTweetId,
             }));
-            dispatch(incrementNumOfTweetsFriendFollowersHome({
+            dispatch(incrementNumOfRepliesFriendFollowersHome({
                 friendEmail: replyTweetData.friendEmail,
                 friendTweetId: replyTweetData.friendTweetId,
                 friendFollowers: replyTweetData.friendFollowers

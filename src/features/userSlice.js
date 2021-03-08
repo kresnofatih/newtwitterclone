@@ -2,6 +2,17 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {db, stg} from '../Fire'
 import firebase from 'firebase'
 
+export const checkTweetLiked = async(email, tweetId, callback)=>{
+  const snap = await db.collection('users').doc(email).collection('liked').doc(email+tweetId).get();
+  if(snap.exists){
+    const state = true;
+    callback(state);
+  } else if(!snap.exists){
+    const state = false;
+    callback(state);
+  }
+}
+
 export const checkDisplayNameUsed = async(tempDisplayName, callback)=>{
   const snap = await db.collection('users').where('displayName', '==', tempDisplayName).get();
   if(snap.empty){
@@ -193,6 +204,16 @@ export const userSlice = createSlice({
         email: action.payload.email
       });
     },
+    incrementNumOfLikesFriendHome: (state, action)=>{
+      db
+      .collection('users')
+      .doc(action.payload.friendEmail)
+      .collection('home')
+      .doc(action.payload.friendEmail+action.payload.friendTweetId)
+      .update({
+        numOfLikes: firebase.firestore.FieldValue.increment(1)
+      });
+    },
     incrementNumOfLikesFriendTweet: (state, action)=>{
       db
       .collection('users')
@@ -202,6 +223,18 @@ export const userSlice = createSlice({
       .update({
         numOfLikes: firebase.firestore.FieldValue.increment(1)
       });
+    },
+    incrementNumOfLikesFriendFollowersHome: (state, action)=>{
+      action.payload.friendFollowers.forEach(email=>{
+        db
+        .collection('users')
+        .doc(email)
+        .collection('home')
+        .doc(action.payload.friendEmail+action.payload.friendTweetId)
+        .update({
+          numOfLikes: firebase.firestore.FieldValue.increment(1)
+        });
+      })
     },
     incrementNumOfRepliesFriendTweet: (state, action)=>{
       db
@@ -223,7 +256,7 @@ export const userSlice = createSlice({
           numOfReplies: firebase.firestore.FieldValue.increment(1)
         });
     },
-    incrementNumOfTweetsFriendFollowersHome: (state, action)=>{
+    incrementNumOfRepliesFriendFollowersHome: (state, action)=>{
       action.payload.friendFollowers.forEach(followerEmail=>{
         db
         .collection('users')
@@ -425,7 +458,9 @@ export const {postTweetToUserTweets,
               postImageURLToUserGallery,
               postTweetToFriendTweetReply,
               incrementNumOfLikesFriendTweet,
-              incrementNumOfTweetsFriendFollowersHome,
+              incrementNumOfLikesFriendFollowersHome,
+              incrementNumOfLikesFriendHome,
+              incrementNumOfRepliesFriendFollowersHome,
               incrementNumOfRepliesFriendHome,
               incrementNumOfRepliesFriendTweet,
               incrementNumOfTweetsTrends

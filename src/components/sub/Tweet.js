@@ -70,6 +70,7 @@ function Tweet({
                         </TweetCount>
                         <TweetCount>
                             <LikeButton 
+                                friendData={tweetFriendData}
                                 friendTweetData={{
                                     displayName: displayName,
                                     photoURL: photoURL,
