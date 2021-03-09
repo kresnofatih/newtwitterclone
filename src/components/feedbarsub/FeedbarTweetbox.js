@@ -24,10 +24,12 @@ import { postTweetToUserHome,
     incrementNumOfTweets, 
 } from '../../features/userSlice';
 import ImgButton from '../sub/ImgButton';
+import { getCurrentTempImgUrl, setTempImgUrl } from '../../features/imgbtnSlice';
 
 function FeedbarTweetbox({additionalCallbacks, replyTweetData}) {
     // redux
     const currentUser = useSelector(getCurrentUser);
+    const currentTempImgUrl = String(useSelector(getCurrentTempImgUrl));
     const dispatch = useDispatch();
 
     // tweet message
@@ -36,8 +38,9 @@ function FeedbarTweetbox({additionalCallbacks, replyTweetData}) {
     
     // tweet image
     const [tweetImageURL, setTweetImageURL] = useState('');
-    const submitTweetImage = (imageURL) => setTweetImageURL(imageURL);
-    const removeTweetImage = () => setTweetImageURL('');
+    const removeTweetImage = () => {
+        dispatch(setTempImgUrl({tempImgUrl: ""}));
+    };
 
     const postTheTweet = () => {
         const postTweetData = {imageURL: tweetImageURL, message: tweetMessage};
@@ -82,10 +85,11 @@ function FeedbarTweetbox({additionalCallbacks, replyTweetData}) {
     }
 
     useEffect(()=>{
+        setTweetImageURL(currentTempImgUrl);
         if(replyTweetData){
             setTweetMessage('@'+replyTweetData?.friendDisplayName+' ')
         }
-    }, [replyTweetData])
+    }, [replyTweetData, currentTempImgUrl])
     return (
         <FeedbarTweetboxContainer>
             <FeedbarTweetboxLeft>
@@ -110,8 +114,8 @@ function FeedbarTweetbox({additionalCallbacks, replyTweetData}) {
                 }
                 <FeedbarTweetboxOptions>
                     <FeedbarTweetboxOptionsLeft>
-                        <ImgButton submitImage={submitTweetImage}/>&nbsp;&nbsp;
-                        <GifButton submitGif={submitTweetImage}/>&nbsp;&nbsp;
+                        <ImgButton/>&nbsp;&nbsp;
+                        <GifButton/>&nbsp;&nbsp;
                         <PollIcon/>&nbsp;&nbsp;
                         <EmojiEmotionsIcon/>
                     </FeedbarTweetboxOptionsLeft>

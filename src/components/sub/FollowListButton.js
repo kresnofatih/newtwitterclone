@@ -47,9 +47,11 @@ function FollowListButton({followers, profileFollowersList}) {
                         <CloseIcon onClick={handleClose}/>
                         <h3>{followListName}</h3>
                     </FollowListHead>
+                    <FollowsContainer>
                     {hasFollowingData && followingData.map(data=>(
-                        <Friend friendData={data}/>
+                        <Friend friendData={data} additionalCallbacks={handleClose}/>
                     ))}
+                    </FollowsContainer>
                 </FollowListContainer>
             </Backdrop>
         </>
@@ -104,4 +106,9 @@ const FollowListHead = styled.div`
             cursor: pointer;
         }
     }
+`;
+
+const FollowsContainer = styled.label`
+    display: flex;
+    flex-direction: column;
 `;

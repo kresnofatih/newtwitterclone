@@ -1,15 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import ImageIcon from '@material-ui/icons/Image';
 import { useDispatch } from 'react-redux';
 import {storeImageToFireStorage, postImageURLToUserGallery} from '../../features/userSlice'
+import { setTempImgUrl } from '../../features/imgbtnSlice';
 
-function ImgButton({submitImage}) {
+function ImgButton() {
     const dispatch = useDispatch();
     const submitSelectedPhoto = e =>{
         const file = e.target.files[0];
         dispatch(storeImageToFireStorage({file: file, callback: (url)=>{
-            submitImage(url);
+            dispatch(postImageURLToUserGallery({imageURL: url}));
+            dispatch(setTempImgUrl({tempImgUrl: url}));
         }}));
     }
     return (

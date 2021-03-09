@@ -2,12 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-function TrendingItem() {
+function TrendingItem({numOfTweets, trendName}) {
     return (
         <TrendingItemContainer>
             <TrendingItemLeft>
-                <h3>Developer's Year</h3>
-                <h6>2676 Tweets</h6>
+                <h3>{trendName}</h3>
+                <h6>{numOfTweets}&nbsp;Tweets</h6>
             </TrendingItemLeft>
             <MoreVertIcon/>
         </TrendingItemContainer>

@@ -11,7 +11,7 @@ function FeedbarExplore() {
     const submitFormKeyword = (e)=>{
         e.preventDefault();
         setFormResults('');
-        db.collection('users').doc(formKeyword).onSnapshot(docSnapshot=>{
+        db.collection('users').doc(formKeyword+'@gmail.com').onSnapshot(docSnapshot=>{
             setFormResults(docSnapshot.data());
         })
         setFormKeyword('');
@@ -24,7 +24,7 @@ function FeedbarExplore() {
                     <input
                         value={formKeyword}
                         onChange={e=>setFormKeyword(e.target.value)}
-                        placeholder="Search Friends by Email"
+                        placeholder="Search Friends by DisplayName"
                         type="text"
                     />
                     <label onClick={submitFormKeyword}>

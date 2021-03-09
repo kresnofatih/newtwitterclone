@@ -9,6 +9,7 @@ import { openScreen } from '../../features/appSlice';
 import { setProfile } from '../../features/profileSlice';
 import ReplyButton from './ReplyButton';
 import LikeButton from './LikeButton';
+import BookmarkButton from './BookmarkButton';
 
 function Tweetpost() {
     const dispatch = useDispatch();
@@ -81,7 +82,21 @@ function Tweetpost() {
                         email: currentTweet.email
                     }}
                 />
-                <SaveAltIcon/>
+                <BookmarkButton
+                    friendData={tweetFriendData}
+                    friendTweetData={{
+                        displayName: currentTweet.displayName,
+                        photoURL: currentTweet.photoURL,
+                        imageURL: currentTweet.imageURL,
+                        numOfReplies: currentTweet.numOfReplies,
+                        numOfLikes: currentTweet.numOfLikes,
+                        numOfRetweets: currentTweet.numOfRetweets,
+                        timestamp: currentTweet.timestamp,
+                        message: currentTweet.message,
+                        tweetId: currentTweet.tweetId,
+                        email: currentTweet.email
+                    }}
+                />
             </Tweetpostbuttons>
         </TweetpostContainer>
     )

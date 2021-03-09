@@ -7,7 +7,7 @@ import {openScreen} from '../../features/appSlice'
 import { setProfile } from '../../features/profileSlice';
 import { foundInUserFollowing, getCurrentUser } from '../../features/userSlice';
 
-function Friend({friendData}) {
+function Friend({friendData, additionalCallbacks}) {
     const currentUser = useSelector(getCurrentUser);
     const dispatch = useDispatch();
     const openFriendProfile = () => {
@@ -23,7 +23,12 @@ function Friend({friendData}) {
                 <FriendAvatar 
                     src={friendData.photoURL} 
                     alt={friendData.displayName}
-                    onClick={openFriendProfile}
+                    onClick={()=>{
+                        openFriendProfile();
+                        if(additionalCallbacks){
+                            additionalCallbacks();
+                        }
+                    }}
                 />
                 <FriendLeftInfo>
                     <h4>{friendData.displayName}</h4>

@@ -4,6 +4,8 @@ import {GiphyFetch} from '@giphy/js-fetch-api'
 import styled from 'styled-components'
 import GifIcon from '@material-ui/icons/Gif';
 import Popover from '@material-ui/core/Popover';
+import { useDispatch } from 'react-redux';
+import { setTempImgUrl } from '../../features/imgbtnSlice';
 
 const giphyFetch = new GiphyFetch('k4ArhIzAiRh7mRABtmd2ydnWVpAexvHK');
 
@@ -21,7 +23,8 @@ function GridGiphy({onGifClick, gifKeyword}){
 }
 
 
-function GifButton({submitGif}) {
+function GifButton() {
+    const dispatch = useDispatch();
     // GifBrowser Open/Close
     const [anchorEl, setAnchorEl] = useState(null);
     const openGifPopover = (event)=> {
@@ -82,7 +85,9 @@ function GifButton({submitGif}) {
                         <GridGiphy
                             onGifClick={(gif, e)=>{
                                 e.preventDefault();
-                                submitGif(gif.images.downsized_medium.url);
+                                dispatch(setTempImgUrl({
+                                    tempImgUrl: gif.images.downsized_medium.url
+                                }));
                                 closeGifPopover();
                             }}
                             gifKeyword={gifKeyword}

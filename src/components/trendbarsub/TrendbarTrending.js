@@ -2,18 +2,28 @@ import React from 'react'
 import styled from 'styled-components'
 import SettingsIcon from '@material-ui/icons/Settings';
 import TrendingItem from './TrendingItem';
+import { useCollection } from 'react-firebase-hooks/firestore';
+import { db } from '../../Fire';
 
 function TrendbarTrending() {
+    const [trends, loading] = useCollection(
+        db
+        .collection('trends')
+        .orderBy('numOfTweets', 'desc')
+        .limit(5)
+    );
     return (
         <TrendbarTrendingContainer>
             <TrendbarTrendingHeader>
                 <h2>Trending</h2>
                 <SettingsIcon/>
             </TrendbarTrendingHeader>
-            <TrendingItem/>
-            <TrendingItem/>
-            <TrendingItem/>
-            <TrendingItem/>
+            {trends?.docs.map(doc=>{
+                const {numOfTweets, trendname} = doc.data();
+                return (
+                    <TrendingItem trendName={trendname} numOfTweets={numOfTweets}/>
+                )
+            })}
             <TrendbarTrendingFooter>
                 <p>Show more</p>
             </TrendbarTrendingFooter>
