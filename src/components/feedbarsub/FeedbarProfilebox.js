@@ -7,6 +7,7 @@ import ProfileBg from '../sub/ProfileBg';
 import { foundInUserFollowing, getCurrentUser } from '../../features/userSlice';
 import FriendFollowup from '../sub/FriendFollowup';
 import EditProfileButton from '../sub/EditProfileButton';
+import FollowListButton from '../sub/FollowListButton';
 
 function FeedbarProfilebox() {
     const currentProfile = useSelector(getCurrentProfile);
@@ -38,8 +39,8 @@ function FeedbarProfilebox() {
                 <h2>{currentProfile?.displayName}</h2>
                 <h3>@{currentProfile?.displayName}</h3>
                 <FeedbarProfileFollowCount>
-                    <h3>{currentProfile?.numOfFollowing}<p>Following</p></h3>
-                    <h3>{currentProfile?.numOfFollowers}<p>Followers</p></h3>
+                    <h3>{currentProfile?.numOfFollowing}<FollowListButton profileFollowersList={currentProfile.following}/></h3>
+                    <h3>{currentProfile?.numOfFollowers}<FollowListButton followers profileFollowersList={currentProfile.followers}/></h3>
                     <h3>{currentProfile?.numOfTweets}<p>Tweets</p></h3>
                 </FeedbarProfileFollowCount>
             </FeedbarProfileDetails>

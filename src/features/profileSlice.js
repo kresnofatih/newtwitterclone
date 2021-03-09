@@ -1,6 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { db } from '../Fire';
 
+export const getFollowingFollowers = async(profileFollowers, callback)=>{
+  const snaps = await db.collection('users').where('email', 'in', profileFollowers).get();
+  if(!snaps.empty){
+    snaps.docs.forEach(doc=>{
+      callback(doc.data());
+    });
+  }
+}
+
 export const listenProfileDataFromDb = (profileEmail, setProfileDataFromDb)=>{
   db.collection('users').where('email', '==', profileEmail).onSnapshot(snapshot=>{
     setProfileDataFromDb();
