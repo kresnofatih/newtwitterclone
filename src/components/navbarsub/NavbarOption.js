@@ -2,9 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import {useSelector} from 'react-redux'
 import {getCurrentScreen} from '../../features/appSlice'
+import Badge from '@material-ui/core/Badge';
+import { getCurrentUserNumOfNotifications } from '../../features/userSlice';
 
 function NavbarOption({Icon, text, onClick}) {
     const currentPage = useSelector(getCurrentScreen);
+    const currentUserNumOfNotifications = useSelector(getCurrentUserNumOfNotifications);
     return (
         <NavbarOptionContainer>
             {currentPage===text ? (
@@ -16,7 +19,14 @@ function NavbarOption({Icon, text, onClick}) {
                 </NavbarOptionActive>
             ):(
                 <NavbarOptionInactive onClick={onClick}>
-                    {Icon && <Icon/>}
+                    {text==='Notifications' && 
+                        <Badge badgeContent={currentUserNumOfNotifications} color="primary">
+                            <Icon/>
+                        </Badge>
+                    }
+                    {text!=='Notifications' &&
+                        <Icon/>
+                    }
                     {text &&
                         <h2>{text}</h2>
                     }
@@ -71,5 +81,9 @@ const NavbarOptionInactive = styled.label`
         margin-left: 20px;
         margin-bottom: 2px;
         padding: 0;
+    }
+
+    > .MuiBadge-root > .MuiBadge-colorPrimary {
+        background-color: var(--twitter-blue);
     }
 `;

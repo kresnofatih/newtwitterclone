@@ -108,6 +108,7 @@ export const setUserDataFromDb = createAsyncThunk(
         followers: [],
         following: [],
         blocks: [],
+        numOfNotifications: 0,
         blockedbys: [],
         bgPhotoURL: 'https://images.unsplash.com/photo-1542300058-b94b8ab7411b?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1000&q=80'
       })
@@ -134,6 +135,7 @@ export const userSlice = createSlice({
     following: [],
     blocks: [],
     blockedbys: [],
+    numOfNotifications: 0,
     bgPhotoURL: 'https://images.unsplash.com/photo-1542319150-fb62a2e8c476?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1000&q=80'
   },
   reducers: {
@@ -349,6 +351,11 @@ export const userSlice = createSlice({
           });
         });
     },
+    resetNumOfNotifications: (state, action)=>{
+      db.collection('users').doc(state.email).update({
+        numOfNotifications: 0
+      });
+    },
     updateUserPhotoUrl: (state, action)=>{
       db.collection('users').doc(state.email).update({
         photoURL: action.payload.photoURL
@@ -420,6 +427,12 @@ export const userSlice = createSlice({
             tweetId: state.nextTweetId,
             email: state.email
           });
+          db
+          .collection('users')
+          .doc(email)
+          .update({
+            numOfNotifications: firebase.firestore.FieldValue.increment(1)
+          });
         })
       }
     },
@@ -489,6 +502,7 @@ export const {postTweetToUserTweets,
               updateUserDisplayName,
               postImageURLToUserGallery,
               postTweetToFriendTweetReply,
+              resetNumOfNotifications,
               incrementNumOfLikesFriendTweet,
               incrementNumOfLikesFriendFollowersHome,
               incrementNumOfLikesFriendHome,
@@ -504,5 +518,7 @@ export const {postTweetToUserTweets,
 export const getCurrentUser = state => state.user;
 
 export const getCurrentUserEmail = state => state.user.email;
+
+export const getCurrentUserNumOfNotifications = state => state.user.numOfNotifications;
 
 export default userSlice.reducer;

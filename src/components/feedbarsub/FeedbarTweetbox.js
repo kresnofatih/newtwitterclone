@@ -10,6 +10,7 @@ import {getCurrentUser,
     incrementNumOfRepliesFriendHome,
     incrementNumOfRepliesFriendTweet,
     incrementNumOfTweetsTrends,
+    postImageURLToUserGallery,
     postToTaggedFriendsNotif,
     postTweetToFollowersHome,
     postTweetToFriendTweetReply,
@@ -45,6 +46,9 @@ function FeedbarTweetbox({additionalCallbacks, replyTweetData}) {
         dispatch(postTweetToFollowersHome(postTweetData));
         dispatch(postToTaggedFriendsNotif(postTweetData));
         dispatch(postTweetToTrends(postTweetData));
+        if(tweetImageURL){
+            dispatch(postImageURLToUserGallery({imageURL: tweetImageURL}));
+        }
         if(replyTweetData){
             dispatch(postTweetToFriendTweetReply({
                 friendEmail: replyTweetData.friendEmail,

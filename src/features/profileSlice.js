@@ -25,6 +25,7 @@ export const profileSlice = createSlice({
     numOfFollowing: 22,
     numOfTweets: 2656,
     nextTweetId: 2689,
+    numOfNotifications: 78,
     followers: [],
     following: [],
     blocks: [],

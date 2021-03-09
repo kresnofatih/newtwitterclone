@@ -1,7 +1,7 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { getCurrentUser } from '../../features/userSlice'
+import { getCurrentUser, resetNumOfNotifications } from '../../features/userSlice'
 import Tweet from '../sub/Tweet'
 import FeedbarHead from './FeedbarHead'
 import {useCollection} from 'react-firebase-hooks/firestore'
@@ -9,6 +9,7 @@ import { db } from '../../Fire';
 
 function FeedbarNotif() {
     const currentUser = useSelector(getCurrentUser);
+    const dispatch = useDispatch();
     const [userNotifs, loading] = useCollection(
         db
         .collection('users')
@@ -16,6 +17,9 @@ function FeedbarNotif() {
         .collection('notifications')
         .orderBy('timestamp', 'desc')
     );
+    useEffect(()=>{
+        dispatch(resetNumOfNotifications());
+    }, [])
     return (
         <FeedbarNotifContainer>
             <FeedbarHead pagename={'Notifications'}/>

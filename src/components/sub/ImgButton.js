@@ -9,7 +9,6 @@ function ImgButton({submitImage}) {
     const submitSelectedPhoto = e =>{
         const file = e.target.files[0];
         dispatch(storeImageToFireStorage({file: file, callback: (url)=>{
-            dispatch(postImageURLToUserGallery({imageURL: url}));
             submitImage(url);
         }}));
     }
