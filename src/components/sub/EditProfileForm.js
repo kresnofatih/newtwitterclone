@@ -12,9 +12,15 @@ function EditProfileForm({additionalCallbacks}) {
     const currentProfile = useSelector(getCurrentProfile);
     const [tempDisplayName, setTempDisplayName] = useState(currentProfile.displayName);
     const [displayNameUsed, setDisplayNameUsed] = useState(true);
+    const [displayNameLengthEnough, setDisplayNameLengthEnough] = useState(false);
     useEffect(()=>{
         const delayDebounceFn = setTimeout(()=>{
-            checkDisplayNameUsed(tempDisplayName, (state)=>setDisplayNameUsed(state));
+            if(tempDisplayName.length>6){
+                setDisplayNameLengthEnough(true);
+                checkDisplayNameUsed(tempDisplayName, (state)=>setDisplayNameUsed(state));
+            } else {
+                setDisplayNameLengthEnough(false);
+            }
         }, 2000)
 
         return ()=>clearTimeout(delayDebounceFn)
@@ -28,8 +34,8 @@ function EditProfileForm({additionalCallbacks}) {
             />
             <TextField 
                 id="outlined-basic"
-                error={displayNameUsed}
-                helperText="DisplayName Already Taken"
+                error={(displayNameUsed || !displayNameLengthEnough)}
+                helperText={!displayNameLengthEnough ? 'Minimum 6 Chars' : 'DisplayName Already Taken'}
                 label="DisplayName" 
                 value={tempDisplayName}
                 onChange={e=>setTempDisplayName(e.target.value)}
