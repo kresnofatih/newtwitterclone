@@ -9,7 +9,7 @@ import { postImageURLToUserGallery,
 } from '../../features/userSlice';
 import {getCurrentProfileEmail} from '../../features/profileSlice';
 
-function ProfileAvatar({source, alternative}) {
+function ProfileAvatar({source, alternative, uploadDisabled}) {
     const currentUserEmail = useSelector(getCurrentUserEmail);
     const currentProfileEmail = useSelector(getCurrentProfileEmail);
     const dispatch = useDispatch();
@@ -23,19 +23,18 @@ function ProfileAvatar({source, alternative}) {
     const changeableProfileAvatar = (currentUserEmail===currentProfileEmail) ? "profileAvatarUploader" : '';
     return (
         <ProfileAvatarContainer>
-            <input
-                type="file"
-                id="profileAvatarUploader"
-                onChange={e=>{
-                    changeProfileAvatar(e);
-                }}
-            />
-            <label for={changeableProfileAvatar}>
-                <ProfileAvatarObject
-                    src={source}
-                    alt={alternative}
-                />
-            </label>
+            {!uploadDisabled ? (
+                <>
+                    <input type="file" id="profileAvatarUploader" onChange={e=>changeProfileAvatar(e)}/>
+                    <label for={changeableProfileAvatar}>
+                        <ProfileAvatarObject src={source} alt={alternative}/>
+                    </label>
+                </>
+            ):(
+                <label>
+                    <ProfileAvatarObject src={source} alt={alternative}/>
+                </label>
+            )}
         </ProfileAvatarContainer>
     )
 }

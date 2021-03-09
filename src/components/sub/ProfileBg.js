@@ -7,7 +7,7 @@ import { getCurrentUserEmail,
     updateUserBgPhotoUrl
 } from '../../features/userSlice';
 
-function ProfileBg({source, alternative}) {
+function ProfileBg({source, alternative, uploadDisabled}) {
     const currentUserEmail = useSelector(getCurrentUserEmail);
     const currentProfileEmail = useSelector(getCurrentProfileEmail);
     const dispatch = useDispatch();
@@ -20,19 +20,17 @@ function ProfileBg({source, alternative}) {
     const changeableProfileBg = (currentUserEmail===currentProfileEmail) ? "profileBgUploader" : '';
     return (
         <ProfileBgContainer>
-            <input
-                type="file"
-                id="profileBgUploader"
-                onChange={e=>{
-                    changeProfileBg(e);
-                }}
-            />
-            <label for={changeableProfileBg}>
-                <img
-                    src={source}
-                    alt={alternative}
-                />
-            </label>
+            {!uploadDisabled ? (
+                <>
+                    <input type="file" id="profileBgUploader" onChange={e=>changeProfileBg(e)}/>
+                    <label for={changeableProfileBg}><img src={source} alt={alternative}/></label>
+                </>
+
+            ):(
+                <label>
+                    <img src={source} alt={alternative}/>
+                </label>
+            )}
         </ProfileBgContainer>
     )
 }

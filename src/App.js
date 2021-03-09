@@ -7,10 +7,12 @@ import Trendbar from './components/Trendbar';
 import {useAuthState} from 'react-firebase-hooks/auth'
 import {auth} from './Fire'
 import Login from './Login';
-import {useDispatch} from 'react-redux'
-import { listenUserDataFromDb, setUserDataFromDb } from './features/userSlice';
+import {useDispatch, useSelector} from 'react-redux'
+import { getCurrentUser, listenUserDataFromDb, setUserDataFromDb } from './features/userSlice';
+import Loading from './components/Loading';
 
 function App() {
+  const currentUser = useSelector(getCurrentUser);
   const [account, loading] = useAuthState(auth);
   const dispatch = useDispatch();
   useEffect(()=>{
@@ -22,9 +24,16 @@ function App() {
         <Login/>
       ):(
         <AppContents>
-          <Navbar/>
-          <Feedbar/>
-          <Trendbar/>
+          {currentUser.email!=='displayName@gmail.com' ? (
+            <>
+              <Navbar/>
+              <Feedbar/>
+              <Trendbar/>
+            </>
+          ):(
+            // <p>TestLoading</p>
+            <Loading/>
+          )}
         </AppContents>
       )}
     </AppContainer>

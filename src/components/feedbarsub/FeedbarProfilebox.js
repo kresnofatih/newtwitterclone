@@ -20,12 +20,17 @@ function FeedbarProfilebox() {
     }, [])
     return (
         <FeedbarProfileboxContainer>
-            <ProfileBg source={currentProfile?.bgPhotoURL} alternative={currentProfile?.displayName}/>
+            <ProfileBg 
+                source={currentProfile?.bgPhotoURL}
+                alternative={currentProfile?.displayName}
+                uploadDisabled
+            />
             <FeedbarProfileDetails>
                 <FeedbarProfileDetailsUpper>
                     <ProfileAvatar
                         source={currentProfile?.photoURL}
                         alternative={currentProfile?.displayName}
+                        uploadDisabled
                     />
                     {profileIsUser ? (
                         <EditProfileButton/>
