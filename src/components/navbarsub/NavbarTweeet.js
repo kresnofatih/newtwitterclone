@@ -4,6 +4,10 @@ import Backdrop from '@material-ui/core/Backdrop';
 import { makeStyles } from '@material-ui/core/styles';
 import FeedbarTweetbox from '../feedbarsub/FeedbarTweetbox';
 import CloseIcon from '@material-ui/icons/Close';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCurrentUser } from '../../features/userSlice';
+import { setProfile } from '../../features/profileSlice';
+import { openScreen } from '../../features/appSlice';
 
 const useStyles = makeStyles((theme) => ({
     backdrop: {
@@ -13,6 +17,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function NavbarTweeet() {
+    const dispatch = useDispatch();
+    const currentUser = useSelector(getCurrentUser);
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const handleClose = () => {
@@ -23,7 +29,11 @@ function NavbarTweeet() {
     };
     return (
         <>
-            <NavbarTweetContainer onClick={handleToggle}>
+            <NavbarTweetContainer onClick={()=>{
+                dispatch(setProfile(currentUser));
+                dispatch(openScreen({screen: 'Profile'}));
+                handleToggle();
+            }}>
                 <h4>Tweet</h4>
             </NavbarTweetContainer>
             <Backdrop className={classes.backdrop} open={open}>
