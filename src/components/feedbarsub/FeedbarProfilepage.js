@@ -29,7 +29,7 @@ function FeedbarProfilepage() {
             <FeedbarHead pagename={'Profile'}/>
             <FeedbarProfileBody>
                 <FeedbarProfilebox/>
-                {viewTweets==='tweets' && (
+                {currentView==='tweets' && (
                     <ProfileTabGroup>
                         <ProfileTabsSelected>
                             Tweets
@@ -40,7 +40,7 @@ function FeedbarProfilepage() {
                     </ProfileTabGroup>
 
                 )}
-                {viewTweets==='liked' && (
+                {currentView==='liked' && (
                         <ProfileTabGroup>
                             <ProfileTabsUnselected onClick={()=>setViewTweets('tweets')}>
                                 Tweets
@@ -76,8 +76,8 @@ function FeedbarProfilepage() {
                             numOfLikes={numOfLikes}
                             numOfRetweets={numOfRetweets}
                             email={email}
-                            hideTweetCount={!viewTweets}
                             retweet={retweet}
+                            hideTweetCount={retweet ? true : (currentView==='liked' ? true : false)}
                         />
                     )
                 })}

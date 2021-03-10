@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import RepeatIcon from '@material-ui/icons/Repeat';
-import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import Avatar from '@material-ui/core/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentTweet, getTweetFriendDataFromDb, listenTweetDataFromDb, setTweetDataFromDb } from '../../features/tweetSlice';
@@ -10,6 +8,7 @@ import { setProfile } from '../../features/profileSlice';
 import ReplyButton from './ReplyButton';
 import LikeButton from './LikeButton';
 import BookmarkButton from './BookmarkButton';
+import RetweetButton from './RetweetButton';
 
 function Tweetpost() {
     const dispatch = useDispatch();
@@ -66,7 +65,21 @@ function Tweetpost() {
                         friendRepliedMessage: currentTweet.message
                     }}
                 />
-                <RepeatIcon/>
+                <RetweetButton
+                    friendData={tweetFriendData}
+                    friendTweetData={{
+                        displayName: currentTweet.displayName,
+                        photoURL: currentTweet.photoURL,
+                        imageURL: currentTweet.imageURL,
+                        numOfReplies: currentTweet.numOfReplies,
+                        numOfLikes: currentTweet.numOfLikes,
+                        numOfRetweets: currentTweet.numOfRetweets,
+                        timestamp: currentTweet.timestamp,
+                        message: currentTweet.message,
+                        tweetId: currentTweet.tweetId,
+                        email: currentTweet.email
+                    }}
+                />
                 <LikeButton 
                     friendData={tweetFriendData}
                     friendTweetData={{
@@ -122,7 +135,8 @@ const TweetpostContainer = styled.div`
         color: var(--twitter-lgray);
     }
     > img {
-        width: 100%;
+        max-height: 400px;
+        max-width: 100%;
         margin: 10px 0;
         border-radius: 20px;
     }
