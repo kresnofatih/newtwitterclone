@@ -5,9 +5,12 @@ import { getCurrentProfile } from '../../features/profileSlice';
 import ProfileAvatar from './ProfileAvatar';
 import ProfileBg from './ProfileBg'
 import TextField from '@material-ui/core/TextField';
-import { checkDisplayNameUsed, updateUserDisplayName } from '../../features/userSlice';
+import { checkDisplayNameUsed, postImageURLToUserGallery, updateUserBgPhotoUrl, updateUserDisplayName, updateUserPhotoUrl } from '../../features/userSlice';
+import { getCurrentTempBgPhotoUrl, getCurrentTempPhotoUrl } from '../../features/editprofileSlice';
 
 function EditProfileForm({additionalCallbacks}) {
+    const currentPhotoUrl = useSelector(getCurrentTempPhotoUrl); // tempprofileavatar
+    const currentBgPhotoUrl = useSelector(getCurrentTempBgPhotoUrl); // tempprofilebg
     const dispatch = useDispatch();
     const currentProfile = useSelector(getCurrentProfile);
     const [tempDisplayName, setTempDisplayName] = useState(currentProfile.displayName);
@@ -21,7 +24,7 @@ function EditProfileForm({additionalCallbacks}) {
             } else {
                 setDisplayNameLengthEnough(false);
             }
-        }, 2000)
+        }, 1000)
 
         return ()=>clearTimeout(delayDebounceFn)
     }, [tempDisplayName])
@@ -34,19 +37,24 @@ function EditProfileForm({additionalCallbacks}) {
             />
             <TextField 
                 id="outlined-basic"
-                error={(displayNameUsed || !displayNameLengthEnough)}
-                helperText={!displayNameLengthEnough ? 'Minimum 6 Chars' : 'DisplayName Already Taken'}
+                error={displayNameLengthEnough ? (displayNameUsed ? tempDisplayName!==currentProfile.displayName : false) : true}
+                helperText={displayNameLengthEnough ? (displayNameUsed ? (tempDisplayName!==currentProfile.displayName ? 'DisplayName Already Taken' : '') : '') : 'At least 6 characters'}
                 label="DisplayName" 
                 value={tempDisplayName}
                 onChange={e=>setTempDisplayName(e.target.value)}
                 variant="outlined"
             />
-            {displayNameUsed ? (
+            {(displayNameUsed && tempDisplayName!==currentProfile.displayName) ? (
                 <SaveText>
                     Save
                 </SaveText>
             ):(
                 <SaveButton onClick={()=>{
+                    // profileavatar
+                    dispatch(postImageURLToUserGallery({imageURL: currentPhotoUrl}));
+                    dispatch(updateUserPhotoUrl({photoURL: currentPhotoUrl}));
+                    // profilebg
+                    dispatch(updateUserBgPhotoUrl({bgPhotoURL: currentBgPhotoUrl}));
                     dispatch(updateUserDisplayName({displayName: tempDisplayName}));
                     setDisplayNameUsed(true);
                     additionalCallbacks();

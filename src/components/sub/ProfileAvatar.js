@@ -2,23 +2,22 @@ import React from 'react'
 import styled from 'styled-components'
 import Avatar from '@material-ui/core/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
-import { postImageURLToUserGallery,
-    storeProfileAvatarToFireStorage,
-    getCurrentUserEmail,
-    updateUserPhotoUrl
+import { storeProfileAvatarToFireStorage,
+    getCurrentUserEmail
 } from '../../features/userSlice';
 import {getCurrentProfileEmail} from '../../features/profileSlice';
+import { getCurrentTempPhotoUrl, setTempPhotoUrl } from '../../features/editprofileSlice';
 
 function ProfileAvatar({source, alternative, uploadDisabled}) {
     const currentUserEmail = useSelector(getCurrentUserEmail);
     const currentProfileEmail = useSelector(getCurrentProfileEmail);
+    const currentPhotoUrl = useSelector(getCurrentTempPhotoUrl);
     const dispatch = useDispatch();
     const changeProfileAvatar = e =>{
         const file = e.target.files[0];
         dispatch(storeProfileAvatarToFireStorage({file: file, callback: (url)=>{
-            dispatch(postImageURLToUserGallery({imageURL: url}));
-            dispatch(updateUserPhotoUrl({photoURL: url}));
-        }}))
+            dispatch(setTempPhotoUrl({tempPhotoUrl: url}));
+        }}));
     };
     const changeableProfileAvatar = (currentUserEmail===currentProfileEmail) ? "profileAvatarUploader" : '';
     return (
@@ -27,7 +26,7 @@ function ProfileAvatar({source, alternative, uploadDisabled}) {
                 <>
                     <input type="file" id="profileAvatarUploader" onChange={e=>changeProfileAvatar(e)}/>
                     <label for={changeableProfileAvatar}>
-                        <ProfileAvatarObject src={source} alt={alternative}/>
+                        <ProfileAvatarObject src={currentPhotoUrl ? currentPhotoUrl : source} alt={alternative}/>
                     </label>
                 </>
             ):(

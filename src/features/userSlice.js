@@ -258,7 +258,7 @@ export const userSlice = createSlice({
       });
     },
     incrementNumOfLikesFriendFollowersHome: (state, action)=>{
-      action.payload.friendFollowers.forEach(email=>{
+      action.payload?.friendFollowers?.forEach(email=>{
         db
         .collection('users')
         .doc(email)
@@ -290,7 +290,7 @@ export const userSlice = createSlice({
         });
     },
     incrementNumOfRepliesFriendFollowersHome: (state, action)=>{
-      action.payload.friendFollowers.forEach(followerEmail=>{
+      action.payload.friendFollowers?.forEach(followerEmail=>{
         db
         .collection('users')
         .doc(followerEmail)

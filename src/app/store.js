@@ -4,6 +4,7 @@ import userReducer from '../features/userSlice';
 import profileReducer from '../features/profileSlice';
 import tweetReducer from '../features/tweetSlice';
 import imgbtnReducer from '../features/imgbtnSlice';
+import editprofileReducer from '../features/editprofileSlice';
 
 export default configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export default configureStore({
     user: userReducer,
     profile: profileReducer,
     tweet: tweetReducer,
-    imgbtn: imgbtnReducer
+    imgbtn: imgbtnReducer,
+    editprofile: editprofileReducer
   },
 });
