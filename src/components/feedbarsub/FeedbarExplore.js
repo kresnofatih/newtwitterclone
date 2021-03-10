@@ -11,8 +11,10 @@ function FeedbarExplore() {
     const submitFormKeyword = (e)=>{
         e.preventDefault();
         setFormResults('');
-        db.collection('users').doc(formKeyword+'@gmail.com').onSnapshot(docSnapshot=>{
-            setFormResults(docSnapshot.data());
+        db.collection('users').where('displayName', '==', formKeyword).onSnapshot(docSnapshot=>{
+            docSnapshot.docs.forEach(doc=>{
+                setFormResults(doc.data());
+            })
         })
         setFormKeyword('');
     }
