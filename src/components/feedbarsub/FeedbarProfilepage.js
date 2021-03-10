@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Tweet from '../sub/Tweet'
 import FeedbarHead from './FeedbarHead'
@@ -7,51 +7,50 @@ import {useCollection} from 'react-firebase-hooks/firestore'
 import { db } from '../../Fire';
 import {useSelector} from 'react-redux'
 import { getCurrentProfile } from '../../features/profileSlice'
+import Spinner from 'react-spinkit'
+import Loading from '../Loading'
 
 function FeedbarProfilepage() {
     const currentProfile = useSelector(getCurrentProfile);
+    const [viewTweets, setViewTweets] = useState('tweets');
+    const [currentView, setCurrentView] = useState('tweets'); // or likes
     const [profileTweets, loading] = useCollection(
         db
         .collection('users')
         .doc(currentProfile.email)
-        .collection('tweets')
+        .collection(currentView)
         .orderBy('timestamp', 'desc')
     );
-    const [likedTweets, loading2] = useCollection(
-        db
-        .collection('users')
-        .doc(currentProfile.email)
-        .collection('liked')
-        .orderBy('timestamp', 'desc')
-    );
-    const [viewTweets, setViewTweets] = useState(true);
-    const twts = viewTweets ? profileTweets : likedTweets;
+    useEffect(()=>{
+        setCurrentView(viewTweets);
+    }, [viewTweets])
     return (
         <FeedbarProfilepageContainer>
             <FeedbarHead pagename={'Profile'}/>
             <FeedbarProfileBody>
                 <FeedbarProfilebox/>
-                {viewTweets ? (
+                {viewTweets==='tweets' && (
                     <ProfileTabGroup>
                         <ProfileTabsSelected>
                             Tweets
                         </ProfileTabsSelected>
-                        <ProfileTabsUnselected onClick={()=>setViewTweets(prev=>!prev)}>
+                        <ProfileTabsUnselected onClick={()=>setViewTweets('liked')}>
                             Liked
                         </ProfileTabsUnselected>
                     </ProfileTabGroup>
 
-                ):(
-                    <ProfileTabGroup>
-                        <ProfileTabsUnselected onClick={()=>setViewTweets(prev=>!prev)}>
-                            Tweets
-                        </ProfileTabsUnselected>
-                        <ProfileTabsSelected>
-                            Liked
-                        </ProfileTabsSelected>
-                    </ProfileTabGroup>
                 )}
-                {twts?.docs.map(doc=>{
+                {viewTweets==='liked' && (
+                        <ProfileTabGroup>
+                            <ProfileTabsUnselected onClick={()=>setViewTweets('tweets')}>
+                                Tweets
+                            </ProfileTabsUnselected>
+                            <ProfileTabsSelected>
+                                Liked
+                            </ProfileTabsSelected>
+                        </ProfileTabGroup>
+                )}
+                {profileTweets?.docs.map(doc=>{
                     const {tweetId,
                         photoURL,
                         displayName,
@@ -61,7 +60,8 @@ function FeedbarProfilepage() {
                         imageURL,
                         numOfReplies,
                         numOfRetweets,
-                        numOfLikes
+                        numOfLikes,
+                        retweet
                     } = doc.data();
                     return (
                         <Tweet
@@ -77,9 +77,13 @@ function FeedbarProfilepage() {
                             numOfRetweets={numOfRetweets}
                             email={email}
                             hideTweetCount={!viewTweets}
+                            retweet={retweet}
                         />
                     )
                 })}
+                {loading &&
+                    <Loading/>
+                }
             </FeedbarProfileBody>
         </FeedbarProfilepageContainer>
     )

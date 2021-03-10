@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import styled from 'styled-components'
 import CloseIcon from '@material-ui/icons/Close';
-import PollIcon from '@material-ui/icons/Poll';
-import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
 import Avatar from '@material-ui/core/Avatar';
 import {useSelector} from 'react-redux'
 import {getCurrentUser,
@@ -115,9 +113,7 @@ function FeedbarTweetbox({additionalCallbacks, replyTweetData}) {
                 <FeedbarTweetboxOptions>
                     <FeedbarTweetboxOptionsLeft>
                         <ImgButton/>&nbsp;&nbsp;
-                        <GifButton/>&nbsp;&nbsp;
-                        <PollIcon/>&nbsp;&nbsp;
-                        <EmojiEmotionsIcon/>
+                        <GifButton/>
                     </FeedbarTweetboxOptionsLeft>
                     <TweetButton onClick={()=>{
                         postTheTweet();

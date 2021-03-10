@@ -25,7 +25,7 @@ function FeedbarTweetpage() {
             <FeedbarTweetpageBody>
                 <Tweetpost/>
                 {tweetReplies?.docs.map(doc=>{
-                    const {tweetId, photoURL, displayName, email, message, timestamp, imageURL, numOfReplies} = doc.data();
+                    const {tweetId, photoURL, displayName, email, message, timestamp, imageURL, numOfReplies, retweet} = doc.data();
                     return (
                         <Tweet
                             key={tweetId+'.'+displayName}
@@ -37,6 +37,7 @@ function FeedbarTweetpage() {
                             imageURL={imageURL}
                             numOfReplies={numOfReplies}
                             email={email}
+                            retweet={retweet}
                         />
                     )
                 })}

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getCurrentUserEmail } from '../../features/userSlice'
 import { db } from '../../Fire'
+import Loading from '../Loading'
 import Tweet from '../sub/Tweet'
 import FeedbarHead from './FeedbarHead'
 
@@ -49,6 +50,10 @@ function FeedbarBookmarks() {
                         />
                     )
                 })}
+                {loading &&
+                    // <Spinner name="ball-pulse-sync" color="steelblue"/>
+                    <Loading/>
+                }
             </FeedbarBookmarksBody>
         </FeedbarBookmarksContainer>
     )

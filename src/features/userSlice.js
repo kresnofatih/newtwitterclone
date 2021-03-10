@@ -2,6 +2,17 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {db, stg} from '../Fire'
 import firebase from 'firebase'
 
+export const checkTweetRetweeted = async(userEmail, email, tweetId, callback)=>{
+  const snap = await db.collection('users')
+    .doc(userEmail).collection('retweets').doc(email+tweetId).get();
+  if(snap.exists){
+    const state = true;
+    callback(state);
+  } else if(!snap.exists){
+    const state = false;
+    callback(state);
+  }
+}
 export const checkTweetBookmarked = async(userEmail, email, tweetId, callback)=>{
   const snap = await db.collection('users')
     .doc(userEmail).collection('bookmarks').doc(email+tweetId).get();
@@ -236,6 +247,120 @@ export const userSlice = createSlice({
         tweetId: action.payload.tweetId,
         email: action.payload.email
       });
+    },
+    postRetweetToUserTweets: (state, action)=>{
+      db
+      .collection('users')
+      .doc(state.email)
+      .collection('tweets')
+      .doc(state.email+state.nextTweetId)
+      .set({
+        displayName: action.payload.displayName,
+        photoURL: action.payload.photoURL,
+        imageURL: action.payload.imageURL,
+        numOfReplies: action.payload.numOfReplies,
+        numOfLikes: action.payload.numOfLikes,
+        numOfRetweets: action.payload.numOfRetweets,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        message: action.payload.message,
+        tweetId: action.payload.tweetId,
+        email: action.payload.email,
+        retweet: state.displayName
+      });
+    },
+    postRetweetToUserRetweets: (state, action)=>{
+      db
+      .collection('users')
+      .doc(state.email)
+      .collection('retweets')
+      .doc(action.payload.email+action.payload.tweetId)
+      .set({
+        displayName: action.payload.displayName,
+        photoURL: action.payload.photoURL,
+        imageURL: action.payload.imageURL,
+        numOfReplies: action.payload.numOfReplies,
+        numOfLikes: action.payload.numOfLikes,
+        numOfRetweets: action.payload.numOfRetweets,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        message: action.payload.message,
+        tweetId: action.payload.tweetId,
+        email: action.payload.email,
+        retweet: state.displayName
+      });
+    },
+    postRetweetToUserHome: (state, action)=>{
+      db
+      .collection('users')
+      .doc(state.email)
+      .collection('home')
+      .doc(state.email+state.nextTweetId)
+      .set({
+        displayName: action.payload.displayName,
+        photoURL: action.payload.photoURL,
+        imageURL: action.payload.imageURL,
+        numOfReplies: action.payload.numOfReplies,
+        numOfLikes: action.payload.numOfLikes,
+        numOfRetweets: action.payload.numOfRetweets,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        message: action.payload.message,
+        tweetId: action.payload.tweetId,
+        email: action.payload.email,
+        retweet: state.displayName
+      });
+    },
+    postRetweetToUserFollowersHome: (state, action)=>{
+      state.followers?.forEach(email=>{
+        db
+        .collection('users')
+        .doc(email)
+        .collection('home')
+        .doc(state.email+state.nextTweetId)
+        .set({
+          displayName: action.payload.displayName,
+          photoURL: action.payload.photoURL,
+          imageURL: action.payload.imageURL,
+          numOfReplies: action.payload.numOfReplies,
+          numOfLikes: action.payload.numOfLikes,
+          numOfRetweets: action.payload.numOfRetweets,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          message: action.payload.message,
+          tweetId: action.payload.tweetId,
+          email: action.payload.email,
+          retweet: state.displayName
+        });
+      })
+    },
+    incrementNumOfRetweetsToFriendTweet: (state, action)=>{
+      db
+      .collection('users')
+      .doc(action.payload.friendEmail)
+      .collection('tweets')
+      .doc(action.payload.friendEmail+action.payload.friendTweetId)
+      .update({
+        numOfRetweets: firebase.firestore.FieldValue.increment(1)
+      });
+    },
+    incrementNumOfRetweetsToFriendHome: (state, action)=>{
+      db
+      .collection('users')
+      .doc(action.payload.friendEmail)
+      .collection('home')
+      .doc(action.payload.friendEmail+action.payload.friendTweetId)
+      .update({
+        numOfRetweets: firebase.firestore.FieldValue.increment(1)
+      });
+    },
+    incrementNumOfRetweetsToFriendFollowersHome: (state, action)=>{
+      action.payload.friendFollowers?.forEach(email=>{
+        db
+        .collection('users')
+        .doc(email)
+        .collection('home')
+        .doc(action.payload.friendEmail+action.payload.friendTweetId)
+        .update({
+          numOfRetweets: firebase.firestore.FieldValue.increment(1)
+        });
+      })
     },
     incrementNumOfLikesFriendHome: (state, action)=>{
       db
@@ -502,6 +627,13 @@ export const {postTweetToUserTweets,
               updateUserDisplayName,
               postImageURLToUserGallery,
               postTweetToFriendTweetReply,
+              postRetweetToUserTweets,
+              postRetweetToUserRetweets,
+              postRetweetToUserHome,
+              postRetweetToUserFollowersHome,
+              incrementNumOfRetweetsToFriendTweet,
+              incrementNumOfRetweetsToFriendHome,
+              incrementNumOfRetweetsToFriendFollowersHome,
               resetNumOfNotifications,
               incrementNumOfLikesFriendTweet,
               incrementNumOfLikesFriendFollowersHome,

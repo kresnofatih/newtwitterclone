@@ -7,6 +7,8 @@ import {useCollection} from 'react-firebase-hooks/firestore'
 import { db } from '../../Fire';
 import {useSelector} from 'react-redux'
 import {getCurrentUser} from '../../features/userSlice'
+import Spinner from 'react-spinkit'
+import Loading from '../Loading'
 
 function FeedbarHome() {
     const currentUser = useSelector(getCurrentUser);
@@ -32,7 +34,8 @@ function FeedbarHome() {
                         imageURL,
                         numOfReplies,
                         numOfRetweets,
-                        numOfLikes
+                        numOfLikes,
+                        retweet
                     } = doc.data();
                     return (
                         <Tweet
@@ -47,9 +50,14 @@ function FeedbarHome() {
                             numOfLikes={numOfLikes}
                             numOfRetweets={numOfRetweets}
                             email={email}
+                            retweet={retweet}
                         />
                     )
                 })}
+                {loading &&
+                    // <Spinner name="ball-pulse-sync" color="steelblue"/>
+                    <Loading/>
+                }
             </FeedbarHomeBody>
         </FeedbarHomeContainer>
     )
@@ -68,6 +76,7 @@ const FeedbarHomeContainer = styled.div`
 const FeedbarHomeBody = styled.div`
     display: flex;
     flex-direction: column;
+    text-align: center;
     overflow-y: auto;
     scrollbar-width: none;
 `

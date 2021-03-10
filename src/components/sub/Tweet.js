@@ -9,6 +9,7 @@ import { getTweetFriendDataFromDb, setTweetDataFromDb } from '../../features/twe
 import ReplyButton from './ReplyButton';
 import LikeButton from './LikeButton';
 import BookmarkButton from './BookmarkButton';
+import RetweetButton from './RetweetButton';
 
 function Tweet({
     tweetId, 
@@ -21,7 +22,8 @@ function Tweet({
     numOfReplies,
     numOfLikes,
     numOfRetweets,
-    hideTweetCount
+    hideTweetCount,
+    retweet
 }) {
     const [tweetFriendData, setTweetFriendData] = useState('')
     const dispatch = useDispatch();
@@ -36,40 +38,78 @@ function Tweet({
         getTweetFriendDataFromDb(email, (data)=>setTweetFriendData(data));
     }, [])
     return (
+        <>
         <TweetContainer>
-            <TweetLeft>
-                <TweetAvatar
-                    alt={displayName}
-                    src={photoURL}
-                    onClick={openProfileFromTweet}
-                />
-            </TweetLeft>
-            <TweetRight>
-                <label>{displayName}&nbsp;<p>@{displayName}{' . '}{new Date(timestamp?.toDate()).toUTCString()}</p></label>
-                <TweetContent onClick={()=>{
-                    dispatch(setTweetDataFromDb({email: email, tweetId: tweetId})).then(()=>{
-                        redirectScreen('Tweet');
-                    });
-                }}>
-                    <h5>{message}</h5>
-                    <img alt="" src={imageURL}/>
-                </TweetContent>
-                {!hideTweetCount &&
-                    <TweetCountContainer>
-                        <TweetCount>
-                            <ReplyButton 
-                                friendData={tweetFriendData} 
-                                friendTweetData={{
-                                    friendTweetId: tweetId,
-                                    friendRepliedMessage: message
-                                }}
-                            />&nbsp;&nbsp;<p>{numOfReplies}</p>
-                        </TweetCount>
-                        <TweetCount>
-                            <RepeatIcon/>&nbsp;&nbsp;<p>0</p>
-                        </TweetCount>
-                        <TweetCount>
-                            <LikeButton 
+            {retweet &&
+                <RetweetHead>
+                    {'@'+retweet+' retweeted'}
+                </RetweetHead>
+            }
+            <TweetContainerBox>
+                <TweetLeft>
+                    <TweetAvatar
+                        alt={displayName}
+                        src={photoURL}
+                        onClick={openProfileFromTweet}
+                    />
+                </TweetLeft>
+                <TweetRight>
+                    <label>{displayName}&nbsp;<p>@{displayName}{' . '}{new Date(timestamp?.toDate()).toUTCString()}</p></label>
+                    <TweetContent onClick={()=>{
+                        dispatch(setTweetDataFromDb({email: email, tweetId: tweetId})).then(()=>{
+                            redirectScreen('Tweet');
+                        });
+                    }}>
+                        <h5>{message}</h5>
+                        <img alt="" src={imageURL}/>
+                    </TweetContent>
+                    {(!hideTweetCount && !retweet) &&
+                        <TweetCountContainer>
+                            <TweetCount>
+                                <ReplyButton 
+                                    friendData={tweetFriendData} 
+                                    friendTweetData={{
+                                        friendTweetId: tweetId,
+                                        friendRepliedMessage: message
+                                    }}
+                                />&nbsp;&nbsp;<p>{numOfReplies}</p>
+                            </TweetCount>
+                            <TweetCount>
+                                <RetweetButton
+                                    friendData={tweetFriendData}
+                                    friendTweetData={{
+                                        displayName: displayName,
+                                        photoURL: photoURL,
+                                        imageURL: imageURL,
+                                        numOfReplies: numOfReplies,
+                                        numOfLikes: numOfLikes,
+                                        numOfRetweets: numOfRetweets,
+                                        timestamp: timestamp,
+                                        message: message,
+                                        tweetId: tweetId,
+                                        email: email
+                                    }}
+                                />
+                                &nbsp;&nbsp;<p>{numOfRetweets}</p>
+                            </TweetCount>
+                            <TweetCount>
+                                <LikeButton 
+                                    friendData={tweetFriendData}
+                                    friendTweetData={{
+                                        displayName: displayName,
+                                        photoURL: photoURL,
+                                        imageURL: imageURL,
+                                        numOfReplies: numOfReplies,
+                                        numOfLikes: numOfLikes,
+                                        numOfRetweets: numOfRetweets,
+                                        timestamp: timestamp,
+                                        message: message,
+                                        tweetId: tweetId,
+                                        email: email
+                                    }}
+                                />&nbsp;&nbsp;<p>{numOfLikes}</p>
+                            </TweetCount>
+                            <BookmarkButton
                                 friendData={tweetFriendData}
                                 friendTweetData={{
                                     displayName: displayName,
@@ -83,35 +123,32 @@ function Tweet({
                                     tweetId: tweetId,
                                     email: email
                                 }}
-                            />&nbsp;&nbsp;<p>{numOfLikes}</p>
-                        </TweetCount>
-                        <BookmarkButton
-                            friendData={tweetFriendData}
-                            friendTweetData={{
-                                displayName: displayName,
-                                photoURL: photoURL,
-                                imageURL: imageURL,
-                                numOfReplies: numOfReplies,
-                                numOfLikes: numOfLikes,
-                                numOfRetweets: numOfRetweets,
-                                timestamp: timestamp,
-                                message: message,
-                                tweetId: tweetId,
-                                email: email
-                            }}
-                        />
-                    </TweetCountContainer>
-                }
-            </TweetRight>
+                            />
+                        </TweetCountContainer>
+                    }
+                </TweetRight>
+            </TweetContainerBox>
         </TweetContainer>
+        </>
     )
 }
 
 export default Tweet
 
-const TweetContainer = styled.label`
+const RetweetHead = styled.div`
+    text-align: left;
+    padding: 0px 0px 10px 20px;
+    color: var(--twitter-dgray);
+`;
+
+const TweetContainerBox = styled.div`
     display: flex;
     flex-direction: row;
+`;
+
+const TweetContainer = styled.label`
+    display: flex;
+    flex-direction: column;
     padding: 10px 20px;
     border-top: 1px solid var(--twitter-dgray);
 
