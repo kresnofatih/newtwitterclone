@@ -7,7 +7,7 @@ import {useCollection} from 'react-firebase-hooks/firestore'
 import { db } from '../../Fire';
 import {useSelector} from 'react-redux'
 import { getCurrentProfile } from '../../features/profileSlice'
-import Spinner from 'react-spinkit'
+import FeedbarProfileBlank from './FeedbarProfileBlank'
 import Loading from '../Loading'
 
 function FeedbarProfilepage() {
@@ -69,6 +69,9 @@ function FeedbarProfilepage() {
                             </ProfileTabsUnselected>
                         </ProfileTabGroup>
                 )}
+                {profileTweets?.size===0 &&
+                    <FeedbarProfileBlank name={currentView}/>
+                }
                 {profileTweets?.docs.map(doc=>{
                     const {tweetId,
                         photoURL,

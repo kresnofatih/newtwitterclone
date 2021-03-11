@@ -13,7 +13,7 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import NavbarProfile from './navbarsub/NavbarProfile';
 import NavbarTweeet from './navbarsub/NavbarTweeet';
 import {useDispatch} from 'react-redux'
-import {openScreen} from '../features/appSlice'
+import {getCurrentScreen, openScreen} from '../features/appSlice'
 import {useSelector} from 'react-redux'
 import {getCurrentUser} from '../features/userSlice'
 import { setProfile } from '../features/profileSlice';
@@ -21,6 +21,7 @@ import { auth } from '../Fire';
 
 function Navbar() {
     const currentUser = useSelector(getCurrentUser);
+    const currentScreen = useSelector(getCurrentScreen);
     const dispatch = useDispatch();
     const redirectScreen = (pagename) => {
         dispatch(openScreen({
@@ -49,7 +50,9 @@ function Navbar() {
                     }}
                 />
                 <NavbarOption Icon={MoreHorizIcon} text={'More'}/>
-                <NavbarTweeet/>
+                {currentScreen!=='Home' &&
+                    <NavbarTweeet/>
+                }
             </NavbarContainerUpper>
             <NavbarContainerLower onClick={()=>{
                 dispatch(setProfile(currentUser));

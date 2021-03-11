@@ -6,6 +6,7 @@ import { getCurrentUserEmail } from '../../features/userSlice'
 import { db } from '../../Fire'
 import Loading from '../Loading'
 import Tweet from '../sub/Tweet'
+import FeedbarBookmarkBlank from './FeedbarBookmarkBlank'
 import FeedbarHead from './FeedbarHead'
 
 function FeedbarBookmarks() {
@@ -21,6 +22,9 @@ function FeedbarBookmarks() {
         <FeedbarBookmarksContainer>
             <FeedbarHead pagename={'Bookmarks'}/>
             <FeedbarBookmarksBody>
+                {userBookmarks?.size===0 &&
+                    <FeedbarBookmarkBlank/>
+                }
                 {userBookmarks?.docs.map(doc=>{
                     const {tweetId,
                         photoURL,

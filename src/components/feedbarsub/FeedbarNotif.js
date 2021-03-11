@@ -6,6 +6,7 @@ import Tweet from '../sub/Tweet'
 import FeedbarHead from './FeedbarHead'
 import {useCollection} from 'react-firebase-hooks/firestore'
 import { db } from '../../Fire';
+import FeedbarNotifBlank from './FeedbarNotifBlank'
 
 function FeedbarNotif() {
     const currentUser = useSelector(getCurrentUser);
@@ -24,6 +25,9 @@ function FeedbarNotif() {
         <FeedbarNotifContainer>
             <FeedbarHead pagename={'Notifications'}/>
             <FeedbarNotifBody>
+            {userNotifs?.size===0 &&
+                <FeedbarNotifBlank/>
+            }
             {userNotifs?.docs.map(doc=>{
                 const {tweetId, photoURL, displayName, email, message, timestamp, imageURL, numOfReplies} = doc.data();
                 return (

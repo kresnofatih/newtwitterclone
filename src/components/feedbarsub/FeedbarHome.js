@@ -8,6 +8,7 @@ import { db } from '../../Fire';
 import {useSelector} from 'react-redux'
 import {getCurrentUser} from '../../features/userSlice'
 import Loading from '../Loading'
+import FeedbarHomeBlank from './FeedbarHomeBlank'
 
 function FeedbarHome() {
     const currentUser = useSelector(getCurrentUser);
@@ -23,6 +24,9 @@ function FeedbarHome() {
             <FeedbarHead pagename={'Home'}/>
             <FeedbarHomeBody>
                 <FeedbarTweetbox/>
+                {homeTweets?.size===0 &&
+                    <FeedbarHomeBlank/>
+                }
                 {homeTweets?.docs.map(doc=>{
                     const {tweetId,
                         photoURL,

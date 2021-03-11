@@ -6,8 +6,6 @@ import FeedbarTweetbox from '../feedbarsub/FeedbarTweetbox';
 import CloseIcon from '@material-ui/icons/Close';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCurrentUser } from '../../features/userSlice';
-import { setProfile } from '../../features/profileSlice';
-import { openScreen } from '../../features/appSlice';
 
 const useStyles = makeStyles((theme) => ({
     backdrop: {
@@ -17,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function NavbarTweeet() {
-    const dispatch = useDispatch();
     const currentUser = useSelector(getCurrentUser);
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
@@ -30,8 +27,6 @@ function NavbarTweeet() {
     return (
         <>
             <NavbarTweetContainer onClick={()=>{
-                dispatch(setProfile(currentUser));
-                dispatch(openScreen({screen: 'Profile'}));
                 handleToggle();
             }}>
                 <h4>Tweet</h4>
