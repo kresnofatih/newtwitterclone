@@ -73,6 +73,7 @@ const RetweetButtonContainer = styled.div``;
 const NotRetweeted = styled(RepeatIcon)`
     :hover {
         color: var(--twitter-blue);
+        cursor: pointer;
     }
     `;
 const Retweeted = styled(RepeatIcon)`

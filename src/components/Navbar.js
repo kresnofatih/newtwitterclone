@@ -38,9 +38,7 @@ function Navbar() {
                 <NavbarOption Icon={HomeIcon} text={'Home'} onClick={()=>redirectScreen('Home')}/>
                 <NavbarOption Icon={ExploreIcon} text={'Explore'} onClick={()=>redirectScreen('Explore')}/>
                 <NavbarOption Icon={NotificationsIcon} text={'Notifications'} onClick={()=>redirectScreen('Notifications')}/>
-                <NavbarOption Icon={EmailIcon} text={'Messages'}/>
                 <NavbarOption Icon={BookmarkIcon} text={'Bookmarks'} onClick={()=>redirectScreen('Bookmarks')}/>
-                <NavbarOption Icon={ListAltIcon} text={'Lists'}/>
                 <NavbarOption 
                     Icon={PersonIcon} 
                     text={'Profile'} 
@@ -49,7 +47,6 @@ function Navbar() {
                         redirectScreen('Profile');
                     }}
                 />
-                <NavbarOption Icon={MoreHorizIcon} text={'More'}/>
                 {currentScreen!=='Home' &&
                     <NavbarTweeet/>
                 }

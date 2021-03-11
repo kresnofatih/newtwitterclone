@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function NavbarTweeet() {
-    const currentUser = useSelector(getCurrentUser);
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const handleClose = () => {
