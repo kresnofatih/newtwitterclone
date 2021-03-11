@@ -7,7 +7,6 @@ import {useCollection} from 'react-firebase-hooks/firestore'
 import { db } from '../../Fire';
 import {useSelector} from 'react-redux'
 import {getCurrentUser} from '../../features/userSlice'
-import Spinner from 'react-spinkit'
 import Loading from '../Loading'
 
 function FeedbarHome() {
@@ -55,7 +54,6 @@ function FeedbarHome() {
                     )
                 })}
                 {loading &&
-                    // <Spinner name="ball-pulse-sync" color="steelblue"/>
                     <Loading/>
                 }
             </FeedbarHomeBody>

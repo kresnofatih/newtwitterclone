@@ -8,6 +8,7 @@ import {getCurrentScreen} from '../features/appSlice'
 import FeedbarNotif from './feedbarsub/FeedbarNotif'
 import FeedbarExplore from './feedbarsub/FeedbarExplore'
 import FeedbarBookmarks from './feedbarsub/FeedbarBookmarks'
+import FeedbarTrendPage from './feedbarsub/FeedbarTrendPage'
 
 function Feedbar() {
     const currentScreen = useSelector(getCurrentScreen)
@@ -30,6 +31,9 @@ function Feedbar() {
             }
             {currentScreen==='Bookmarks' &&
                 <FeedbarBookmarks/>
+            }
+            {currentScreen==='Trend' &&
+                <FeedbarTrendPage/>
             }
         </FeedbarContainer>
     )

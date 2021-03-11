@@ -4,6 +4,10 @@ import Friend from '../sub/Friend'
 import FeedbarHead from './FeedbarHead'
 import SearchIcon from '@material-ui/icons/Search';
 import {db} from '../../Fire'
+import FeedbarExploreBlank from './FeedbarExploreBlank';
+import FeedbarTrending from './FeedbarTrending';
+import FeedbarEndOfPage from './FeedbarEndOfPage';
+import FeedbarPeoples from './FeedbarPeoples';
 
 function FeedbarExplore() {
     const [formKeyword, setFormKeyword] = useState('');
@@ -33,9 +37,19 @@ function FeedbarExplore() {
                         <SearchIcon/>
                     </label>
                 </FeedbarExploreForm>
-                {formResults &&
-                    <Friend friendData={formResults}/>
+                {!formResults &&
+                    <>
+                        <FeedbarExploreBlank/>
+                    </>
                 }
+                {formResults &&
+                    <>
+                        <Friend friendData={formResults}/>
+                    </>
+                }
+                <FeedbarPeoples/>
+                <FeedbarTrending/>
+                <FeedbarEndOfPage/>
             </FeedbarExploreBody>
         </FeedbarExploreContainer>
     )
