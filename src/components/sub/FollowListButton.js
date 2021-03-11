@@ -47,7 +47,7 @@ function FollowListButton({followers, profileFollowersList}) {
                         <CloseIcon onClick={handleClose}/>
                         <h3>{followListName}</h3>
                     </FollowListHead>
-                    <FollowsContainer>
+                    <FollowsContainer onClick={handleToggle}>
                     {hasFollowingData && followingData.map(data=>(
                         <Friend friendData={data} additionalCallbacks={handleClose}/>
                     ))}

@@ -34,6 +34,9 @@ function FeedbarProfilepage() {
                         <ProfileTabsSelected>
                             Tweets
                         </ProfileTabsSelected>
+                        <ProfileTabsUnselected onClick={()=>setViewTweets('retweets')}>
+                            Retweets
+                        </ProfileTabsUnselected>
                         <ProfileTabsUnselected onClick={()=>setViewTweets('liked')}>
                             Liked
                         </ProfileTabsUnselected>
@@ -45,9 +48,25 @@ function FeedbarProfilepage() {
                             <ProfileTabsUnselected onClick={()=>setViewTweets('tweets')}>
                                 Tweets
                             </ProfileTabsUnselected>
+                            <ProfileTabsUnselected onClick={()=>setViewTweets('retweets')}>
+                                Retweets
+                            </ProfileTabsUnselected>
                             <ProfileTabsSelected>
                                 Liked
                             </ProfileTabsSelected>
+                        </ProfileTabGroup>
+                )}
+                {currentView==='retweets' && (
+                        <ProfileTabGroup>
+                            <ProfileTabsUnselected onClick={()=>setViewTweets('tweets')}>
+                                Tweets
+                            </ProfileTabsUnselected>
+                            <ProfileTabsSelected>
+                                Retweets
+                            </ProfileTabsSelected>
+                            <ProfileTabsUnselected onClick={()=>setViewTweets('liked')}>
+                                Liked
+                            </ProfileTabsUnselected>
                         </ProfileTabGroup>
                 )}
                 {profileTweets?.docs.map(doc=>{
@@ -114,7 +133,7 @@ const ProfileTabGroup = styled.div`
 
 const ProfileTabsSelected = styled.label`
     padding: 10px 0;
-    flex: 0.5;
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -123,7 +142,7 @@ const ProfileTabsSelected = styled.label`
 
 const ProfileTabsUnselected = styled.label`
     padding: 10px 0;
-    flex: 0.5;
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
