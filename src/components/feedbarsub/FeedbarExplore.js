@@ -70,6 +70,9 @@ const FeedbarExploreBody = styled.div`
     flex-direction: column;
     overflow-y: auto;
     scrollbar-width: none;
+    ::-webkit-scrollbar {
+        width: 0;
+    }
 `;
 
 const FeedbarExploreForm = styled.form`

@@ -10,7 +10,7 @@ import FeedbarHead from './FeedbarHead'
 
 function FeedbarTweetpage() {
     const currentTweet = useSelector(getCurrentTweet);
-    const [tweetReplies, loading] = useCollection(
+    const [tweetReplies] = useCollection(
         db
         .collection('users')
         .doc(currentTweet.email)
@@ -28,7 +28,7 @@ function FeedbarTweetpage() {
                     const {tweetId, photoURL, displayName, email, message, timestamp, imageURL, numOfReplies, retweet} = doc.data();
                     return (
                         <Tweet
-                            key={tweetId+'.'+displayName}
+                            key={retweet ? tweetId+'.'+displayName+'.'+retweet : tweetId+'.'+displayName}
                             tweetId={tweetId}
                             photoURL={photoURL}
                             displayName={displayName}
@@ -61,4 +61,7 @@ const FeedbarTweetpageBody = styled.div`
     flex-direction: column;
     overflow-y: auto;
     scrollbar-width: none;
+    ::-webkit-scrollbar {
+        width: 0;
+    }
 `

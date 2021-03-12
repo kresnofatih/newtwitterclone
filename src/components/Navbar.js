@@ -5,11 +5,8 @@ import TwitterIcon from '@material-ui/icons/Twitter';
 import ExploreIcon from '@material-ui/icons/Explore';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import HomeIcon from '@material-ui/icons/Home';
-import EmailIcon from '@material-ui/icons/Email';
 import BookmarkIcon from '@material-ui/icons/Bookmark';
-import ListAltIcon from '@material-ui/icons/ListAlt';
 import PersonIcon from '@material-ui/icons/Person';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import NavbarProfile from './navbarsub/NavbarProfile';
 import NavbarTweeet from './navbarsub/NavbarTweeet';
 import {useDispatch} from 'react-redux'

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import RepeatIcon from '@material-ui/icons/Repeat';
 import Avatar from '@material-ui/core/Avatar'
 import {useDispatch} from 'react-redux'
 import {openScreen} from '../../features/appSlice'

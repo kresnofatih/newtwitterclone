@@ -87,7 +87,7 @@ function FeedbarProfilepage() {
                     } = doc.data();
                     return (
                         <Tweet
-                            key={tweetId+'.'+displayName}
+                            key={retweet ? tweetId+'.'+displayName+'.'+retweet : tweetId+'.'+displayName}
                             tweetId={tweetId}
                             photoURL={photoURL}
                             displayName={displayName}
@@ -126,6 +126,9 @@ const FeedbarProfileBody = styled.div`
     flex-direction: column;
     overflow-y: auto;
     scrollbar-width: none;
+    ::-webkit-scrollbar {
+        width: 0;
+    }
 `;
 
 const ProfileTabGroup = styled.div`

@@ -42,7 +42,7 @@ function FeedbarHome() {
                     } = doc.data();
                     return (
                         <Tweet
-                            key={tweetId+'.'+displayName}
+                            key={retweet ? tweetId+'.'+displayName+'.'+retweet : tweetId+'.'+displayName}
                             tweetId={tweetId}
                             photoURL={photoURL}
                             displayName={displayName}
@@ -56,7 +56,8 @@ function FeedbarHome() {
                             retweet={retweet}
                         />
                     )
-                })}
+                })
+                }
                 {loading &&
                     <Loading/>
                 }
@@ -81,4 +82,7 @@ const FeedbarHomeBody = styled.div`
     text-align: center;
     overflow-y: auto;
     scrollbar-width: none;
+    ::-webkit-scrollbar {
+        width: 0;
+    }
 `

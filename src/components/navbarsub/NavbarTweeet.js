@@ -4,8 +4,6 @@ import Backdrop from '@material-ui/core/Backdrop';
 import { makeStyles } from '@material-ui/core/styles';
 import FeedbarTweetbox from '../feedbarsub/FeedbarTweetbox';
 import CloseIcon from '@material-ui/icons/Close';
-import { useDispatch, useSelector } from 'react-redux';
-import { getCurrentUser } from '../../features/userSlice';
 
 const useStyles = makeStyles((theme) => ({
     backdrop: {

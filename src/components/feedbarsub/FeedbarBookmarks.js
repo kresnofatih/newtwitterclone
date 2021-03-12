@@ -78,4 +78,7 @@ const FeedbarBookmarksBody = styled.div`
     flex-direction: column;
     overflow-y: auto;
     scrollbar-width: none;
+    ::-webkit-scrollbar {
+        width: 0;
+    }
 `;

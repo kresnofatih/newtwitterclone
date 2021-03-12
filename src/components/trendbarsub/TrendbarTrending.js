@@ -9,7 +9,7 @@ import ExploreIcon from '@material-ui/icons/Explore';
 
 function TrendbarTrending() {
     const dispatch = useDispatch();
-    const [trends, loading] = useCollection(
+    const [trends] = useCollection(
         db
         .collection('trends')
         .orderBy('numOfTweets', 'desc')

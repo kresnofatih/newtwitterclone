@@ -13,7 +13,7 @@ import Loading from './components/Loading';
 
 function App() {
   const currentUser = useSelector(getCurrentUser);
-  const [account, loading] = useAuthState(auth);
+  const [account] = useAuthState(auth);
   const dispatch = useDispatch();
   useEffect(()=>{
     listenUserDataFromDb(account, ()=>{dispatch(setUserDataFromDb(account.email))})
