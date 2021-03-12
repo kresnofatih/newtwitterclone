@@ -51,10 +51,14 @@ function EditProfileForm({additionalCallbacks}) {
             ):(
                 <SaveButton onClick={()=>{
                     // profileavatar
-                    dispatch(postImageURLToUserGallery({imageURL: currentPhotoUrl}));
-                    dispatch(updateUserPhotoUrl({photoURL: currentPhotoUrl}));
+                    if(currentPhotoUrl){
+                        dispatch(postImageURLToUserGallery({imageURL: currentPhotoUrl}));
+                        dispatch(updateUserPhotoUrl({photoURL: currentPhotoUrl}));
+                    }
                     // profilebg
-                    dispatch(updateUserBgPhotoUrl({bgPhotoURL: currentBgPhotoUrl}));
+                    if(currentBgPhotoUrl){
+                        dispatch(updateUserBgPhotoUrl({bgPhotoURL: currentBgPhotoUrl}));
+                    }
                     dispatch(updateUserDisplayName({displayName: tempDisplayName}));
                     setDisplayNameUsed(true);
                     additionalCallbacks();

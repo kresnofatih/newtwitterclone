@@ -156,6 +156,10 @@ const FeedbarTweetboxRight = styled.div`
         outline: none;
         border: none;
         color: white;
+
+        @media (max-width: 400px){
+            width: 100%;
+        }
     }
 
     > img {
