@@ -9,7 +9,7 @@ import CloseIcon from '@material-ui/icons/Close';
 const useStyles = makeStyles((theme) => ({
     backdrop: {
       zIndex: theme.zIndex.drawer + 1,
-      color: '#fff',
+      color: '#fff'
     },
 }));
 
@@ -47,6 +47,9 @@ function ReplyButton({friendData, friendTweetData}) {
 export default ReplyButton
 
 const ReplyButtonContainer = styled.div`
+    > .MuiBackdrop-root {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
     > .MuiSvgIcon-root {
         :hover {
             color: var(--twitter-blue);
