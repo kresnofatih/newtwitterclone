@@ -28,10 +28,7 @@ function Navbar() {
     return (
         <NavbarContainer>
             <NavbarContainerUpper>
-                <NavbarOption Icon={TwitterIcon} onClick={()=>{
-                    auth.signOut();
-                    window.location.reload();
-                }}/>
+                <NavbarOption Icon={TwitterIcon}onClick={()=>redirectScreen('Home')}/>
                 <NavbarOption Icon={HomeIcon} text={'Home'} onClick={()=>redirectScreen('Home')}/>
                 <NavbarOption Icon={ExploreIcon} text={'Explore'} onClick={()=>redirectScreen('Explore')}/>
                 <NavbarOption Icon={NotificationsIcon} text={'Notifications'} onClick={()=>redirectScreen('Notifications')}/>
@@ -48,10 +45,7 @@ function Navbar() {
                     <NavbarTweeet/>
                 }
             </NavbarContainerUpper>
-            <NavbarContainerLower onClick={()=>{
-                dispatch(setProfile(currentUser));
-                redirectScreen('Profile');
-            }}>
+            <NavbarContainerLower>
                 <NavbarProfile/>
             </NavbarContainerLower>
         </NavbarContainer>

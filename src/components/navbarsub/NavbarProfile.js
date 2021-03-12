@@ -1,15 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
 import Avatar from '@material-ui/core/Avatar';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {getCurrentUser} from '../../features/userSlice'
+import { setProfile } from '../../features/profileSlice';
+import { openScreen } from '../../features/appSlice';
+import { auth } from '../../Fire';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 
 function NavbarProfile() {
+    const dispatch = useDispatch();
     const currentUser = useSelector(getCurrentUser);
     return (
         <NavbarProfileContainer>
-            <NavbarProfileLeft>
+            <NavbarProfileLeft onClick={()=>{
+                dispatch(setProfile(currentUser));
+                dispatch(openScreen({screen: 'Profile'}));
+            }}>
                 <NavbarProfileAvatar
                     alt={currentUser?.displayName}
                     src={currentUser?.photoURL}
@@ -20,7 +27,10 @@ function NavbarProfile() {
                 </NavbarProfileInfo>
             </NavbarProfileLeft>
             <NavbarProfileRight>
-                <MoreHorizIcon/>
+                <NavigateNextIcon onClick={()=>{
+                    auth.signOut();
+                    window.location.reload();
+                }}/>
             </NavbarProfileRight>
         </NavbarProfileContainer>
     )
@@ -28,15 +38,23 @@ function NavbarProfile() {
 
 export default NavbarProfile
 
-const NavbarProfileLeft = styled.div`
+const NavbarProfileLeft = styled.label`
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+
+    :hover {
+        cursor: pointer;
+    }
 `;
 const NavbarProfileRight = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+
+    :hover {
+        cursor: pointer;
+    }
 `;
 
 const NavbarProfileContainer = styled.div`
@@ -50,7 +68,7 @@ const NavbarProfileContainer = styled.div`
     align-items: center;
 
     :hover {
-        cursor: pointer;
+        /* cursor: pointer; */
         background-color: var(--twitter-dblue);
         border-radius: 50ch;
     }
