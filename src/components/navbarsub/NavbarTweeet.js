@@ -4,6 +4,8 @@ import Backdrop from '@material-ui/core/Backdrop';
 import { makeStyles } from '@material-ui/core/styles';
 import FeedbarTweetbox from '../feedbarsub/FeedbarTweetbox';
 import CloseIcon from '@material-ui/icons/Close';
+import CreateIcon from '@material-ui/icons/Create';
+import { Create } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
     backdrop: {
@@ -27,6 +29,7 @@ function NavbarTweeet() {
                 handleToggle();
             }}>
                 <h4>Tweet</h4>
+                <CreateIcon/>
             </NavbarTweetContainer>
             <Backdrop className={classes.backdrop} open={open}>
                 <TweeetboxContainer>
@@ -50,6 +53,20 @@ const NavbarTweetContainer = styled.label`
     background-color: var(--twitter-blue);
     color: white;
     border-radius: 50ch;
+
+    > h4 {
+        @media (max-width: 730px){
+            display: none;
+        }
+    }
+
+    > .MuiSvgIcon-root {
+        display: none;
+
+        @media (max-width: 730px){
+            display: block;
+        }
+    }
 
     :hover {
         cursor: pointer;

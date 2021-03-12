@@ -46,4 +46,11 @@ const FeedbarContainer = styled.div`
     flex: 0.5;
     display: flex;
     flex-direction: column;
+
+    @media (max-width: 815px){
+        flex: 0.6;
+    }
+    @media (max-width: 730px){
+        flex: 0.8;
+    }
 `;

@@ -102,7 +102,6 @@ function FeedbarTweetbox({additionalCallbacks, replyTweetData}) {
                     placeholder="What's Happening?" 
                     value={tweetMessage}
                     onChange={e=>setTweetMessage(e.target.value)}
-                    autoFocus
                 />
                 {tweetImageURL &&
                     <>

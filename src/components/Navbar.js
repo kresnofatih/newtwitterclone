@@ -59,6 +59,14 @@ const NavbarContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    @media (max-width: 815px){
+        flex: 0.3;
+    }
+    @media (max-width: 730px){
+        flex: 0.1;
+    }
+
 `;
 const NavbarContainerUpper = styled.div``;
 const NavbarContainerLower = styled.label``;

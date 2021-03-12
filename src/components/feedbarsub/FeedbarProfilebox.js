@@ -108,6 +108,11 @@ const FeedbarProfileFollowCount = styled.div`
         display: flex;
         font-size: 16px;
         flex-direction: row;
+
+        @media (max-width: 430px){
+            margin-right: 10px;
+            font-size: 14px;
+        }
     }
     > h3 > p {
         margin-left: 5px;

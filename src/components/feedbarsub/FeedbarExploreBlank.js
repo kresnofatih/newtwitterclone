@@ -27,10 +27,12 @@ const FeedbarExploreBlankContainer = styled.div`
     > h2 {
         color: var(--twitter-blue);
         font-weight: 300;
+        text-align: center;
     }
     > h5 {
         margin-top: 5px;
         font-weight: 200;
         font-size: 18px;
+        text-align: center;
     }
 `;

@@ -172,6 +172,7 @@ const TweetContent = styled.label`
         font-weight: 100 !important;
         color: white !important;
         font-size: 14px !important;
+        text-align: left;
     }
     > img {
         width: auto !important;
@@ -212,6 +213,10 @@ const TweetRight = styled.label`
         font-weight: 100;
         color: var(--twitter-dgray);
         font-size: 12px;
+
+        @media (max-width: 550px){
+            display: none;
+        }
     }
 `;
 

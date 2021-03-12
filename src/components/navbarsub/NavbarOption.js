@@ -56,6 +56,10 @@ const NavbarOptionActive = styled.div`
         margin-bottom: 2px;
         padding: 0;
         color: var(--twitter-blue);
+
+        @media (max-width: 730px){
+            display: none;
+        }
     }
 `;
 
@@ -81,6 +85,10 @@ const NavbarOptionInactive = styled.label`
         margin-left: 20px;
         margin-bottom: 2px;
         padding: 0;
+
+        @media (max-width: 730px){
+            display: none;
+        }
     }
 
     > .MuiBadge-root > .MuiBadge-colorPrimary {

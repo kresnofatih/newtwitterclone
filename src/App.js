@@ -10,6 +10,7 @@ import Login from './Login';
 import {useDispatch, useSelector} from 'react-redux'
 import { getCurrentUser, listenUserDataFromDb, setUserDataFromDb } from './features/userSlice';
 import Loading from './components/Loading';
+import {Helmet} from 'react-helmet';
 
 function App() {
   const currentUser = useSelector(getCurrentUser);
@@ -20,6 +21,9 @@ function App() {
   }, [account])
   return (
     <AppContainer>
+      <Helmet>
+        <title>Twitter Clone</title>
+      </Helmet>
       {!account ? (
         <Login/>
       ):(
@@ -54,4 +58,5 @@ const AppContainer = styled.div`
 const AppContents = styled.div`
   width: 1300px;
   display:flex;
+  justify-content: center;
 `;

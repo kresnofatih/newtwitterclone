@@ -46,6 +46,10 @@ const NavbarProfileLeft = styled.label`
     :hover {
         cursor: pointer;
     }
+
+    @media (max-width: 730px){
+        display: none;
+    }
 `;
 const NavbarProfileRight = styled.div`
     display: flex;
@@ -54,6 +58,12 @@ const NavbarProfileRight = styled.div`
 
     :hover {
         cursor: pointer;
+
+    }
+    > .MuiSvgIcon-root {
+        :hover {
+            color: var(--twitter-blue);
+        }
     }
 `;
 
