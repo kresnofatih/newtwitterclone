@@ -78,6 +78,10 @@ const NavbarOptionInactive = styled.label`
         > .MuiSvgIcon-root {
             color: var(--twitter-blue);
         }
+
+        > .MuiBadge-root > .MuiSvgIcon-root {
+            color: var(--twitter-blue);
+        }
     }
 
     > h2 {
@@ -89,9 +93,5 @@ const NavbarOptionInactive = styled.label`
         @media (max-width: 730px){
             display: none;
         }
-    }
-
-    > .MuiBadge-root > .MuiBadge-colorPrimary {
-        background-color: var(--twitter-blue);
     }
 `;
