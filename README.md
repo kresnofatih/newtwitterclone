@@ -1,68 +1,53 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+# Twitter Clone
 
-## Available Scripts
+Access the deployed web [app](https://firebasestorage.googleapis.com/v0/b/newtwitterclone-b646c.appspot.com/o/app%2Ftwitterclone-profile.PNG?alt=media&token=a7672da4-2cb4-48e2-9748-cfd85810feeb)
 
-In the project directory, you can run:
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+This Twitter Clone is designed to imitate most of the twitter web functionality.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### User Authentication
 
-### `npm test`
+The Twitter Clone uses Google Account login [loginpage](https://firebasestorage.googleapis.com/v0/b/newtwitterclone-b646c.appspot.com/o/app%2Ftwitterclone-login.PNG?alt=media&token=62797cfa-c69b-469a-bba6-c3b05ed88f18)
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+It will automatically create your account if it's your first time logging in. It will give you a blank profile picture, default background picture, and a displayName as given in your gmail address. Example: JohnDoe@gmail.com => displayname: @JohnDoe.
 
-### `npm run build`
+### Edit Profile
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+You can change your displayName, profile picture, and background picture in the profile page [profilepage](https://firebasestorage.googleapis.com/v0/b/newtwitterclone-b646c.appspot.com/o/app%2Ftwitterclone-profile.PNG?alt=media&token=a7672da4-2cb4-48e2-9748-cfd85810feeb)
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+You can upload your own background photo, profile picture, and displayName. The displayName will have validation functionality to determine whether it's unique and exceeds minimum length. If it has been used, you cannot press the save profile button just yet. You have to find a unique displayname or else exit through the X icon to not save all changes [editprofile](https://firebasestorage.googleapis.com/v0/b/newtwitterclone-b646c.appspot.com/o/app%2Ftwitterclone-editprofile.PNG?alt=media&token=189acfb2-a66e-41ab-ab50-f6640bb3329f)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### View Your Tweets, Retweets, and Liked Posts
 
-### `npm run eject`
+You can open the Tweets, Retweets, and Liked tabs to see your posts [profile](https://firebasestorage.googleapis.com/v0/b/newtwitterclone-b646c.appspot.com/o/app%2Ftwitterclone-profile.PNG?alt=media&token=a7672da4-2cb4-48e2-9748-cfd85810feeb)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Find Trends and People To Follow
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Open up the Explore page to see peoples to follow, search for friends, or see what's trending in the twitter clone. [explorepage](https://firebasestorage.googleapis.com/v0/b/newtwitterclone-b646c.appspot.com/o/app%2Ftwitterclone-explore.PNG?alt=media&token=917c4176-2d57-4fdc-861a-299a9a93db1b)
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Type in the displayname and hit enter to start your search. The results will be displayed below the search bar [results](https://firebasestorage.googleapis.com/v0/b/newtwitterclone-b646c.appspot.com/o/app%2Ftwitterclone-searchfriends.PNG?alt=media&token=0891e33c-4cad-4acd-bbc3-add41f35c336)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Look at the trending tweets in the twitter clone [trending](https://firebasestorage.googleapis.com/v0/b/newtwitterclone-b646c.appspot.com/o/app%2Ftwitterclone-trendingtweets.PNG?alt=media&token=07d11ba2-a882-4dca-8b5e-a9bfc2d9ef03)
 
-## Learn More
+### View Friends' Profile
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Press on users' profile picture to view their profile page. Click on the follow/following button to follow or unfollow a user [viewfriendprofile](https://firebasestorage.googleapis.com/v0/b/newtwitterclone-b646c.appspot.com/o/app%2Ftwitterclone-viewfriendprofile.PNG?alt=media&token=68f1bca7-304a-40f0-be55-c53a5f60ca54)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Check out his/her followers/following list [followerslist](https://firebasestorage.googleapis.com/v0/b/newtwitterclone-b646c.appspot.com/o/app%2Ftwitterclone-viewfriendprofilefollowers.PNG?alt=media&token=0745dec7-ee78-44b6-b141-5a93e093f785)
 
-### Code Splitting
+Check out his/her tweets, retweets, and liked [posts](https://firebasestorage.googleapis.com/v0/b/newtwitterclone-b646c.appspot.com/o/app%2Ftwitterclone-viewfriendprofileliked.PNG?alt=media&token=f2b38030-bea9-4f60-b704-c04f2424dc86)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+### Reply, Retweet, Like, and Bookmark A Tweet
 
-### Analyzing the Bundle Size
+Press on the buttons visible on a tweet to add Reply, Retweet, Like, and or Bookmark [tweet](https://firebasestorage.googleapis.com/v0/b/newtwitterclone-b646c.appspot.com/o/app%2Ftwitterclone-tweet.PNG?alt=media&token=d59c72f8-ed8e-425a-b0c2-ce34f6e366f4)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+For example, add a reply [replyadd](https://firebasestorage.googleapis.com/v0/b/newtwitterclone-b646c.appspot.com/o/app%2Ftwitterclone-addreply.PNG?alt=media&token=5b3fb9ec-acae-4dd1-8fe1-6bb61a2cf751)
 
-### Making a Progressive Web App
+The user replied will recieve a notification on his account that he was being mentioned. You can also see other peoples' replies. See the tweet, its replies, and other stats by clicking the tweet to open the tweet page [tweetpage](https://firebasestorage.googleapis.com/v0/b/newtwitterclone-b646c.appspot.com/o/app%2Ftwitterclone-tweetpagereplied.PNG?alt=media&token=0be6a6a9-4104-4122-8a22-f22c31806614)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
 
-### Advanced Configuration
+### View Home Page
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+All your users you follow will post to your Home Page [home](https://firebasestorage.googleapis.com/v0/b/newtwitterclone-b646c.appspot.com/o/app%2Ftwitterclone-home.PNG?alt=media&token=3b12d582-f7ae-490d-87fa-4f0b1f1a179a)
